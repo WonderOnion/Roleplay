@@ -229,6 +229,9 @@
     <Compile Include="Assets\Maine Exercizien\Client_Test.cs" />
     <Compile Include="Assets\Maine Exercizien\Serverino.cs" />
     <Compile Include="Assets\Maine Exercizien\TEtetettete.cs" />
+    <Compile Include="Assets\TestQuelloVero\Client.cs" />
+    <Compile Include="Assets\TestQuelloVero\Init.cs" />
+    <Compile Include="Assets\TestQuelloVero\Server.cs" />
     <Compile Include="Assets\Tutorial\Player\PlayerMove.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
