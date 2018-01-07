@@ -225,14 +225,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Maine Exercizien\AsdDebug.cs" />
-    <Compile Include="Assets\Maine Exercizien\Client_Test.cs" />
-    <Compile Include="Assets\Maine Exercizien\Serverino.cs" />
-    <Compile Include="Assets\Maine Exercizien\TEtetettete.cs" />
+    <Compile Include="Assets\TestQuelloVero\Actions.cs" />
     <Compile Include="Assets\TestQuelloVero\Client.cs" />
     <Compile Include="Assets\TestQuelloVero\Init.cs" />
-    <Compile Include="Assets\TestQuelloVero\Server.cs" />
-    <Compile Include="Assets\Tutorial\Player\PlayerMove.cs" />
+    <Compile Include="Assets\TestQuelloVero\Lobby.cs" />
+    <Compile Include="Assets\TestQuelloVero\ServerHost.cs" />
+    <Compile Include="Assets\TestQuelloVero\TestOggetto.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

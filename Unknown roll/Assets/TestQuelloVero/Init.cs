@@ -7,33 +7,35 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 
-public class Init : MonoBehaviour {
-
+public class Init : MonoBehaviour
+{
+    public static bool D = false;
     private static string IP = "79.10.254.193";
     private static string Port = "25565";
-    private static Client Cliente = new Client();
-    private static Server Host = new Server();
-         //----------------------Server-------------------------
+    public int BufferSize = 256;
+    private static string Name = "";
+    private string lobby = "";
+    private List<string> Tlist;
+    private static Client Cliente;
+    private Create_Socket Crea = new Create_Socket {
+        D = D,
+    };
+
+    private void Start()
+    {
+        Cliente = GameObject.Find("Network").GetComponent<Client>();
+    }
+
     void OnGUI()
     {
+        //----------------------Server-------------------------
         if (GUI.Button(new Rect(10, 10, 100, 100),"diventa l'host"))
         {
-            if (Host.Creato == false)
-            {
-                Host.Creato = true;
-                try
-                {
-                    Host.Port = Int32.Parse(Port);
-                }catch(Exception e) { Debug.LogError("Errore nella conversione della porta in INT\n" + e); Host.Creato = false; return; }
-                Debug.Log("Controllo Porta eseguito");
-                Thread Hos = new Thread(() => Host.Run());
-                Hos.Start();
-                Debug.Log("Thread Host creato");
-            }
-            else
-            {
-                Debug.LogError("Esiste già un thread del Server\nCreazione Server");
-            }
+            Crea.IP = IP;
+            Crea.Port = Port;
+            Crea.Name = Name;
+            Crea.BufferSize = BufferSize;
+            Crea.Create_Server();
         }
 
 
@@ -41,32 +43,102 @@ public class Init : MonoBehaviour {
 
         if (GUI.Button(new Rect(120, 10, 100, 100), "Partecipa"))
         {
-            if (Cliente.Creato == false)
-            {
-                Cliente.Creato = true;
-                try
-                {
-                    Cliente.Port = Int32.Parse(Port);
-                    Cliente.ServerIP = IP;
-                }
-                catch (Exception e) { Debug.LogError("Errore nella conversione della porta in INT\n" + e ); Cliente.Creato = false; return; }
-                Debug.Log("Controllo porta e assegnazione IP eseguita");
-                Thread Cli = new Thread(() => Cliente.Run());
-                Cli.Start();
-                Debug.Log("Thread Client creato");
-            }
-            else
-            {
-                Debug.LogError("Esiste Già un thread Cliente\nCreazione Client");
-            }
-
+            Crea.IP = IP;
+            Crea.Port = Port;
+            Crea.Name = Name;
+            Crea.Create_Client();
         }
 
 
         //----------------------IP/Port-------------------------
         IP = GUI.TextField(new Rect(10, 120, 140, 30),IP,30);
         Port = GUI.TextField(new Rect(150, 120, 70, 30), Port, 30);
-        GUI.Label(new Rect(10, 160, 210, 30), IP);
+        GUI.Label(new Rect(10, 160, 40, 30), "Nome:");
+        Name = GUI.TextField(new Rect(50, 160, 150, 30), Name, 30);
+
+
+        //----------------------lobby-------------------------
+        GUI.Label(new Rect(300, 10, 150, 300), lobby);
+        GUI.Button(new Rect(410, 10, 100, 30), "Master");
+        GUI.Button(new Rect(410, 50, 100, 30), "giocatore");
+        GUI.Button(new Rect(410, 90, 100, 30), "spettatore");
+    }
+    void Update()
+    {
+        if (!Cliente.Creato)
+            return;
+        lobby = "";
+        Tlist = Cliente.lobby.List_of_Player_with_Power();
+        lobby = Tlist.Count + "\n";
+        for(int I = 0; I < Tlist.Count;I++)
+        {
+            lobby = lobby + Tlist[I] + "\n";
+        }
+    }
+}
+
+public class Create_Socket : MonoBehaviour
+
+{
+    public bool D = false;
+    public int BufferSize = 256;
+    public Client Cliente;
+    public ServerHost Host;
+    public string IP = "79.10.254.193";
+    public string Port = "25565";
+    public string Name = "";
+
+    public void Create_Server()
+    {
+        Host = GameObject.Find("Network").GetComponent<ServerHost>();
+        if (Host.Creato == false && Name != "")
+        {
+            Host.Creato = true;
+            try
+            {
+                Host.Port = Int32.Parse(Port);
+                Host.lobby = GameObject.Find("Network").GetComponent<Lobby>();
+                Host.action = GameObject.Find("Network").GetComponent<Actions>();
+                Host.action.BufferSize = BufferSize;
+            }
+            catch (Exception e) { Debug.LogError("Errore nella conversione della porta in INT\n" + e); Host.Creato = false; return; }
+            if (D) Debug.Log("Controllo Porta eseguito");
+            Thread Hos = new Thread(() => Host.Run());
+            Hos.Start();
+            Debug.Log("Thread Host creato");
+            Create_Client();
+        }
+        else
+        {
+            Debug.LogError("Esiste già un thread del Server o il nome non è impostato\nCreazione Server");
+        }
     }
 
+    public void Create_Client()
+    {
+        Cliente = GameObject.Find("Network").GetComponent<Client>();
+        if (Cliente.Creato == false && Name != "")
+        {
+            Cliente.Creato = true;
+            
+            try
+            {
+                Cliente.Port = Int32.Parse(Port);
+                Cliente.ServerIP = IP;
+                Cliente.Name = Name;
+                Cliente.lobby = GameObject.Find("Network").GetComponent<Lobby>();
+                Cliente.action = GameObject.Find("Network").GetComponent<Actions>();
+                Cliente.action.BufferSize = BufferSize;
+            }
+            catch (Exception e) { Debug.LogError("Errore nella conversione della porta in INT\n" + e); Cliente.Creato = false; return; }
+            if (D) Debug.Log("Controllo porta e assegnazione IP eseguita");
+            Thread Cli = new Thread(() => Cliente.Run());
+            Cli.Start();
+            Debug.Log("Thread Client creato");
+        }
+        else
+        {
+            Debug.LogError("Esiste Già un thread Cliente o il nome non è impostato\nCreazione Client");
+        }
+    }
 }

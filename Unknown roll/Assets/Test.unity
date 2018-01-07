@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 715857763}
   - component: {fileID: 715857762}
   - component: {fileID: 715857761}
+  - component: {fileID: 715857759}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -130,6 +131,17 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &715857759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 715857758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e658ea338b3e42449a367157cff4943a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!81 &715857761
 AudioListener:
   m_ObjectHideFlags: 0
@@ -268,6 +280,8 @@ GameObject:
   - component: {fileID: 1805076841}
   - component: {fileID: 1805076840}
   - component: {fileID: 1805076839}
+  - component: {fileID: 1805076843}
+  - component: {fileID: 1805076844}
   m_Layer: 0
   m_Name: Network
   m_TagString: Untagged
@@ -286,6 +300,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca1c612b7406b8e4fbef00a44878fa67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  D: 1
+  ServerIP: 
+  Port: 25565
+  Name: 
+  Creato: 0
+  ConnectionTimeOut: 5
+  lobby: {fileID: 0}
+  action: {fileID: 0}
+  BufferSize: 128
 --- !u!114 &1805076840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,6 +320,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a53f262d7a2ec29428292a021e368380, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  D: 1
+  Port: 0
+  Creato: 0
+  lobby: {fileID: 0}
+  action: {fileID: 0}
+  BufferSize: 128
 --- !u!114 &1805076841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,3 +350,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1805076843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1805076838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40a38f872480ba4418e6963fef10a03e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  D: 1
+  lobby: []
+--- !u!114 &1805076844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1805076838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0955546dcca80e049be73dfa85e62935, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  D: 1
+  Ricevuto: 
+  contesto: 0
+  lobby: {fileID: 0}
+  BufferSize: 256
