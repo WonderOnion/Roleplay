@@ -227,6 +227,7 @@
   <ItemGroup>
     <Compile Include="Assets\TestQuelloVero\Actions.cs" />
     <Compile Include="Assets\TestQuelloVero\Client.cs" />
+    <Compile Include="Assets\TestQuelloVero\Commands.cs" />
     <Compile Include="Assets\TestQuelloVero\Init.cs" />
     <Compile Include="Assets\TestQuelloVero\Lobby.cs" />
     <Compile Include="Assets\TestQuelloVero\ServerHost.cs" />

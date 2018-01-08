@@ -15,8 +15,16 @@ public class Lobby : MonoBehaviour
 
 
     //          aggiunte
-    public void Add_ServerPlayer(Socket User, string Nome,int power)
+    public void Add_ServerPlayer( Socket User, string Nome,int power)
     {
+        if (Check_Exist_by_Name(Nome))
+            if (Check_Online_by_ID(Retrive_ID_by_Name(Nome)) == 0)
+                Set_Online_by_ID(Retrive_ID_by_Name(Nome),true);
+            else
+            {
+                Debug.LogError("L'utente che si sta cercando di far connettere è già online o non esiste ->" + Check_Online_by_ID(Retrive_ID_by_Name(Nome)));
+                return;
+            }
         Player player = new Player
         {
             User = User,
@@ -36,7 +44,13 @@ public class Lobby : MonoBehaviour
     {
         if (Check_Exist_by_ID(ID))
         {
-            if (D)Debug.Log("ID già presente");
+            if (Check_Online_by_ID(ID) == 0)
+                Set_Online_by_ID(Retrive_ID_by_Name(Nome),true);
+            else
+            {
+                Debug.LogError("L'utente che si sta cercando di far connettere è già online o non esiste -> " + Check_Online_by_ID(ID));
+                return;
+            }
             return;
         }
             
@@ -53,17 +67,33 @@ public class Lobby : MonoBehaviour
         }
     }
 
-    public void Set_Power_by_Socket(Socket User, int power)
+    public void Set_Online_by_ID(int ID,bool stato)
     {
+        int temp = Check_Online_by_ID(ID);
+        if (temp == 2)
+        {
+            Debug.LogError("ID richiesto non esiste + ID\n");
+            return;
+        }
+        if(temp == 1 && stato == true)
+        {
+            Debug.LogError("il player associato all'ID richiesto è già online + ID\n");
+            return;
+        }
+        if (temp == 0 && stato == false)
+        {
+            Debug.LogError("il player associato all'ID richiesto è già offline + ID\n");
+            return;
+        }
         lock (lobby)
         {
             for (int I = 0; I < lobby.Count; I++)
-                if (lobby[I].User == User)
+                if (lobby[I].ID == ID)
                 {
-                    lobby[I].Power = power;
+                    lobby[I].Online = stato;
                     return;
                 }
-            Debug.LogError("Non è stato possibile assegnare il potere " + power + " a " + (IPEndPoint)User.RemoteEndPoint);
+            Debug.LogError("Non è stato possibile segnare online " + ID);
         }
     }
 
@@ -71,28 +101,17 @@ public class Lobby : MonoBehaviour
     {
         lock (lobby)
         {
-            for (int I = 0; I < lobby.Count; I++)
-                if (lobby[I].ID == ID)
-                {
-                    lobby[I].Power = power;
-                    return;
-                }
+            lock (lobby)
+            {
+                for (int I = 0; I < lobby.Count; I++)
+                    if (lobby[I].ID == ID)
+                    {
+                        lobby[I].Power = power;
+                        return;
+                    }
+            }
             Debug.LogError("Non è stato possibile assegnare il potere " + power + " a " + ID);
         }
-    }
-
-    public void Set_Pedina_by_Socket(Socket User, string pedina)
-    {
-        lock (lobby)
-        {
-            for (int I = 0; I < lobby.Count; I++)
-                if (lobby[I].User == User)
-                {
-                    lobby[I].Pedina = pedina;
-                    return;
-                }
-        }
-        Debug.LogError("Non è stato possibile la pedina " + pedina + " a " + (IPEndPoint)User.RemoteEndPoint);
     }
 
     public void Set_Pedina_by_ID(int ID, string pedina)
@@ -295,19 +314,6 @@ public class Lobby : MonoBehaviour
         return null;
     }              //restituisce null se non esiste
 
-    public List<string> List_of_Player_with_Power()
-    {
-        List<string> Temp = new List<string>();
-        lock (lobby)
-        {
-            for(int I =0;I<lobby.Count;I++)
-            {
-                Temp.Add(lobby[I].Power + lobby[I].Name);
-            }
-        }
-        return Temp;
-    }       //restituisce una lista composta da potere + nome es "0Drevar" oppure "2Drevar" etc, il potere è sempre e solo il primo carattere
-
     public List<int> List_of_ID()
     {
         List<int> Temp = new List<int>();
@@ -365,11 +371,25 @@ public class Lobby : MonoBehaviour
                 return true;
         return false;
     }
+
+    public int Check_Online_by_ID(int ID)
+    {
+        int I = 0;
+        for (I = 0; I < lobby.Count; I++)
+            if (lobby[I].ID == ID)
+                if (lobby[I].Online == true)
+                    return 1;
+                else
+                    return 0;
+        return 2;
+    }                   // ritorna 0 se offline 1 se online e 2 se non esiste nessuno con quell'ID
+
 }
 
 
 public class Player : MonoBehaviour
 {
+    public bool Online = true;
     public Socket User;         //utilizzato solo dal server
     public int ID;              //utilizzato dai client per far riferimento ad un player specifico
     public string Name;

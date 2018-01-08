@@ -9,7 +9,7 @@ using System.Threading;
 
 public class ServerHost : MonoBehaviour
 {
-    public bool D = true;
+    public bool D = false;
     public int Port;
     public bool Creato;
     public Socket socket;
@@ -49,6 +49,7 @@ public class ServerHost : MonoBehaviour
         IPEndPoint clientep = (IPEndPoint)client.RemoteEndPoint;
         client.NoDelay = true;                                              //imposto che invia sempre in base alla dimensione che riceve senza dover riempire il pacchetto
         client.ReceiveBufferSize = action.BufferSize;
+        action.lobby = lobby;
 
         try
         {
@@ -72,7 +73,7 @@ public class ServerHost : MonoBehaviour
             action.Send_to_One("1", client, "Errore nella comunicazione della genuinità del nome");
 
             //aggiorno tutti sul nuovo host connesso
-            //action.Server_Broadcast("LogU" + lobby.Retrive_ID_by_Name(Name) + "#" + 0 + "#" + Name);      //genera un errore, da risolvere
+            action.Server_Broadcast("LogU" + lobby.Retrive_ID_by_Name(Name) + "#" + 0 + "#" + Name);      //genera un errore, da risolvere
             while (true)
             {
 
@@ -84,7 +85,8 @@ public class ServerHost : MonoBehaviour
                     User = client,
                     Ricevuto = Mex,
                     contesto = 0,
-                    lobby = lobby
+                    lobby = lobby,
+                    AsServer = true
                 };
                 Thread newThread = new Thread(new ParameterizedThreadStart(TempActions.Run));
                 newThread.Start(client);
@@ -94,8 +96,9 @@ public class ServerHost : MonoBehaviour
             client.Close();
         }
         catch (Exception e)
-        {
+        {   
             Debug.LogError("Il socket " + clientep + " si è disconnesso a causa di un errore\n" + e);
+            action.Server_Broadcast("OffU" + lobby.Retrive_ID_by_Name(Name));
             lobby.Remove_by_Name(Name);
             client.Close();
             return;

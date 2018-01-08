@@ -139,3 +139,4 @@ c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.Spa
 dfa935ae8a1824fc0a56006c71c57742 Assembly-CSharp.dll:.ServerHost
 734af9ffefa5b13bc5959fa4b3ef495b Assembly-CSharp.dll:.Actions
 0c6e9c5e76a3ae1c1a16bb4c0311f4d6 Assembly-CSharp.dll:.Init
+a73e632a0f28037a2941bba63e0566d6 Assembly-CSharp.dll:.Commands

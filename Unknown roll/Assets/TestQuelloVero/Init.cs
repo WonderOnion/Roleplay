@@ -14,8 +14,9 @@ public class Init : MonoBehaviour
     private static string Port = "25565";
     public int BufferSize = 256;
     private static string Name = "";
-    private string lobby = "";
-    private List<string> Tlist;
+    private string Slobby = "";
+    private Lobby lobby;
+    private List<int> Tlist;
     private static Client Cliente;
     private Create_Socket Crea = new Create_Socket {
         D = D,
@@ -24,6 +25,7 @@ public class Init : MonoBehaviour
     private void Start()
     {
         Cliente = GameObject.Find("Network").GetComponent<Client>();
+        lobby = GameObject.Find("Network").GetComponent<Lobby>();
     }
 
     void OnGUI()
@@ -58,21 +60,47 @@ public class Init : MonoBehaviour
 
 
         //----------------------lobby-------------------------
-        GUI.Label(new Rect(300, 10, 150, 300), lobby);
-        GUI.Button(new Rect(410, 10, 100, 30), "Master");
-        GUI.Button(new Rect(410, 50, 100, 30), "giocatore");
-        GUI.Button(new Rect(410, 90, 100, 30), "spettatore");
+        GUI.Label(new Rect(300, 10, 400, 300), Slobby);
+        if (GUI.Button(new Rect(660, 10, 100, 30), "Master"))
+            Cliente.action.Send_to_One("CngR2", Cliente.client, "Errore nell'invio del nuovo potere");
+        if(GUI.Button(new Rect(660, 50, 100, 30), "giocatore"))
+            Cliente.action.Send_to_One("CngR1", Cliente.client, "Errore nell'invio del nuovo potere");
+        if (GUI.Button(new Rect(660, 90, 100, 30), "spettatore"))
+            Cliente.action.Send_to_One("CngR3", Cliente.client, "Errore nell'invio del nuovo potere");
+        GUI.Button(new Rect(660, 130, 100, 30), "Vai Offline");
     }
     void Update()
     {
         if (!Cliente.Creato)
             return;
-        lobby = "";
-        Tlist = Cliente.lobby.List_of_Player_with_Power();
-        lobby = Tlist.Count + "\n";
+        Slobby = "";
+        Tlist = lobby.List_of_ID();
+        Slobby = Tlist.Count + "\n";
         for(int I = 0; I < Tlist.Count;I++)
         {
-            lobby = lobby + Tlist[I] + "\n";
+            Slobby = Slobby + Tlist[I] + " | " + lobby.Retrive_Name_by_ID(Tlist[I]) + "  ";
+            switch (lobby.Retrive_Power_by_ID(Tlist[I]))
+            {
+                case 0:
+                    Slobby = Slobby + "none";
+                    break;
+                case 1:
+                    Slobby = Slobby + "Player";
+                    break;
+                case 2:
+                    Slobby = Slobby + "Master";
+                    break;
+                default:
+                    Slobby = Slobby + "ERR";
+                    break;
+            }
+
+
+            if (Cliente.lobby.Check_Online_by_ID(Tlist[I]) == 1)
+                Slobby = Slobby + "   Online\n";
+            else
+                Slobby = Slobby + "   Offline\n";
+
         }
     }
 }
@@ -117,6 +145,7 @@ public class Create_Socket : MonoBehaviour
     public void Create_Client()
     {
         Cliente = GameObject.Find("Network").GetComponent<Client>();
+        Host = GameObject.Find("Network").GetComponent<ServerHost>();
         if (Cliente.Creato == false && Name != "")
         {
             Cliente.Creato = true;

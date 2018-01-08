@@ -9,7 +9,7 @@ using System.Threading;
 
 public class Client : MonoBehaviour
 {
-    public bool D = true;
+    public bool D = false;
     public string ServerIP;
     public int Port = 25565;
     public string Name;
@@ -17,11 +17,11 @@ public class Client : MonoBehaviour
     public int ConnectionTimeOut = 5;
     public Lobby lobby;
     public Actions action = new Actions();
+    public Socket client;
 
     public void Run()
     {
         Creato = true;
-        Socket client;
         string Mex = null;
         action.lobby = lobby;
 
@@ -105,7 +105,8 @@ public class Client : MonoBehaviour
             {
                 User = client,
                 Ricevuto = Mex,
-                contesto = 0
+                contesto = 0,
+                lobby = lobby,
             };
             Thread newThread = new Thread(new ParameterizedThreadStart(TempActions.Run));
             newThread.Start(client);
