@@ -75,6 +75,7 @@ c63db43c730fa2cbb8ca07de15898cb6 UnityEngine.UI.dll:UnityEngine.UI.Toggle
 f61c0793411f10cf5fbfa1473fef5ef2 UnityEngine.UI.dll:UnityEngine.UI.ToggleGroup
 86d36c43c53541d667100dc90b89cfba UnityEngine.UI.dll:UnityEngine.EventSystems.TouchInputModule
 1b8c02d0aa82fbf036a2b9b2d713eec3 UnityEngine.UI.dll:UnityEngine.UI.VerticalLayoutGroup
+a73e632a0f28037a2941bba63e0566d6 Assembly-CSharp.dll:.Commands
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.TestOggetto
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Timeline.dll:UnityEngine.Timeline.ActivationPlayableAsset
 970a95104359198fe1a98ef48655de8c UnityEngine.Timeline.dll:UnityEngine.Timeline.ActivationTrack
@@ -137,6 +138,5 @@ c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.Spa
 45f3431f0103c41611e8d4eec3d439df UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingRenderer
 9de3a22eca9aefadba2d10d5987cefe3 UnityEngine.SpatialTracking.dll:UnityEngine.SpatialTracking.TrackedPoseDriver
 dfa935ae8a1824fc0a56006c71c57742 Assembly-CSharp.dll:.ServerHost
-734af9ffefa5b13bc5959fa4b3ef495b Assembly-CSharp.dll:.Actions
+253b3bf1031e2449bfd80b5948664749 Assembly-CSharp.dll:.Actions
 0c6e9c5e76a3ae1c1a16bb4c0311f4d6 Assembly-CSharp.dll:.Init
-a73e632a0f28037a2941bba63e0566d6 Assembly-CSharp.dll:.Commands

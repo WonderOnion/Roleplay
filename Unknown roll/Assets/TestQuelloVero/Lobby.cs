@@ -19,10 +19,13 @@ public class Lobby : MonoBehaviour
     {
         if (Check_Exist_by_Name(Nome))
             if (Check_Online_by_ID(Retrive_ID_by_Name(Nome)) == 0)
-                Set_Online_by_ID(Retrive_ID_by_Name(Nome),true);
+            {
+                Set_Online_by_ID(Retrive_ID_by_Name(Nome), true);
+                return;
+            }
             else
             {
-                Debug.LogError("L'utente che si sta cercando di far connettere è già online o non esiste ->" + Check_Online_by_ID(Retrive_ID_by_Name(Nome)));
+                Debug.LogError("L'utente che si sta cercando di far connettere è già online ->" + Check_Online_by_ID(Retrive_ID_by_Name(Nome)));
                 return;
             }
         Player player = new Player
@@ -46,11 +49,6 @@ public class Lobby : MonoBehaviour
         {
             if (Check_Online_by_ID(ID) == 0)
                 Set_Online_by_ID(Retrive_ID_by_Name(Nome),true);
-            else
-            {
-                Debug.LogError("L'utente che si sta cercando di far connettere è già online o non esiste -> " + Check_Online_by_ID(ID));
-                return;
-            }
             return;
         }
             
@@ -85,133 +83,184 @@ public class Lobby : MonoBehaviour
             Debug.LogError("il player associato all'ID richiesto è già offline + ID\n");
             return;
         }
+        int I;
         lock (lobby)
         {
-            for (int I = 0; I < lobby.Count; I++)
+            for (I = 0; I < lobby.Count; I++)
                 if (lobby[I].ID == ID)
                 {
                     lobby[I].Online = stato;
-                    return;
+                    break;
                 }
-            Debug.LogError("Non è stato possibile segnare online " + ID);
+            
         }
+        if (I < lobby.Count)
+            return;
+        Debug.LogError("Non è stato possibile segnare online " + ID);
     }
 
     public void Set_Power_by_ID(int ID, int power)
     {
         lock (lobby)
         {
+            int I;
             lock (lobby)
             {
-                for (int I = 0; I < lobby.Count; I++)
+                for (I = 0; I < lobby.Count; I++)
                     if (lobby[I].ID == ID)
                     {
                         lobby[I].Power = power;
-                        return;
+                        break;
                     }
             }
+            if (I < lobby.Count)
+                return;
             Debug.LogError("Non è stato possibile assegnare il potere " + power + " a " + ID);
+        }
+    }
+
+    public void Set_User_by_ID(int ID, Socket User)
+    {
+        lock (lobby)
+        {
+            int I;
+            lock (lobby)
+            {
+                for (I = 0; I < lobby.Count; I++)
+                    if (lobby[I].ID == ID)
+                    {
+                        lobby[I].User = User;
+                        break;
+                    }
+            }
+            if (I < lobby.Count)
+                return;
+            Debug.LogError("Non è stato possibile assegnare l'user a "+ ID);
         }
     }
 
     public void Set_Pedina_by_ID(int ID, string pedina)
     {
+        int I;
         lock (lobby)
         {
-            for (int I = 0; I < lobby.Count; I++)
+            for (I = 0; I < lobby.Count; I++)
                 if (lobby[I].ID == ID)
                 {
                     lobby[I].Pedina = pedina;
-                    return;
+                    break;
                 }
         }
+        if (I < lobby.Count)
+            return;
         Debug.LogError("Non è stato possibile la pedina " + pedina + " a " + ID);
     }
 
     public void Set_InGameName_by_ID (int ID,string InGameName)
     {
+        int I;
         lock (lobby)
         {
-            for (int I = 0; I < lobby.Count; I++)
+            for (I = 0; I < lobby.Count; I++)
                 if (lobby[I].ID == ID)
                 {
                     lobby[I].InGameName = InGameName;
                     return;
                 }
-            Debug.LogError("Non è stato possibile assegnare il nome in gioco " + InGameName + " a " + ID);
+            
         }
+        if (I < lobby.Count)
+            return;
+        Debug.LogError("Non è stato possibile assegnare il nome in gioco " + InGameName + " a " + ID);
     }
 
     public void Set_InGameName_by_Name(string Name, string InGameName)
     {
+        int I;
         lock (lobby)
         {
-            for (int I = 0; I < lobby.Count; I++)
+            for (I = 0; I < lobby.Count; I++)
                 if (lobby[I].Name == Name)
                 {
                     lobby[I].InGameName = InGameName;
-                    return;
+                    break;
                 }
-            Debug.LogError("Non è stato possibile assegnare il nome in gioco " + InGameName + " a " + Name);
         }
+        if (I < lobby.Count)
+            return;
+        Debug.LogError("Non è stato possibile assegnare il nome in gioco " + InGameName + " a " + Name);
+
     }
 
     public void Set_InGameName_by_Socket(Socket User, string InGameName)
     {
+        int I;
         lock (lobby)
         {
-            for (int I = 0; I < lobby.Count; I++)
+            for (I = 0; I < lobby.Count; I++)
                 if (lobby[I].User == User)
                 {
                     lobby[I].InGameName = InGameName;
-                    return;
+                    break;
                 }
-            Debug.LogError("Non è stato possibile assegnare il nome in gioco " + InGameName + " a " + (IPEndPoint)User.RemoteEndPoint);
+            
         }
+        if (I < lobby.Count)
+            return;
+        Debug.LogError("Non è stato possibile assegnare il nome in gioco " + InGameName + " a " + (IPEndPoint)User.RemoteEndPoint);
     }
 
 
     //          rimozioni
     public void Remove_by_Name(string Name)
     {
+        int I;
         lock (lobby)
         {
-            for (int I = 0; I < lobby.Count; I++)
+            for (I = 0; I < lobby.Count; I++)
                 if (lobby[I].Name == Name)
                 {
                     lobby.RemoveAt(I);
-                    return;
+                    break;
                 }
         }
+        if (I < lobby.Count)
+            return;
         Debug.LogError("Non è stato trovatoil giocatore: " + Name + ", impossibile rimuoverlo");
     }
 
     public void Remove_by_Socket(Socket User)
     {
+        int I;
         lock (lobby)
         {
-            for (int I = 0; I < lobby.Count; I++)
+            for (I = 0; I < lobby.Count; I++)
                 if (lobby[I].User == User)
                 {
                     lobby.RemoveAt(I);
                     break;
                 }
         }
+        if (I < lobby.Count)
+            return;
 
         Debug.LogError("Non è stato trovatoil giocatore: " + (IPEndPoint)User.RemoteEndPoint + ", impossibile rimuoverlo");
     }
 
     public void Remove_by_ID(int ID)
     {
+        int I;
         lock (lobby)
         {
-            for (int I = 0; I < lobby.Count; I++)
+            for (I = 0; I < lobby.Count; I++)
                 if (lobby[I].ID == ID)
                 {
                     lobby.RemoveAt(I);
-                    return;
+                    break;
                 }
         }
+        if (I < lobby.Count)
+            return;
         Debug.LogError("Non è stato trovatoil giocatore: " + ID + ", impossibile rimuoverlo");
     }
 
@@ -270,24 +319,30 @@ public class Lobby : MonoBehaviour
 
     public string Retrive_Name_by_Socket(Socket User)
     {
+        int I;
         lock (lobby)
         {
-            for (int I = 0; I < lobby.Count; I++)
+            for (I = 0; I < lobby.Count; I++)
                 if (lobby[I].User == User)
-                    return lobby[I].Name;
+                    break;
         }
+        if (I < lobby.Count)
+            return lobby[I].Name;
         Debug.LogError("Non è stato trovatoil giocatore: " + (IPEndPoint)User.RemoteEndPoint + ", impossibile restituire il nome");
         return "";
     }       //restituisce "" se non esiste
 
     public int Retrive_ID_by_Socket(Socket User)
     {
+        int I;
         lock (lobby)
         {
-            for (int I = 0; I < lobby.Count; I++)
+            for (I = 0; I < lobby.Count; I++)
                 if (lobby[I].User == User)
-                    return lobby[I].ID;
+                    break;
         }
+        if (I < lobby.Count)
+            return lobby[I].ID;
         Debug.LogError("Non è stato trovatoil giocatore: " + (IPEndPoint)User.RemoteEndPoint + "impossibile restituire l'ID");
         return -1;
     }           //restituisce -1 se non esiste
@@ -321,7 +376,7 @@ public class Lobby : MonoBehaviour
         {
             for (int I = 0; I < lobby.Count; I++)
             {
-                Temp.Add(lobby[I].Power + lobby[I].ID);
+                Temp.Add(lobby[I].ID);
             }
         }
         return Temp;

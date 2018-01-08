@@ -35,15 +35,17 @@ public class Actions : MonoBehaviour
                 case "RefL":        //refresh della lobby eseguibile solo dal server, vengono ricevuti tutti gli id di tutti i player connessi, il server risponderà se e solo se vi sono dei dati da aggiornare
                     Refresh_Lobby(Ricevuto.Substring(4, Ricevuto.Length-4));
                     break;
-                case "LogU":        //nuovo player connesso
+                case "NewU":        //nuovo player connesso
                     Client_Player_Login_Inizialize(Ricevuto.Substring(4,Ricevuto.Length-4));
+                    break;
+                case "LogU":
+                    Player_Come_Online(Ricevuto.Substring(4, Ricevuto.Length - 4));
                     break;
                 case "OffU":        //avverte della disconnessione di un client
                     Client_Player_LogOut(Ricevuto.Substring(4, Ricevuto.Length-4));
                     break;
-                case "CngR":        //Change Role
-                    if (contesto == 0)
-                        Lobby_Change_Role(Ricevuto.Substring(4, Ricevuto.Length-4));
+                case "CngR":        //Change Role formato Client richiedente CngR(power) invio da server CngR(ID)#(Power)
+                    Lobby_Change_Role(Ricevuto.Substring(4, Ricevuto.Length-4));
                     break;
                 case "MexA":        //invio Messaggio a tutti
                     break;
@@ -111,7 +113,7 @@ public class Actions : MonoBehaviour
             }
     }                                                   //comando specifico del server che invia a tutti i socket un messaggio specifico.
 
-    public void Client_Player_Login_Inizialize(string Action)
+    private void Client_Player_Login_Inizialize(string Action)
     {
         bool Deb = true;
         if (Deb) Debug.Log("Inizio aggiunta client player: " + Action);
@@ -121,13 +123,21 @@ public class Actions : MonoBehaviour
 
     }                                   //invio iniziale per nuovo client in lobby al client con formato: LogU(ID)#(Power)#(Nome)
 
+    private void Player_Come_Online (string Action)
+    {
+        if (lobby.Check_Exist_by_ID(Int32.Parse(Action)))
+            lobby.Set_Online_by_ID(Int32.Parse(Action), true);
+        else
+            Debug.LogError("Il client che si sta tentando di far tornare online non è presente nella lista: " + Action);
+    }
+
     private void Client_Player_LogOut (string Action)
     {
         if (lobby.Check_Exist_by_ID(Int32.Parse(Action)))
             lobby.Set_Online_by_ID(Int32.Parse(Action),false);
         else
             Debug.LogError("Il client che si sta tentando di disconnettere non è presente nella lista: " + Action);
-    }                                           //eliminazione di un profilo dalla lista formato: LogU(ID) es: LogU4
+    }                                           //eliminazione di un profilo dalla lista formato: OffU(ID) es: OffU4
 
     private void Server_Send_Message_to_All(string Action)
     {
@@ -206,7 +216,7 @@ public class Actions : MonoBehaviour
             if(!IDExist[I])
             {
                 if (Deb) Debug.Log("Non trovato, invio dati...");
-                Send_to_One("LogU" + IDList[I] + "#" + lobby.Retrive_Power_by_ID(IDList[I]) + "#" + lobby.Retrive_Name_by_ID(IDList[I]), User, "Errore nell'aggiornamento della lobby del client");
+                Send_to_One("NewU" + IDList[I] + "#" + lobby.Retrive_Power_by_ID(IDList[I]) + "#" + lobby.Retrive_Name_by_ID(IDList[I]), User, "Errore nell'aggiornamento della lobby del client");
             }
         }
     }                                                   //viene inviata la lista degli ID attualmente connessi dal client, il server riceve e esegue il codice che controlla tutti gli id che comunica tutte le differenze tramite i comandi appositi formato di ricezione: RefL1#4#5#12
@@ -214,11 +224,19 @@ public class Actions : MonoBehaviour
     // Lobby
     private void Lobby_Change_Role (string Action)
     {
-        string utente = lobby.Retrive_Name_by_Socket(User);
-        Debug.Log("cambio di potere di " + utente + " da " + lobby.Retrive_Power_by_Name(utente) + " a " + Action);
-        lobby.Set_Power_by_ID(lobby.Retrive_ID_by_Socket(User),Int32.Parse(Action));
         if (AsServer)
-            Server_Broadcast("CngR" + lobby.Retrive_Power_by_Name(utente));
+        {
+            string utente = lobby.Retrive_Name_by_Socket(User);
+            Debug.Log("cambio di potere di " + utente + " da " + lobby.Retrive_Power_by_Name(utente) + " a " + Action);
+            lobby.Set_Power_by_ID(lobby.Retrive_ID_by_Socket(User), Int32.Parse(Action));
+            Server_Broadcast("CngR" +lobby.Retrive_ID_by_Name(utente) + "#" + lobby.Retrive_Power_by_Name(utente));
+        }
+        else
+        {
+            string[] azioni = Action.Split('#');
+            Debug.Log("cambio di potere di " + lobby.Retrive_Name_by_ID(Int32.Parse(azioni[0])) + " da " + lobby.Retrive_Power_by_Name(lobby.Retrive_Name_by_ID(Int32.Parse(azioni[0]))) + " a " + azioni[1]);
+            lobby.Set_Power_by_ID(Int32.Parse(azioni[0]), Int32.Parse(azioni[1]));
+        }
     }
 
 

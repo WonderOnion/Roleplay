@@ -61,11 +61,19 @@ public class ServerHost : MonoBehaviour
                 lobby.Add_ServerPlayer(client, Name, 0);
             else
             {
-                Debug.LogError("Esiste già un client connesso con il nome: " + Name + " chiusura connessione");
+                if (lobby.Check_Online_by_ID(lobby.Retrive_ID_by_Name(Name)) == 1)
+                {
+                    Debug.LogError("Esiste già un client connesso con il nome: " + Name + " chiusura connessione");
 
-                action.Send_to_One("0", client, "Errore nella comunicazione dell'errato nome");
-                client.Close();
-                return;
+                    action.Send_to_One("0", client, "Errore nella comunicazione dell'errato nome");
+                    client.Close();
+                    return;
+                }
+                else
+                {
+                    lobby.Set_Online_by_ID(lobby.Retrive_ID_by_Name(Name),true);
+                    lobby.Set_User_by_ID(lobby.Retrive_ID_by_Name(Name),client);
+                }
             }
 
 
@@ -73,7 +81,7 @@ public class ServerHost : MonoBehaviour
             action.Send_to_One("1", client, "Errore nella comunicazione della genuinità del nome");
 
             //aggiorno tutti sul nuovo host connesso
-            action.Server_Broadcast("LogU" + lobby.Retrive_ID_by_Name(Name) + "#" + 0 + "#" + Name);      //genera un errore, da risolvere
+            action.Server_Broadcast("NewU" + lobby.Retrive_ID_by_Name(Name) + "#" + 0 + "#" + Name);
             while (true)
             {
 
@@ -92,14 +100,14 @@ public class ServerHost : MonoBehaviour
                 newThread.Start(client);
             }
             if (D == true) Debug.Log("il Client si è disconnesso");
-            lobby.Remove_by_Name(Name);
+            lobby.Set_Online_by_ID(lobby.Retrive_ID_by_Name(Name),false);
             client.Close();
         }
         catch (Exception e)
         {   
             Debug.LogError("Il socket " + clientep + " si è disconnesso a causa di un errore\n" + e);
             action.Server_Broadcast("OffU" + lobby.Retrive_ID_by_Name(Name));
-            lobby.Remove_by_Name(Name);
+            lobby.Set_Online_by_ID(lobby.Retrive_ID_by_Name(Name), false);
             client.Close();
             return;
         }
