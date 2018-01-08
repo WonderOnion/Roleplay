@@ -68,7 +68,7 @@ public class Actions : MonoBehaviour
         if (D) Debug.Log("Invio: " + Action);
         try
         {
-            byte[] data = new byte[100];
+            byte[] data = new byte[BufferSize];
             data = Encoding.ASCII.GetBytes(Action + '\n');
             Receiver.Send(data);
         }
@@ -98,13 +98,11 @@ public class Actions : MonoBehaviour
     public void Server_Broadcast(string Action)
     {
         if (D) Debug.Log("Server: Invio in broadcast ''" + Action + "''");
-        byte[] data = new byte[100];
-        data = Encoding.ASCII.GetBytes(Action);
         for (int I = 0; I < lobby.lobby.Count; I++)
             try
             {
                 if (D) Debug.Log("Server: Invio a " + lobby.lobby[I].Name + " ''" + Action + "''");
-                lobby.lobby[I].User.Send(data, data.Length, SocketFlags.None);
+                Send_to_one(Action,lobby.lobby[I].User,"Errore nell'invio in broadcast a " + lobby.lobby[I].Name);
             }
             catch (Exception e)
             {
@@ -120,7 +118,11 @@ public class Actions : MonoBehaviour
 
     private void Client_Player_LogOut (string Action)
     {
-        lobby.Remove_by_ID(Int32.Parse(Action));
+        bool Deb = true;
+        if (lobby.Check_Exist_by_ID(Int32.Parse(Action))
+            lobby.Remove_by_ID(Int32.Parse(Action));
+        else
+            if (Deb) Debug.Log("Il client che si sta tentando di disconnettere non è presente nella lista: " + Action);
     }
 
     private void Server_Send_Message_to_All(string Action)
