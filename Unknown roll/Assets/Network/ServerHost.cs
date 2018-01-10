@@ -14,16 +14,18 @@ public class ServerHost : MonoBehaviour
     public int Port;
     public Socket socket;
     public Lobby lobby;
+    public SendActions Send;
     public Actions action = new Actions();
 
 
     public void Run()
     {
-        SendActions Send = new SendActions();
         action.lobby = lobby;
         action.AsServer = true;
-        Send.BufferSize = action.BufferSize;
+        SendActions Send = new SendActions();
         Send.lobby = lobby;
+        Send.AsServer = true;
+        Send.BufferSize = action.BufferSize;
 
         try
         {

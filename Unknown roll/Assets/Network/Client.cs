@@ -17,6 +17,7 @@ public class Client : MonoBehaviour
     public string Name;
     public Lobby lobby = null;
     public Actions action;
+    public SendActions Send;
     public Socket Servente;
 
     public void Run()
@@ -25,8 +26,8 @@ public class Client : MonoBehaviour
         Creato = true;
         action.lobby = lobby;
         SendActions Send = new SendActions();
-        Send.BufferSize = action.BufferSize;
         Send.lobby = lobby;
+        Send.BufferSize = action.BufferSize;
 
         try
         {

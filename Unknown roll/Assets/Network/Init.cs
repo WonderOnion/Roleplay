@@ -28,6 +28,7 @@ public class Init : MonoBehaviour
         Cliente = GameObject.Find("Network").GetComponent<Client>();
         lobby = GameObject.Find("Network").GetComponent<Lobby>();
         Send = GameObject.Find("Network").GetComponent<SendActions>();
+
     }
 
     void OnGUI()
@@ -117,6 +118,7 @@ public class Create_Socket : MonoBehaviour
     public int BufferSize = 256;
     public Client Cliente;
     public ServerHost Host;
+    public SendActions Send;
     public string IP = "79.10.254.193";
     public string Port = "25565";
     public string Name = "";
