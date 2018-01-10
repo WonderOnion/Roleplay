@@ -16,6 +16,7 @@ public class Init : MonoBehaviour
     private static string Name = "";
     private string Slobby = "";
     private Lobby lobby;
+    private SendActions Send;
     private List<int> Tlist;
     private static Client Cliente;
     private Create_Socket Crea = new Create_Socket {
@@ -26,6 +27,7 @@ public class Init : MonoBehaviour
     {
         Cliente = GameObject.Find("Network").GetComponent<Client>();
         lobby = GameObject.Find("Network").GetComponent<Lobby>();
+        Send = GameObject.Find("Network").GetComponent<SendActions>();
     }
 
     void OnGUI()
@@ -62,11 +64,11 @@ public class Init : MonoBehaviour
         //----------------------lobby-------------------------
         GUI.Label(new Rect(300, 10, 400, 300), Slobby);
         if (GUI.Button(new Rect(660, 10, 100, 30), "Master"))
-            Cliente.action.Send_to_One("CngR2", Cliente.client, "Errore nell'invio del nuovo potere");
+            Send.Send_to_One(Send.Lobby_Change_Role(-1, 2), Cliente.Servente, "Errore nella comunicazione del nuovo potere");
         if(GUI.Button(new Rect(660, 50, 100, 30), "giocatore"))
-            Cliente.action.Send_to_One("CngR1", Cliente.client, "Errore nell'invio del nuovo potere");
+            Send.Send_to_One(Send.Lobby_Change_Role(-1, 1), Cliente.Servente, "Errore nella comunicazione del nuovo potere");
         if (GUI.Button(new Rect(660, 90, 100, 30), "spettatore"))
-            Cliente.action.Send_to_One("CngR3", Cliente.client, "Errore nell'invio del nuovo potere");
+            Send.Send_to_One(Send.Lobby_Change_Role(-1, 3), Cliente.Servente, "Errore nella comunicazione del nuovo potere");
         GUI.Button(new Rect(660, 130, 100, 30), "Vai Offline");
     }
     void Update()
@@ -89,6 +91,9 @@ public class Init : MonoBehaviour
                     break;
                 case 2:
                     Slobby = Slobby + "Master";
+                    break;
+                case 3:
+                    Slobby = Slobby + "Spettatore";
                     break;
                 default:
                     Slobby = Slobby + "ERR";

@@ -9,21 +9,24 @@ using System.Threading;
 
 public class Client : MonoBehaviour
 {
-    public bool D = false;
+    public bool D = true;
+    public int ConnectionTimeOut = 5;
+    public bool Creato = false;
     public string ServerIP;
     public int Port = 25565;
     public string Name;
-    public bool Creato = false;
-    public int ConnectionTimeOut = 5;
-    public Lobby lobby;
-    public Actions action = new Actions();
-    public Socket client;
+    public Lobby lobby = null;
+    public Actions action;
+    public Socket Servente;
 
     public void Run()
     {
-        Creato = true;
         string Mex = null;
+        Creato = true;
         action.lobby = lobby;
+        SendActions Send = new SendActions();
+        Send.BufferSize = action.BufferSize;
+        Send.lobby = lobby;
 
         try
         {
@@ -33,15 +36,15 @@ public class Client : MonoBehaviour
             IPEndPoint remoteEP = new IPEndPoint(ipAddress, Port);
 
             //creo il socket
-            client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            Servente = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
             //mi collego all'endpoint
             if (D) Debug.Log( "tentativo di connessione al server: " + ServerIP + ":" + Port);
-            var result = client.BeginConnect(remoteEP, null, null);
+            var result = Servente.BeginConnect(remoteEP, null, null);
 
             var success = result.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(ConnectionTimeOut));
 
-            client.NoDelay = true;
+            Servente.NoDelay = true;
 
             if (!success)
             {
@@ -56,26 +59,26 @@ public class Client : MonoBehaviour
             Creato = false;
             return;
         }
-        Debug.Log("Connessione con il server eseguita: "+ client.RemoteEndPoint.ToString());
+        Debug.Log("Connessione con il server eseguita: "+ Servente.RemoteEndPoint.ToString());
         try
         {
             if (D) Debug.Log("Invio credenziali: " + Name);
-
-            action.Send_to_One(Name, client, "Errore nella comunicazione del nome");
-            Mex = action.Receive_by_one(client, "Client");
+            
+            Send.Send_to_One("0#" + Name, Servente, "Errore nella comunicazione del nome");
+            Mex = Send.Receive_by_one(Servente, "Client");
             Debug.Log("C_riceve: " + Mex);
             if (Int32.Parse(Mex) == 0)
             {
-                Debug.LogError("esiste già un client connesso con il nome: " + Name);
+                Debug.LogError("Ti è stato negato l'accesso al server causa Nome o motivazione");
                 Creato = false;
-                client.Close();
+                Servente.Close();
             }
         }
         catch(Exception e)
         {
             Debug.LogError("Errore nel passaggio dell'username\n" + e);
             Creato = false;
-            client.Close();
+            Servente.Close();
             return;
         }
 
@@ -83,33 +86,36 @@ public class Client : MonoBehaviour
         //richiesta di aggiornamento lobby
         try
         {
-            Mex = "RefL";
             List<int> IDlist = lobby.List_of_ID();
+            List<int> OnlineList = new List<int>();
             for (int I = 0; I < IDlist.Count; I++)
-                Mex = Mex + IDlist[I] + "#";
-            if (IDlist.Count == 0)
-                Mex = Mex + "#";
-            action.Send_to_One(Mex,client,"Errore nella comunicazione della richiesta di aggiornamento lobby");
+                OnlineList.Add(lobby.Check_Online_by_ID(IDlist[I]));
+            Send.Send_to_One(Send.Refresh_Lobby(IDlist, OnlineList), Servente, "Errore durante la richiesta di refresh della lobby");
         }
         catch (Exception e)
         {
-            Debug.LogError("Errore nella richiesta di aggiornamento della lobby");
+            Debug.LogError("Errore nella richiesta di aggiornamento della lobby \n" + e);
         }
         while (true)
         {
-            //bytesRec = client.Receive(data);
-            //Mex = Encoding.ASCII.GetString(data,0, bytesRec);
-            Mex = action.Receive_by_one(client, "Client");
-            if (D) Debug.Log("C_Ricevuto: " + Mex);
-            Actions TempActions = new Actions
+            try
             {
-                User = client,
-                Ricevuto = Mex,
-                contesto = 0,
-                lobby = lobby,
-            };
-            Thread newThread = new Thread(new ParameterizedThreadStart(TempActions.Run));
-            newThread.Start(client);
+                Mex = Send.Receive_by_one(Servente, "Client");
+                if (D) Debug.Log("C_Ricevuto: " + Mex);
+                Actions TempActions = new Actions
+                {
+                    User = Servente,
+                    Ricevuto = Mex,
+                    contesto = 0,
+                    lobby = lobby,
+                };
+                Thread newThread = new Thread(new ParameterizedThreadStart(TempActions.Run));
+                newThread.Start(Servente);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Errore durante la ricezione: " + e);
+            }
         }
     }
 

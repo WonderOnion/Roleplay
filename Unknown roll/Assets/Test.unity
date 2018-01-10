@@ -282,6 +282,7 @@ GameObject:
   - component: {fileID: 1805076839}
   - component: {fileID: 1805076843}
   - component: {fileID: 1805076844}
+  - component: {fileID: 1805076845}
   m_Layer: 0
   m_Name: Network
   m_TagString: Untagged
@@ -301,14 +302,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   D: 1
+  ConnectionTimeOut: 5
+  Creato: 0
   ServerIP: 
   Port: 25565
   Name: 
-  Creato: 0
-  ConnectionTimeOut: 5
   lobby: {fileID: 0}
   action: {fileID: 0}
-  BufferSize: 128
 --- !u!114 &1805076840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,11 +321,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   D: 1
-  Port: 0
   Creato: 0
+  Port: 0
   lobby: {fileID: 0}
   action: {fileID: 0}
-  BufferSize: 128
 --- !u!114 &1805076841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -337,6 +336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0836f86fc5f2a104d87f046fc7166602, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BufferSize: 256
 --- !u!4 &1805076842
 Transform:
   m_ObjectHideFlags: 0
@@ -363,6 +363,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   D: 1
   lobby: []
+  action: {fileID: 0}
 --- !u!114 &1805076844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -375,7 +376,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   D: 1
+  AsServer: 0
   Ricevuto: 
   contesto: 0
   lobby: {fileID: 0}
+  Send: {fileID: 0}
   BufferSize: 256
+--- !u!114 &1805076845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1805076838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9db9e6058d15f4246bfc9e1fc97b51f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  D: 1
+  AsServer: 0
+  lobby: {fileID: 0}
+  BufferSize: 0

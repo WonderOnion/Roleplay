@@ -15,6 +15,7 @@ public class Actions : MonoBehaviour
     public string Ricevuto = null;
     public int contesto; // 0 = lobby 1 = inGame
     public Lobby lobby;
+    public SendActions Send = new SendActions();
     public int BufferSize;
 
 
@@ -22,9 +23,11 @@ public class Actions : MonoBehaviour
 
     public void Run(object Temp)
     {
+        Send.BufferSize = BufferSize;
+        Send.AsServer = AsServer;
+        Send.lobby = lobby;
         try
         {
-
             if (D) Debug.Log("Inizio elaborazione Azione: " + Ricevuto);
             string Comando = string.Format(Ricevuto.Substring(0, 4));
             if (D) Debug.Log("Ricerca Azione: " + Comando);
@@ -51,6 +54,8 @@ public class Actions : MonoBehaviour
                     break;
                 case "MexT":        //invio messaggio a un utente specifico
                     break;
+                case "Ping":        //comando di check di connessione
+                    break;
 
                 default:
                     Debug.LogError("Azione non trovata: " + Comando);
@@ -66,62 +71,18 @@ public class Actions : MonoBehaviour
 
 
     //Generali
-    public void Send_to_One (string Action, Socket Receiver,string Errore)                              //comando base di invio utilizzato durante tutte le sequenze di invio
-    {
-        if (D) Debug.Log("Invio: " + Action);
-        try
-        {
-            byte[] data = new byte[BufferSize];
-            data = Encoding.ASCII.GetBytes(Action + '\n');
-            Receiver.Send(data);
-        }
-        catch (Exception e)
-        {
-            Debug.LogError(Errore);
-        }
-    }
 
-    public string Receive_by_one (Socket Sender,string Richiedente)
-    {
-        if (D) Debug.Log(Richiedente + ": Ricezione in corso...");
-        string data = null;
-        while (true)
-        {
-            byte[] bytes = new byte[BufferSize];
-            int bytesRec = Sender.Receive(bytes);
-            data += Encoding.ASCII.GetString(bytes, 0, bytesRec);
-            if (data.IndexOf('\n') > -1)
-            {
-                break;
-            }
-        }
-        return data.Split('\n')[0];
-    }
-
-    public void Server_Broadcast(string Action)
-    {
-        if (D) Debug.Log("Server: Invio in broadcast ''" + Action + "''");
-        for (int I = 0; I < lobby.lobby.Count; I++)
-            try
-            {
-                if (D) Debug.Log("Server: Invio a " + lobby.lobby[I].Name + " ''" + Action + "''");
-                Send_to_One(Action,lobby.lobby[I].User,"Errore nell'invio in broadcast a " + lobby.lobby[I].Name);
-            }
-            catch (Exception e)
-            {
-                Debug.LogError("Errore nell'invio del messaggio a " + lobby.lobby[I].Name + " -> " + (IPEndPoint)User.RemoteEndPoint);
-            }
-    }                                                   //comando specifico del server che invia a tutti i socket un messaggio specifico.
+    
 
     private void Client_Player_Login_Inizialize(string Action)
     {
         bool Deb = true;
         if (Deb) Debug.Log("Inizio aggiunta client player: " + Action);
         string[] temp = Action.Split('#');
-        lobby.Add_ClientPlayer(Int32.Parse(temp[0]), temp[2], Int32.Parse(temp[1]));
+        lobby.Add_ClientPlayer(Int32.Parse(temp[0]), Int32.Parse(temp[1]), Int32.Parse(temp[2]),temp[3]);
         if (Deb) Debug.Log("Aggiunto player: " + Action);
 
-    }                                   //invio iniziale per nuovo client in lobby al client con formato: LogU(ID)#(Power)#(Nome)
+    }                                   //invio iniziale per nuovo client in lobby al client con formato: LogU(ID)#(Power)#(Online)#(Nome)   
 
     private void Player_Come_Online (string Action)
     {
@@ -139,41 +100,6 @@ public class Actions : MonoBehaviour
             Debug.LogError("Il client che si sta tentando di disconnettere non è presente nella lista: " + Action);
     }                                           //eliminazione di un profilo dalla lista formato: OffU(ID) es: OffU4
 
-    private void Server_Send_Message_to_All(string Action)
-    {
-        byte[] data = new byte[100];
-        data = Encoding.ASCII.GetBytes("MexR" + lobby.Retrive_Name_by_Socket(User) + ": " + Action);
-        for (int I = 0; I < lobby.lobby.Count; I++)
-            try
-            {
-                lobby.lobby[I].User.Send(data, data.Length, SocketFlags.None);
-            }
-            catch(Exception e)
-            {
-                Debug.LogError("Errore nell'invio del messaggio a " + lobby.lobby[I].Name + " -> " + (IPEndPoint)User.RemoteEndPoint);
-            }
-        
-    }
-
-    private void Server_Send_Message_to_One(string Action)
-    {
-        String[] substrings = Action.Split('#');
-        Socket TUser = lobby.Retrive_Socket_by_Name(substrings[0]);
-
-        byte[] data = new byte[100];
-        data = Encoding.ASCII.GetBytes("MexR" + lobby.Retrive_Name_by_Socket(User)+": " + Action);
-        for (int I = 0; I < lobby.lobby.Count; I++)
-            if (TUser == lobby.lobby[I].User)
-                try
-                {
-                    lobby.lobby[I].User.Send(data, data.Length, SocketFlags.None);
-                }
-                catch (Exception e)
-                {
-                    Debug.LogError("Errore nell'invio del messaggio privato a " + lobby.lobby[I].Name + " -> " + (IPEndPoint)User.RemoteEndPoint);
-                }
-    }
-    
     public void Refresh_Lobby(string Action)
     {
 
@@ -192,7 +118,7 @@ public class Actions : MonoBehaviour
             result = Int32.TryParse(temp[I], out numero);
             if (result)
                 if (!lobby.Check_Exist_by_ID(numero))
-                    Send_to_One("OffU" + temp[I], User, "Errore nell'invio logOutUser");
+                    Send.Send_to_One(Send.Player_Come_Online(Int32.Parse(temp[I]),false),User,"Errore durante di comunicazione con " + lobby.Retrive_Name_by_Socket(User));
         }
         if (Deb) Debug.Log("Inizio controllo mancanze...");
         List<int> IDList = lobby.List_of_ID();
@@ -216,7 +142,7 @@ public class Actions : MonoBehaviour
             if(!IDExist[I])
             {
                 if (Deb) Debug.Log("Non trovato, invio dati...");
-                Send_to_One("NewU" + IDList[I] + "#" + lobby.Retrive_Power_by_ID(IDList[I]) + "#" + lobby.Retrive_Name_by_ID(IDList[I]), User, "Errore nell'aggiornamento della lobby del client");
+                Send.Send_to_One(Send.Client_Player_Login_Inizialize(IDList[I], lobby.Retrive_Power_by_ID(IDList[I]), lobby.Check_Online_by_ID(IDList[I]), lobby.Retrive_Name_by_ID(IDList[I])),User,"Errore durante l'aggiornamento della lobby di " + lobby.Retrive_Name_by_Socket(User));
             }
         }
     }                                                   //viene inviata la lista degli ID attualmente connessi dal client, il server riceve e esegue il codice che controlla tutti gli id che comunica tutte le differenze tramite i comandi appositi formato di ricezione: RefL1#4#5#12
@@ -229,7 +155,7 @@ public class Actions : MonoBehaviour
             string utente = lobby.Retrive_Name_by_Socket(User);
             Debug.Log("cambio di potere di " + utente + " da " + lobby.Retrive_Power_by_Name(utente) + " a " + Action);
             lobby.Set_Power_by_ID(lobby.Retrive_ID_by_Socket(User), Int32.Parse(Action));
-            Server_Broadcast("CngR" +lobby.Retrive_ID_by_Name(utente) + "#" + lobby.Retrive_Power_by_Name(utente));
+            Send.Server_Broadcast(Send.Lobby_Change_Role(lobby.Retrive_ID_by_Name(utente),lobby.Retrive_Power_by_Name(utente)));
         }
         else
         {
@@ -241,5 +167,17 @@ public class Actions : MonoBehaviour
 
 
     //InGame
+
+
+    //File
+    public void Send_Image(string file, Socket Sender, string richiedente)
+    {
+
+    }
+
+    public void Receive_Image(Socket Sender, string Richiedente)
+    {
+
+    }
 }
 

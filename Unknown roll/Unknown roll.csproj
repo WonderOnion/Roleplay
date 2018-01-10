@@ -228,8 +228,11 @@
     <Compile Include="Assets\TestQuelloVero\Actions.cs" />
     <Compile Include="Assets\TestQuelloVero\Client.cs" />
     <Compile Include="Assets\TestQuelloVero\Commands.cs" />
+    <Compile Include="Assets\TestQuelloVero\InGame.cs" />
     <Compile Include="Assets\TestQuelloVero\Init.cs" />
+    <Compile Include="Assets\TestQuelloVero\IO.cs" />
     <Compile Include="Assets\TestQuelloVero\Lobby.cs" />
+    <Compile Include="Assets\TestQuelloVero\SendActions.cs" />
     <Compile Include="Assets\TestQuelloVero\ServerHost.cs" />
     <Compile Include="Assets\TestQuelloVero\TestOggetto.cs" />
   </ItemGroup>

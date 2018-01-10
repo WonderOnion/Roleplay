@@ -10,8 +10,16 @@ using System.Net.Sockets;
 public class Lobby : MonoBehaviour
 {
     public bool D = true;
-    int ID = 1;
+    private int ID = 1;
     public List<Player> lobby = new List<Player>();
+    public Actions action;
+
+    public void Start()
+    {
+        action = GameObject.Find("Network").GetComponent<Actions>();
+    }
+
+
 
 
     //          aggiunte
@@ -43,7 +51,7 @@ public class Lobby : MonoBehaviour
         }
     }
 
-    public void Add_ClientPlayer(int ID, string Nome, int power)
+    public void Add_ClientPlayer(int ID, int power, int online, string Nome)
     {
         if (Check_Exist_by_ID(ID))
         {
@@ -51,13 +59,16 @@ public class Lobby : MonoBehaviour
                 Set_Online_by_ID(Retrive_ID_by_Name(Nome),true);
             return;
         }
-            
+        bool On = false;
+        if (online == 1)
+            On = true;
         Player player = new Player
         {
             ID = ID,
             Name = Nome,
             InGameName = Nome,
-            Power = power
+            Power = power,
+            Online = On
         };
         lock (lobby)
         {
@@ -174,24 +185,6 @@ public class Lobby : MonoBehaviour
         Debug.LogError("Non è stato possibile assegnare il nome in gioco " + InGameName + " a " + ID);
     }
 
-    public void Set_InGameName_by_Name(string Name, string InGameName)
-    {
-        int I;
-        lock (lobby)
-        {
-            for (I = 0; I < lobby.Count; I++)
-                if (lobby[I].Name == Name)
-                {
-                    lobby[I].InGameName = InGameName;
-                    break;
-                }
-        }
-        if (I < lobby.Count)
-            return;
-        Debug.LogError("Non è stato possibile assegnare il nome in gioco " + InGameName + " a " + Name);
-
-    }
-
     public void Set_InGameName_by_Socket(Socket User, string InGameName)
     {
         int I;
@@ -212,22 +205,6 @@ public class Lobby : MonoBehaviour
 
 
     //          rimozioni
-    public void Remove_by_Name(string Name)
-    {
-        int I;
-        lock (lobby)
-        {
-            for (I = 0; I < lobby.Count; I++)
-                if (lobby[I].Name == Name)
-                {
-                    lobby.RemoveAt(I);
-                    break;
-                }
-        }
-        if (I < lobby.Count)
-            return;
-        Debug.LogError("Non è stato trovatoil giocatore: " + Name + ", impossibile rimuoverlo");
-    }
 
     public void Remove_by_Socket(Socket User)
     {
@@ -352,7 +329,7 @@ public class Lobby : MonoBehaviour
         for (int I = 0; I < lobby.Count; I++)
             if (string.Equals(lobby[I].Name,Name))
             {
-                if (D) Debug.LogFormat("Retrive_ID_by_Name, nome ricevuto - {0} risultato - {1}", Name, lobby[I].ID);
+                if (D) Debug.LogFormat("Retrive_ID_by_Name, nome ricevuto: {0} risultato: {1}", Name, lobby[I].ID);
                 return lobby[I].ID;
             }
         Debug.LogError("Non è stato trovato il giocatore: " + Name + "impossibile restituire l'ID");
@@ -397,14 +374,14 @@ public class Lobby : MonoBehaviour
         }
         try
         {
-            byte[] data = new byte[100];
+            byte[] data = new byte[action.BufferSize];
             data = Encoding.ASCII.GetBytes("Ping");
             lobby[I].User.Send(data, data.Length, SocketFlags.None);
         }
         catch(Exception e)
         {
-            Debug.LogError("Tentativo di check con il client fallito " + (IPEndPoint)User.RemoteEndPoint + " eliminazione dalla lobby e chiusura socket.");
-            Remove_by_Socket(User);
+            Debug.LogError("Tentativo di check con il client fallito " + (IPEndPoint)User.RemoteEndPoint + " imposto offline e chiudo il socket.");
+            Set_Online_by_ID(lobby[I].ID, false);
 
         }
     }              //effettua un controllo di connessione con un socket, nel caso lo elimina dalla lista
