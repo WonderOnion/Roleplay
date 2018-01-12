@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public class EditorManager : MonoBehaviour {
 	/* POSIZIONE EDITOR
@@ -28,13 +29,22 @@ public class EditorManager : MonoBehaviour {
 
 	// Gestione mappa
 	public bool SpawnaMappa = false;
+	public bool GeneraMappa =  false;
 	private string NomeMappa = "";
+	private int[][] PosizioneCelle;
+
+	// Caricare partita
+	List<string> MappeDelGioco;
+	private int PosizioneGuiListaCaricaPartita = 0;
+	private string TestoRigaFile = " ";
+	private int I_FOR_DEBUG_GUI_CaricamentoPartita = 0;
 
 	// Script esterni
 	MenuGUI ManagerGui;
 
 	// FILE MANAGER
 	public FileManager File = new FileManager();
+	private GameObject[] CelleDellaMappa;
 
 	public GameObject MainManager;
 
@@ -52,8 +62,14 @@ public class EditorManager : MonoBehaviour {
 		// Gestione raycast
 		raycast ();
 
+		// Spawna un blocco di cella
 		if(SpawnaMappa) {
 			generaBlocco (int.Parse(INIZIO_X), int.Parse(INIZIO_Y), int.Parse(LUNGHEZZA_X), int.Parse(LUNGHEZZA_Y));
+		}
+
+		// Genera tutta la mappa attraverso il file della cartella
+		if(GeneraMappa) {
+			generaMappa ();
 		}
 
 		// debug grafica
@@ -67,8 +83,16 @@ public class EditorManager : MonoBehaviour {
 			if(PosizioneEditor == 1) {
 				if(GUI.Button (new Rect (Screen.width/2-100,Screen.height/2-75,200,50),"NUOVA MAPPA")) {
 					PosizioneEditor = 2;
+
+					// AZZERA VARIBIALI
+					NomeMappa = "";
 				} if(GUI.Button (new Rect (Screen.width/2-100,Screen.height/2+25,200,50),"CARICA MAPPA")) {
 					PosizioneEditor = 3;
+
+					// AZZERA VARIABILI
+					PosizioneGuiListaCaricaPartita = 0;
+					TestoRigaFile = " ";
+					I_FOR_DEBUG_GUI_CaricamentoPartita = 0;
 				}
 			}
 			// Salva il nome della nuova mappa
@@ -86,9 +110,33 @@ public class EditorManager : MonoBehaviour {
 				}
 			}
 			if(PosizioneEditor == 3) {
-				scrollPos = GUI.BeginScrollView(new Rect(Screen.width/2-150, Screen.height/2+300, 300, 500), scrollPos, new Rect(0, 0, 10, 500));
+				scrollPos = GUI.BeginScrollView(new Rect(Screen.width/2-150, Screen.height/2-300, 300, 500), scrollPos, new Rect(0, 0, 10, 500));
 
+				MappeDelGioco = File.List_of_Item_Inside_Directory (File.MainDirectory+"/Maps"); 
 
+				for(int I_FOR_DEBUG_GUI_CaricamentoPartita=0; I_FOR_DEBUG_GUI_CaricamentoPartita < MappeDelGioco.Count; I_FOR_DEBUG_GUI_CaricamentoPartita++) {
+					// Controlla se la direcotry esiste, se la esiste non e' un file
+					if (File.esisteDirectory (File.MainDirectory + "/Maps/" + MappeDelGioco [I_FOR_DEBUG_GUI_CaricamentoPartita].ToString ())) {
+
+						// tasto da cliccare con il nome della mappa per caricare quest'ultima
+						if(GUI.Button(new Rect(0, PosizioneGuiListaCaricaPartita, 300, 20), MappeDelGioco [I_FOR_DEBUG_GUI_CaricamentoPartita].ToString ())) {
+
+							NomeMappa = MappeDelGioco [I_FOR_DEBUG_GUI_CaricamentoPartita].ToString ();
+
+							generaMappa ();
+
+							Debug.Log ("Stai caricando una mappa: " + MappeDelGioco [I_FOR_DEBUG_GUI_CaricamentoPartita].ToString ());
+						}
+
+						// Sposta le GUI
+						PosizioneGuiListaCaricaPartita += 20;
+					} else {
+						Debug.Log ("Un file non Directory prensente nella cartella delle Mappe: " + MappeDelGioco [I_FOR_DEBUG_GUI_CaricamentoPartita].ToString ());
+					}
+				}
+
+				I_FOR_DEBUG_GUI_CaricamentoPartita = 0;
+				PosizioneGuiListaCaricaPartita = 0;
 
 				GUI.EndScrollView();
 			}
@@ -108,9 +156,12 @@ public class EditorManager : MonoBehaviour {
 				}
 				if(GUI.Button (new Rect (150,0,100,50),"New Cells")) {
 					SubPosMidScreen = 1;
+
+					// Azzeramento delle variabili
+					INIZIO_X = ""; INIZIO_Y = ""; LUNGHEZZA_X = ""; LUNGHEZZA_Y = "";
 				}
 				if(GUI.Button (new Rect (250 ,0,100,50),"Save Map")) {
-
+					salvaMappa (); // SALVA LA MAPPA
 				}
 				// FINE BARRA
 				GUI.EndScrollView();
@@ -157,27 +208,73 @@ public class EditorManager : MonoBehaviour {
 	public void generaBlocco(int InizioX, int InizioY, int LunghezzaX, int LunghezzaY) {
 		GameObject Cella = null;
 
+		int PosX = 0, PosY = 0;
+
 		for(int X=0; X < LunghezzaX; X++) {
 			for(int Y=0; Y < LunghezzaY; Y++) {
 				if(!cellaPresenteInPos(LunghezzaX, LunghezzaY)) {
-					Cella = (GameObject)Instantiate (PrefabCella, new Vector3 (InizioX, 0, InizioY), Quaternion.identity) as GameObject;
+					Cella = (GameObject)Instantiate (PrefabCella, new Vector3 (InizioX+PosX, 0, InizioY+PosY), Quaternion.identity) as GameObject;
 
+					// Cambia rotazione
 					Cella.transform.Rotate (-90, 0, 0);
+
+					// Imposta TAG
+					Cella.tag = "Cella";
 				}
 
-				InizioY++;
+				PosY++;
 			}
 
-			if(InizioY == LunghezzaY) {
-				InizioY = 0;
-				InizioX++;
+			if(PosY == LunghezzaY) {
+				PosY = 0;
+				PosX++;
 			}
 		}
 
 		SpawnaMappa = false;
 	}
 
+	public void generaMappa() {
+		prendiPosCelleDaFile ();
+
+		GeneraMappa = false;
+	}
+
+	private void prendiPosCelleDaFile() {
+		if(!File.esisteFile(File.MainDirectory+"/Maps/"+NomeMappa+"/"+File.NomeFileContenenteCelle)) {
+			return;
+		}
+
+		StreamReader FileMaps = new StreamReader(File.MainDirectory+"/Maps/"+NomeMappa+"/"+File.NomeFileContenenteCelle);
+
+		for(int I=0; TestoRigaFile != null; I++) {
+			TestoRigaFile = FileMaps.ReadLine ();
+
+			string[] Explode = TestoRigaFile.Split (',');
+
+			PosizioneCelle [I] [0] = int.Parse (Explode[0]);
+			PosizioneCelle [I] [1] = int.Parse (Explode[1]);
+		}
+
+		FileMaps.Close();
+	}
+
 	public bool cellaPresenteInPos(int PosizioneX, int PosizioneY) {
 		return false;
+	}
+
+	// FUNZIONI PER LA GESTIONE DEI SALVATAGGI DELLA MAPPA
+	public void salvaMappa() {
+		StreamWriter FileMaps = new StreamWriter(File.MainDirectory+"/Maps/"+NomeMappa+"/"+File.NomeFileContenenteCelle, true);
+
+		CelleDellaMappa = GameObject.FindGameObjectsWithTag ("Cella");
+
+		// IMPOSTAZIONE DEL CONTENUTO DEL FILE:
+		// POSIZIONE_X,POSIZIONE_Y
+		foreach (GameObject Cella in CelleDellaMappa) {
+			FileMaps.WriteLine(Cella.transform.position.x.ToString()+","+Cella.transform.position.z.ToString());
+		}
+
+		FileMaps.Close();
 	}
 }

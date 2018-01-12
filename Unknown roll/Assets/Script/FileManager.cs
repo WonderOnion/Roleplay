@@ -5,7 +5,9 @@ using System.IO;
 
 public class FileManager {
 
+	// Variabili globali per la gestine dei file
 	public string MainDirectory = "Game";
+	public string NomeFileContenenteCelle = "maps.txt";
 
 	public void generaDirectoryBase() {
 		System.IO.Directory.CreateDirectory (MainDirectory);
@@ -14,6 +16,13 @@ public class FileManager {
 
 	public bool esisteDirectory(string Directory) {
 		if (System.IO.Directory.Exists (Directory))
+			return true;
+		else
+			return false;
+	}
+
+	public bool esisteFile(string NomeFile) {
+		if (System.IO.File.Exists (NomeFile))
 			return true;
 		else
 			return false;
@@ -32,10 +41,17 @@ public class FileManager {
 		System.IO.Directory.CreateDirectory (Directory);
 	}
 
+	public void creaFile(string NomeFile) {
+		System.IO.File.Create (NomeFile);
+	}
+
 	public bool creaMappa(string NomeMappa) {
+		// Genera le directory della mappa
 		creaDirectory (MainDirectory+"/Maps/"+NomeMappa);
 		creaDirectory (MainDirectory+"/Maps/"+NomeMappa+"/Textures");
 		creaDirectory (MainDirectory+"/Maps/"+NomeMappa+"/Sounds");
+
+		creaFile (MainDirectory+"/Maps/"+NomeMappa+"/"+NomeFileContenenteCelle);
 
 		// MAPPA CREATA
 		return true;
@@ -47,10 +63,12 @@ public class FileManager {
 		TempList.Add("");
 		foreach (string Dir in Temp)
 		{
-			TempList.Add(Dir);
+			//Debug.Log (">>"+Dir);
+			string[] Explode = Dir.Split('\\');
+			TempList.Add("/"+Explode[1]);
 		}
 
-		TempList[0] = TempList.Count.ToString();
+		//TempList[0] = TempList.Count.ToString();
 
 		Temp = Directory.GetFiles(path);
 		foreach(string Fil in Temp)
