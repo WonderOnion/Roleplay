@@ -1,8 +1,10 @@
-﻿<Properties StartupItem="Unknown roll.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Maine Exercizien\StartDEbug.cs">
+﻿<Properties StartupItem="Assembly-CSharp.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\EditorManager.cs">
     <Files>
-      <File FileName="Assets\Maine Exercizien\StartDEbug.cs" Line="9" Column="35" />
+      <File FileName="Assets\Script\Menu\MenuGUI.cs" Line="1" Column="1" />
+      <File FileName="Assets\Script\MenuManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Script\EditorManager.cs" Line="88" Column="79" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
