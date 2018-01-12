@@ -284,4 +284,5 @@ MonoBehaviour:
   camera: {fileID: 0}
   RaycastMouse: 0
   OggettoRaycast: {fileID: 0}
+  SpawnaMappa: 0
   MainManager: {fileID: 1216599517}

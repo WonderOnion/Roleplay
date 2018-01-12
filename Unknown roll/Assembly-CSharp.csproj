@@ -62,6 +62,7 @@
      <Compile Include="Assets\Network\ServerHost.cs" />
      <Compile Include="Assets\Network\TestOggetto.cs" />
      <Compile Include="Assets\Script\EditorManager.cs" />
+     <Compile Include="Assets\Script\FileManager.cs" />
      <Compile Include="Assets\Script\Menu\MenuGUI.cs" />
      <Compile Include="Assets\Script\MenuManager.cs" />
  <Reference Include="UnityEngine.UI">
