@@ -7,7 +7,6 @@ public class FileManager {
 
 	// Variabili globali per la gestine dei file
 	public string MainDirectory = "Game";
-	public string NomeFileContenenteCelle = "maps.txt";
 
 	public void generaDirectoryBase() {
 		System.IO.Directory.CreateDirectory (MainDirectory);
@@ -50,8 +49,9 @@ public class FileManager {
 		creaDirectory (MainDirectory+"/Maps/"+NomeMappa);
 		creaDirectory (MainDirectory+"/Maps/"+NomeMappa+"/Textures");
 		creaDirectory (MainDirectory+"/Maps/"+NomeMappa+"/Sounds");
+		creaDirectory (MainDirectory+"/Maps/"+NomeMappa+"/Scenes");
 
-		creaFile (MainDirectory+"/Maps/"+NomeMappa+"/"+NomeFileContenenteCelle);
+		creaFile (MainDirectory+"/Maps/"+NomeMappa+"/config_map.txt");
 
 		// MAPPA CREATA
 		return true;

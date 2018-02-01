@@ -279,11 +279,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PosizioneEditor: 1
-  PrefabCella: {fileID: 1407717281175786, guid: 18da37e031f7de944811c502f837331a,
+  PrefabCella: {fileID: 1105686405814134, guid: d4c1d855b11ac08468de8a8712fad7b6,
     type: 2}
-  camera: {fileID: 0}
+  ContainerCellaPrefab: {fileID: 1684143929653130, guid: 7b7d5c5db193ef74db055c0a901e96f2,
+    type: 2}
+  cameraobj: {fileID: 1216599520}
   RaycastMouse: 0
   OggettoRaycast: {fileID: 0}
   SpawnaMappa: 0
   GeneraMappa: 0
+  InformazioniCelle: []
+  ScenaCorrente: 
+  TextureSelezionata: {fileID: 0}
+  OggettoSelezionato: {fileID: 0}
   MainManager: {fileID: 1216599517}
