@@ -4,6 +4,11 @@ using UnityEngine;
 using System.IO;
 
 public class EditorManager : MonoBehaviour {
+	
+	public Settings settings;
+	
+	
+	
 	/* POSIZIONE EDITOR
 	 * 0: null
 	 * 1: crea o carica progetto
@@ -65,7 +70,8 @@ public class EditorManager : MonoBehaviour {
 
 	void Start () {
 		ManagerGui = MainManager.GetComponent<MenuGUI> ();
-
+		settings = GameObject.Find("Settings").GetComponent<Settings>();
+		
 		// Genera file base
 		if(!File.esisteDirectory(File.MainDirectory)) {
 			File.generaDirectoryBase();
@@ -103,7 +109,7 @@ public class EditorManager : MonoBehaviour {
 	void OnGUI() {
 		if(ManagerGui.PosizioneNelMenu == 2) {
 			if(PosizioneEditor == 1) {
-				if(GUI.Button (new Rect (Screen.width/2-100,Screen.height/2-75,200,50),"NUOVA MAPPA")) {
+				if(GUI.Button (new Rect (Screen.width/2-100,Screen.height/2-75,200,50),settings.Retrive_InnerText(0,"language/"+ settings.Language + "/Menu/Play/New_Map"))) {
 					PosizioneEditor = 2;
 
 					// AZZERA VARIBIALI
@@ -113,7 +119,7 @@ public class EditorManager : MonoBehaviour {
 					SceneDellaMappa =  new List<string>();
 					PosizioneGuiListaCaricaPartita = 0;
 					ScenaCorrente = "";
-				} if(GUI.Button (new Rect (Screen.width/2-100,Screen.height/2+25,200,50),"CARICA MAPPA")) {
+				} if(GUI.Button (new Rect (Screen.width/2-100,Screen.height/2+25,200,50),settings.Retrive_InnerText(0,"language/"+ settings.Language + "/Menu/Play/Load_Map"))) {
 					PosizioneEditor = 3;
 
 					// AZZERA VARIABILI
@@ -129,15 +135,15 @@ public class EditorManager : MonoBehaviour {
 			}
 			// Salva il nome della nuova mappa
 			if(PosizioneEditor == 2) {
-				GUI.Label (new Rect(Screen.width/2-50, Screen.height/2-200, 50, 15), "NOME MAPPA");
+				GUI.Label (new Rect(Screen.width/2-50, Screen.height/2-200, 50, 15), settings.Retrive_InnerText(0,"language/"+ settings.Language + "/Menu/Play/Map_Name"));
 				NomeMappa = GUI.TextField(new Rect(Screen.width/2-50, Screen.height/2-165, 200, 20), NomeMappa, 30);
 
-				if(GUI.Button (new Rect (Screen.width/2-50, Screen.height/2, 100, 20), "Create")) {
+				if(GUI.Button (new Rect (Screen.width/2-50, Screen.height/2, 100, 20), settings.Retrive_InnerText(0,"language/"+ settings.Language + "/Menu/Play/Create"))) {
 					File.creaMappa (NomeMappa);
 
 					PosizioneEditor = 100;
 				}
-				if(GUI.Button (new Rect (Screen.width/2-50, Screen.height/2+30, 100, 20),"Back")) {
+				if(GUI.Button (new Rect (Screen.width/2-50, Screen.height/2+30, 100, 20),settings.Retrive_InnerText(0,"language/"+ settings.Language + "/Menu/Main/Back"))) {
 					SubPosMidScreen = 1;
 				}
 			}
@@ -220,7 +226,7 @@ public class EditorManager : MonoBehaviour {
 					GUI.Label (new Rect(Screen.width/2-50, Screen.height/2-150, 50, 20), "Nome della scena");
 					NOME_NEW_SCENE_TEMP = GUI.TextField(new Rect(Screen.width/2-50, Screen.height/2-130, 200, 20), NOME_NEW_SCENE_TEMP, 80);
 
-					if(GUI.Button (new Rect (Screen.width/2-50, Screen.height/2, 100, 20), "Create")) {
+					if(GUI.Button (new Rect (Screen.width/2-50, Screen.height/2, 100, 20), settings.Retrive_InnerText(0,"language/"+ settings.Language + "/Menu/Play/Create"))) {
 						generaBlocco (int.Parse(LUNGHEZZA_X), int.Parse(LUNGHEZZA_Y)); // genera blocco
 						SpawnaMappa = true;
 						SubPosMidScreen = 0;
@@ -228,7 +234,7 @@ public class EditorManager : MonoBehaviour {
 						NOME_NEW_SCENE = NOME_NEW_SCENE_TEMP;
 						NOME_NEW_SCENE_TEMP = "";
 					}
-					if(GUI.Button (new Rect (Screen.width/2-50, Screen.height/2+30, 100, 20),"Back")) {
+					if(GUI.Button (new Rect (Screen.width/2-50, Screen.height/2+30, 100, 20),settings.Retrive_InnerText(0,"language/"+ settings.Language + "/Menu/Main/Back"))) {
 						SubPosMidScreen = 0;
 					}
 				}
