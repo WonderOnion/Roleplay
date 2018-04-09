@@ -10,12 +10,13 @@ B = Indica la sottocategoria
     <Menu id="M">
       <!--MM > Main menu-->
       <Main id="M">
-        <Exit id="000">Exit Game</Exit>
-        <Settings id="001">Settings</Settings>
-        <Credits id="002">Credits</Credits>
-        <Play id="003">Play</Play>
-        <Username id="004">Username</Username>
-        <Password id="005">Password</Password>
+        <Exit >Exit Game</Exit>
+        <Settings>Settings</Settings>
+        <Credits>Credits</Credits>
+        <Join>Join</Join>
+        <Create>Create</Create>
+        <Username>Username</Username>
+        <Password>Password</Password>
 		<Back id="006">Back</Back>
       </Main>
       
@@ -65,16 +66,17 @@ B = Indica la sottocategoria
   </en>
   
 <it>
-    <Menu id="M">
+    <Menu>
       <!--MM > Main menu-->
-      <Main id="M">
-        <Exit id="000">Esci dal gioco</Exit>
-        <Settings id="001">Impostazioni</Settings>
-        <Credits id="002">Crediti</Credits>
-        <Play id="003">Gioca</Play>
-        <Username id="004">Username</Username>
-        <Password id="005">Password</Password>
-		<Back id="006">Indietro</Back>
+      <Main>
+        <Exit>Esci dal gioco</Exit>
+        <Settings>Impostazioni</Settings>
+        <Credits>Crediti</Credits>
+        <Join>Partecipa</Join>
+        <Create>Crea</Create>
+        <Username>Username</Username>
+        <Password>Password</Password>
+		<Back>Indietro</Back>
       </Main>
       
       <!--MS > Settings
