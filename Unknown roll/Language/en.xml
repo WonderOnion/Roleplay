@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<language>
+    <Menu>
+      <!--Main menu-->
+      <Main>
+        <Exit >Exit Game</Exit>
+        <Settings>Settings</Settings>
+        <Credits>Credits</Credits>
+        <Play>Play</Play>
+        <Editor>Editor</Editor>
+        <Username>Username</Username>
+        <Password>Password</Password>
+        <Back id="006">Back</Back>
+      </Main>
+      <Settings id="S">
+        <Graphic>
+          <Resolution id="100">Resolution</Resolution>
+          <WindowMode id="101">Windowed mode</WindowMode>
+        </Graphic>
+      </Settings>
+
+      <!--Play-->
+      <Play id="P">
+        <Editor id="001">Editor</Editor>
+        <Online id="002">Online</Online>
+        <New_Map id="003">New map</New_Map>
+        <Load_Map id="004">Load map</Load_Map>
+        <Create id="005">Create</Create>
+
+
+        <!--Online-->
+        <ServerIP id="051">Server IP</ServerIP>
+        <ServerPort id="052">Port</ServerPort>
+        <Join id ="053">Join</Join>
+        <Create_Lobby id="054">Create lobby</Create_Lobby>
+
+        <!--Generali-->
+        <Select_Campaign id="101">Select campaign</Select_Campaign>
+        <Select_Map id="102">Select map</Select_Map>
+        <Map_Name id="103">Map name</Map_Name>
+      </Play>
+
+    </Menu>
+    <Editor id="E">
+
+    </Editor>
+    <Game id="G">
+
+    </Game>
+    <Problem id="P">
+    </Problem>
+</language>

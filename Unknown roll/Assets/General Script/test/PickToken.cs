@@ -18,7 +18,6 @@ public class PickToken : MonoBehaviour
     {
         if (!Picked)
         {
-            //transform.Translate(0, 0.3f, 0);
             Picked = true;
             startingPos = transform.position;
         }
@@ -36,8 +35,7 @@ public class PickToken : MonoBehaviour
     {
         if (!Input.GetMouseButton(0) && Picked)
         {
-            transform.position = new Vector3(transform.position.x, lastPosHit.y + transform.localScale.y / 2, transform.position.z);
-            //transform.Translate(0, -0.3f, 0);
+            transform.position = new Vector3(transform.position.x, lastPosHit.y + transform.localScale.y / 2 , transform.position.z);
             Picked = false;
         }
     }

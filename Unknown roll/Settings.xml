@@ -1,1 +1,17 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Settings Ver="0.02"><Base><Language>it</Language></Base><Network><LastIP>127.0.0.1</LastIP></Network><Graphic><Resolution>1920x1080</Resolution><windowed>true</windowed><Quality>Awesome</Quality></Graphic><Audio><Master>100</Master></Audio></Settings>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Settings Ver="0.02">
+  <Base>
+    <Language>en</Language>
+  </Base>
+  <Network>
+    <LastIP>127.0.0.1</LastIP>
+  </Network>
+  <Graphic>
+    <Resolution>1920x1080</Resolution>
+    <windowed>true</windowed>
+    <Quality>Awesome</Quality>
+  </Graphic>
+  <Audio>
+    <Master>100</Master>
+  </Audio>
+</Settings>
