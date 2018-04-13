@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Xml;
+using TMPro;
 using UnityEngine;
 
 public class Settings : MonoBehaviour
@@ -29,6 +31,7 @@ public class Settings : MonoBehaviour
     public string ActualVersion = "0.02";                   //Per controllare e nel caso aggiornare il file di impostazioni
     public bool D = true;                                   //Variabile di Debug
 
+
     public XmlDocument SettingsFile = new XmlDocument();    //File XML di impostazioni, assegnato all'avvio del programma
     public XmlDocument LanguageFile = new XmlDocument();    //FIle XML della lingua, assegnato all'avvio del programma e ogni qualvolta si cambi legalmente o illegalmente(In maniere non consone quali modifica di Setting.xml o programmi esterni) la lingua
 
@@ -37,8 +40,12 @@ public class Settings : MonoBehaviour
     public string Language = "";                            //Lingua attuale su cui si basano tutti i bottoni
     private string OldLanguage;                             //variabile per capire se vi sono stati cambiamente della lingua per poter accedervi dinamicamente
 
+
+
     void Start()
     {
+        ConsoleText = GameObject.FindWithTag("ConsoleText").GetComponent<TextMeshProUGUI>();       //Assegno la textArea della console alla variabile
+        GameObject.Find("Canvas/Console").SetActive(false);
         //controllo esistenza file di impostazioni
         switch (InOut.Check_Path_Exist("Settings.xml"))
         {
@@ -148,7 +155,7 @@ public class Settings : MonoBehaviour
 
     }           //Genera un file Settings.xml con le impostazioni desiderate
     /*
-                        __                                          
+                           __                                          
                           / /  __ _ _ __   __ _ _ _  __ _  __ _  ___ 
                          / /  / _` | '_ \ / _` | | | |/ _` |/ _` |/ _ \
                         / /__| (_| | | | | (_| | |_| | (_| | (_| |  __/
@@ -158,6 +165,7 @@ public class Settings : MonoBehaviour
         I nomi dei gameobject che fanno riferimento al gioco essenziale sono in Inglese
         Se richiesta la lingua inglese il gioco prende il nome dei bottoni e lo inserisce come testo
         Perciò tutti i comandi essenziali sono disponibili anche senza il file XML della lingua.
+        Il File di lingua tuttavia gestisce anche una descrizione dei codici degli errori (quella visibile nel prompt dei comandi in gioco)
         
         
         RefreshLanguage():  Ha la funzione di controllare se la nuova lingua inserita sia esistente a livello fisico (xml) e nel caso aggiornare
@@ -207,7 +215,7 @@ public class Settings : MonoBehaviour
         switch (InOut.Check_Path_Exist("Language/" + Language + ".xml"))
         {
             case 0:
-                Debug.LogError("Language file doesn't exist. you must download it");
+                Error_Profiler("D001",0,"Language file doesn't exist. you must download it",2);
                 if (!Language.Equals("en"))
                 {
                     XmlNode title = SettingsFile.SelectSingleNode("Settings/Base/Language");
@@ -253,4 +261,102 @@ public class Settings : MonoBehaviour
         return "NoText";
 	}
 
+
+    /*
+
+                       ___                      _      
+                      / __\___  _ __  ___  ___ | | ___ 
+                     / /  / _ \| '_ \/ __|/ _ \| |/ _ \
+                    / /__| (_) | | | \__ \ (_) | |  __/
+                    \____/\___/|_| |_|___/\___/|_|\___|
+
+
+
+            Da qui in poi viene gestita tutta la console e gli errori
+
+        */
+    public GameObject ErrorPopup;
+    private GameObject TempErrorPopUp;
+    public TextMeshProUGUI ConsoleText;                          //Variabile per riferirsi alla TextArea presente nella console
+
+    public void Error_Profiler(string ErrorCode,float ErrorFileVersion, string MoreDeatils,int Level)  //Errorcode contiene il codice di errore, errorfileversion indica la versione del file di errore a cui fa riferimento il codice quando è stato scritto (prevenzione futuri errori), Level indica il livello di errore, 0 = ignorabile
+    {
+        float SettingsVersion;
+        if (float.TryParse(Retrive_InnerText(0, "language/General/ErrorVersion"), out SettingsVersion))
+        {
+            switch (ErrorCode.Substring(0,1))
+            {
+                case "D":
+                    ErrorCode = "Debug/" + ErrorCode;           //utilizzato nelle fasi di debug per errori generici su controlli che andranno eliminati in fasi stabili
+                    break;
+                case "M":
+                    ErrorCode = "Menu/" + ErrorCode;
+                    break;
+                case "I":
+                    ErrorCode = "IO/" + ErrorCode;
+                    break;
+            }
+            string ErrorColored;
+            switch (Level)
+            {
+                case 1:
+                case 3:
+                    ErrorColored = "< color =\"yellow\"> " + ErrorCode;
+                    break;
+                case 2:
+                case 4:
+                    ErrorColored = "< color =\"red\"> " + ErrorCode;
+                    break;
+
+                default:
+                ErrorColored = "< color =\"white\"> " + ErrorCode;
+                    break;
+
+            }
+            if (ErrorFileVersion == SettingsVersion)
+            {
+                Debug.LogError(ErrorCode + " >> " + ErrorFileVersion + " >> " + Retrive_InnerText(0,"language/Error/"+ErrorCode) + " Details: " + MoreDeatils);
+                ConsoleText.text = ConsoleText.text + "\n " +  ErrorColored + " >> " + ErrorFileVersion + " >> " + Retrive_InnerText(0,"language / Error / "+ErrorCode) + " Details: " + MoreDeatils;
+                //aggiunta a ErrorLog.txt
+                List<string> TempError = new List<string>();
+                TempError.Add(string.Format("{0:HH:mm:ss tt}", DateTime.Now) + " >> " +ErrorColored + " >> " + ErrorFileVersion + " >> " + Retrive_InnerText(0, "language/Error/" + ErrorCode) + " Details: " + MoreDeatils);
+
+                if (Level > 2)
+                {
+                    //Creare pop up
+                    ErrorPopup.transform.SetParent(GameObject.Find("Canvas").transform);
+                    TempErrorPopUp = Instantiate(ErrorPopup, ErrorPopup.transform.position, ErrorPopup.transform.rotation) as GameObject;
+                    TempErrorPopUp.transform.SetParent(GameObject.Find("Canvas").transform);
+                    ERRORE, allora, lo switch sui colori non funziona, qui inoltre non lo spawna subito nel canvas quindi si bugga e ancor più grave perde ogni volta l evendo on click del bottone :/ buona fortuna
+
+                    GameObject.FindWithTag("ErrorText").GetComponent<TextMeshProUGUI>().text = string.Format("{0:HH:mm:ss tt}", DateTime.Now) + " >> " + ErrorColored + " >> " + ErrorFileVersion + " >> " + Retrive_InnerText(0, "language/Error/" + ErrorCode) + " Details: " + MoreDeatils;
+                }
+                InOut.Write_Into_File("ErrorLog.txt", TempError, false);
+            }
+            else
+            {
+                Debug.LogError("Different ErrorVersion, Error called: " + ErrorCode + " Version: " + ErrorFileVersion + " Detail: " + MoreDeatils);
+                ConsoleText.text = "Different ErrorVersion, Error called: " + ErrorColored + " Version: " + ErrorFileVersion + " Detail: " + MoreDeatils;
+                // aggiunta a ErrorLog.txt
+                List<string> TempError = new List<string>();
+                TempError.Add(string.Format("{0:HH:mm:ss tt}", DateTime.Now) + " >> " + "Different ErrorVersion, Error called: " + ErrorCode + " Version: " + ErrorFileVersion + " Detail: " + MoreDeatils);
+                InOut.Write_Into_File("ErrorLog.txt", TempError, false);
+            }
+        }
+        else
+        {
+            Debug.LogError("ErrorVersion can not be loaded, Error called: " + ErrorCode + " Version: " + ErrorFileVersion + " Detail: "  + MoreDeatils);
+            ConsoleText.text = "ErrorVersion can not be loaded, Error called: " + ErrorCode + " Version: " + ErrorFileVersion + " Detail: " + MoreDeatils;
+            // aggiunta a ErrorLog.txt
+            List<string> TempError = new List<string>();
+            TempError.Add(string.Format("{0:HH:mm:ss tt}", DateTime.Now) + " >> " + "ErrorVersion can not be loaded, Error called: " + ErrorCode + " Version: " + ErrorFileVersion + " Detail: " + MoreDeatils);
+            InOut.Write_Into_File("ErrorLog.txt", TempError, false);
+        }
+        
+    }
+    
+    public void Console_Write(string Text)
+    {
+        ConsoleText.text = ConsoleText.text + "\n<color=\"white\">" + Text;
+    }
 }

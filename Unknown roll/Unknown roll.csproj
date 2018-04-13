@@ -258,6 +258,7 @@
     <Compile Include="Assets\General Script\test\PickToken.cs" />
     <Compile Include="Assets\Menu\ButtonScript.cs" />
     <Compile Include="Assets\Menu\Material\MenuBar\MenuBar_Animation.cs" />
+    <Compile Include="Assets\Menu\MenuElement.cs" />
     <Compile Include="Assets\Menu\MenuGUI.cs" />
     <Compile Include="Assets\Menu\MenuHandler.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />

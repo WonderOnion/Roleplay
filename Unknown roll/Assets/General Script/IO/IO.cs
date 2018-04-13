@@ -2,11 +2,17 @@
 using UnityEngine;
 using System.IO;
 using System;
+using System.Text;
 
 public class IO : MonoBehaviour
 {
+    Settings settings;
     public bool D = true;
 
+    private void Start()
+    {
+        settings = GameObject.Find("Main Camera").GetComponent<Settings>();
+    }
 
 
     public int Check_Path_Exist (string path)
@@ -44,7 +50,7 @@ public class IO : MonoBehaviour
             TempList.Add(Fil);
         }
         return TempList;
-    }               //data una path restituisce tutti gli elementi all'interno dove la prima riga contiene l'indice a cui terminano le directory ed iniziano i file ES 0:3 1:Dir 2:Dir 3:file 4:file etc
+    }                   //data una path restituisce tutti gli elementi all'interno dove la prima riga contiene l'indice a cui terminano le directory ed iniziano i file ES 0:3 1:Dir 2:Dir 3:file 4:file etc
 
     public string[] Get_File_Information (string path)
     {
@@ -66,7 +72,7 @@ public class IO : MonoBehaviour
         Temp[5] = file.FullName;                        //prendo la directory totale partendo da C://
 
         return Temp;
-    }                            //restituisce tutte le informazioni inerenti a un determinato file
+    }                               //restituisce tutte le informazioni inerenti a un determinato file
 
     public void Create_Directory(string path, string log,string err)
     {
@@ -86,10 +92,28 @@ public class IO : MonoBehaviour
 
         if (Check_Path_Exist(path) == 2 && Sovrascrivere == false)  //controllo se il file esiste e se c'è l'ordine di non sovrascrivere
         {
-            Debug.LogError("Il file che si sta tentando di scrivere esiste già e non lo si vuole sovrascrivere");
+            settings.Error_Profiler("I001", 0,"Create_File: ",2);
             return;
         }
+        if (!File.Exists(path))
+        {
+            // Create a file to write to.
+            using (StreamWriter sw = File.CreateText(path))
+            {
+                foreach (string Line in Righe)
+                    sw.WriteLine(Line);
+            }
+        }
+    }       //crea un file o se c'è già lo sovrascrive se la booleana è uguale a "true"
 
-
-    }   //crea un file o se c'è già lo sovrascrive se la booleana è uguale a "true"
+    public void Write_Into_File(string path, List<string> Righe, bool Sovrascrivere)    //
+    {
+        if (Check_Path_Exist(path) == 0 || Sovrascrivere == true)
+        {
+            Create_File(path, Righe, Sovrascrivere);
+            return;
+        }
+        foreach (string Line in Righe)
+            File.AppendAllText(path,Environment.NewLine + Line, Encoding.UTF8);
+    }
 }

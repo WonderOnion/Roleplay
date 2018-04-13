@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,14 +17,20 @@ public class ButtonScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Language != GameObject.Find("Main Camera").GetComponent<Settings>().Language)
+        try
         {
-            Language = GameObject.Find("Main Camera").GetComponent<Settings>().Language;
-            if (GameObject.Find("Main Camera").GetComponent<Settings>().Language.Equals("en"))
-                gameObject.GetComponentInChildren<UnityEngine.UI.Text>().text = gameObject.name;
-            else
-                gameObject.GetComponentInChildren<UnityEngine.UI.Text>().text = settings.Retrive_InnerText(0, "language/" + Location + gameObject.name);
+            if (Language != GameObject.Find("Main Camera").GetComponent<Settings>().Language)
+            {
+                Language = GameObject.Find("Main Camera").GetComponent<Settings>().Language;
+                if (GameObject.Find("Main Camera").GetComponent<Settings>().Language.Equals("en"))
+                    gameObject.GetComponentInChildren<UnityEngine.UI.Text>().text = gameObject.name;
+                else
+                    gameObject.GetComponentInChildren<UnityEngine.UI.Text>().text = settings.Retrive_InnerText(0, "language/" + Location + gameObject.name);
 
+            }
+        } catch (Exception e)
+        {
+            settings.Error_Profiler("M003", 0, e.ToString(),2);
         }
     }
 }

@@ -1,0 +1,17 @@
+23:46:20 PM >> < color ="yellow"> Menu/M001 >> 0 >> Button destination not found Details: Switch_menu not found: MainMenu,Play22
+
+23:46:21 PM >> < color ="yellow"> Menu/M001 >> 0 >> Button destination not found Details: Switch_menu not found: MainMenu,Play22
+23:46:22 PM >> < color ="yellow"> Menu/M001 >> 0 >> Button destination not found Details: Switch_menu not found: MainMenu,Play22
+23:46:22 PM >> < color ="yellow"> Menu/M001 >> 0 >> Button destination not found Details: Switch_menu not found: MainMenu,Play22
+23:46:22 PM >> < color ="yellow"> Menu/M001 >> 0 >> Button destination not found Details: Switch_menu not found: MainMenu,Play22
+23:47:04 PM >> < color ="yellow"> Menu/M001 >> 0 >> Button destination not found Details: Switch_menu not found: MainMenu,Play22
+23:47:05 PM >> < color ="yellow"> Menu/M001 >> 0 >> Button destination not found Details: Switch_menu not found: MainMenu,Play22
+23:47:42 PM >> < color ="yellow"> Debug/D002 >> 0 >> Arguments exception Details: SwitchMenu: MainMenu,Play
+23:48:23 PM >> < color ="red"> Debug/D001 >> 0 >> Error Details: MainMenu,PlayUnityEngine.UnassignedReferenceException: The variable ErrorPopup of Settings has not been assigned.
+You probably need to assign the ErrorPopup variable of the Settings script in the inspector.
+  at (wrapper managed-to-native) UnityEngine.GameObject:get_transform ()
+  at Settings.Error_Profiler (System.String ErrorCode, Single ErrorFileVersion, System.String MoreDeatils, Int32 Level) [0x0022a] in F:\work\lavori\UnKn\Sito\Unknown Roll\Git\Roleplay\Unknown roll\Assets\General Script\IO\Settings.cs:327 
+  at MenuHandler.SwitchMenu (System.String Temp) [0x0004f] in F:\work\lavori\UnKn\Sito\Unknown Roll\Git\Roleplay\Unknown roll\Assets\Menu\MenuHandler.cs:39 
+23:48:55 PM >> < color ="yellow"> Debug/D002 >> 0 >> Arguments exception Details: SwitchMenu: MainMenu,Play
+23:49:53 PM >> < color ="yellow"> Debug/D002 >> 0 >> Arguments exception Details: SwitchMenu: MainMenu,Play
+23:50:07 PM >> < color ="yellow"> Debug/D002 >> 0 >> Arguments exception Details: SwitchMenu: MainMenu,Play
