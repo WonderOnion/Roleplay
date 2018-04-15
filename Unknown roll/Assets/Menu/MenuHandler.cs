@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class MenuHandler : MonoBehaviour
@@ -34,7 +35,7 @@ public class MenuHandler : MonoBehaviour
     {
         try
         {
-            if (Temp.Split(',').Length != 3)
+            if (Temp.Split(',').Length != 2)
             {
                 settings.Error_Profiler("D002", 0, "SwitchMenu: " + Temp,3);
                 return;
@@ -65,14 +66,16 @@ public class MenuHandler : MonoBehaviour
         }
     }               //Gestisce i movimenti all'interno di un menu annidiato
     
-    public void KillPopUp (string usefull)
+    public void KillPopUp (string Name)
     {
         try
         {
-            Destroy(GameObject.Find("Canvas/ErrorPopUp"));
-        }catch(Exception e)
+            GameObject.FindWithTag("ErrorText").GetComponent<TextMeshProUGUI>().text = "";
+            MenuElements.Where(obj => obj.name.Equals("ErrorPopup")).SingleOrDefault().SetActive(false);
+        }
+        catch(Exception e)
         {
-            settings.Error_Profiler("M004", 0, "Pop up non found: " + e, 2);
+            settings.Error_Profiler("M004", 0, "Pop up " + Name +" non found: " + e, 2);
         }
 
     }

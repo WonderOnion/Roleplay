@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Experimental.UIElements;
 
 public class Settings : MonoBehaviour
 {
@@ -275,8 +277,6 @@ public class Settings : MonoBehaviour
             Da qui in poi viene gestita tutta la console e gli errori
 
         */
-    public GameObject ErrorPopup;
-    private GameObject TempErrorPopUp;
     public TextMeshProUGUI ConsoleText;                          //Variabile per riferirsi alla TextArea presente nella console
 
     public void Error_Profiler(string ErrorCode,float ErrorFileVersion, string MoreDeatils,int Level)  //Errorcode contiene il codice di errore, errorfileversion indica la versione del file di errore a cui fa riferimento il codice quando è stato scritto (prevenzione futuri errori), Level indica il livello di errore, 0 = ignorabile
@@ -301,15 +301,15 @@ public class Settings : MonoBehaviour
             {
                 case 1:
                 case 3:
-                    ErrorColored = "< color =\"yellow\"> " + ErrorCode;
+                    ErrorColored = "<color=\"yellow\"> " + ErrorCode;
                     break;
                 case 2:
                 case 4:
-                    ErrorColored = "< color =\"red\"> " + ErrorCode;
+                    ErrorColored = "<color=\"red\"> " + ErrorCode;
                     break;
 
                 default:
-                ErrorColored = "< color =\"white\"> " + ErrorCode;
+                ErrorColored = "<color=\"white\"> " + ErrorCode;
                     break;
 
             }
@@ -323,13 +323,8 @@ public class Settings : MonoBehaviour
 
                 if (Level > 2)
                 {
-                    //Creare pop up
-                    ErrorPopup.transform.SetParent(GameObject.Find("Canvas").transform);
-                    TempErrorPopUp = Instantiate(ErrorPopup, ErrorPopup.transform.position, ErrorPopup.transform.rotation) as GameObject;
-                    TempErrorPopUp.transform.SetParent(GameObject.Find("Canvas").transform);
-                    ERRORE, allora, lo switch sui colori non funziona, qui inoltre non lo spawna subito nel canvas quindi si bugga e ancor più grave perde ogni volta l evendo on click del bottone :/ buona fortuna
-
-                    GameObject.FindWithTag("ErrorText").GetComponent<TextMeshProUGUI>().text = string.Format("{0:HH:mm:ss tt}", DateTime.Now) + " >> " + ErrorColored + " >> " + ErrorFileVersion + " >> " + Retrive_InnerText(0, "language/Error/" + ErrorCode) + " Details: " + MoreDeatils;
+                    GameObject.Find("Canvas").GetComponent<MenuHandler>().MenuElements.Where(obj => obj.name.Equals("ErrorPopup")).SingleOrDefault().SetActive(true);
+                    GameObject.FindWithTag("ErrorText").GetComponent<TextMeshProUGUI>().text += "\n" + string.Format("{0:HH:mm:ss tt}", DateTime.Now) + " >> " + ErrorColored + " >> " + ErrorFileVersion + " >> " + Retrive_InnerText(0, "language/Error/" + ErrorCode) + " Details: " + MoreDeatils;
                 }
                 InOut.Write_Into_File("ErrorLog.txt", TempError, false);
             }
