@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Settings Ver="0.02">
   <Base>
-    <Language>deb</Language>
+    <Language>es</Language>
   </Base>
   <Network>
     <LastIP>127.0.0.1</LastIP>
+    <LastPort>25565</LastPort>
   </Network>
   <Graphic>
     <Resolution>1920x1080</Resolution>

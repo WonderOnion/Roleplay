@@ -214,23 +214,29 @@ public class Settings : MonoBehaviour
             }
         }
 
+
+
+        //ora che ho la lista di tutte le lingue disponibili controllo che esista la lingua presente all'interno del file di impostazioni
         switch (InOut.Check_Path_Exist("Language/" + Language + ".xml"))
         {
             case 0:
-                Error_Profiler("D001",0,"Language file doesn't exist. you must download it",2);
+                //la lingua non esiste o è stata scritta in modo errato, viene notificato con un errore giallo popup 
+                Error_Profiler("G001",0,"From: RefreshLanguage, old Language: " +  Language,4);
                 if (!Language.Equals("en"))
                 {
+                    //salvo inglese come nuova lingua all'interno delle impostazioni
                     XmlNode title = SettingsFile.SelectSingleNode("Settings/Base/Language");
                     if (title != null)
                     {
                         title.InnerText = "en";
                         SettingsFile.Save(@"Settings.xml");
                     }
-                    Debug.LogWarning("Language: " + Language + " didn't exist anymore, return to english");
+                    
                     Language = "en";
                 }
                 return;
             case 2:
+                //file della lingua trovato
                 if (D) Debug.Log("Language file found");
                 //Aggiornamento file di impostazioni:
                 SettingsFile.GetElementsByTagName("Language")[0].InnerText = Language;
@@ -238,28 +244,47 @@ public class Settings : MonoBehaviour
                 LanguageFile.Load("Language/" + Language + ".xml");
                 break;
             default:
-                Debug.LogError("Error when retriving language file information: Switch exception");
+                //errore causato dallla modifica della funzione di Check_Path_Exist
+                Error_Profiler("G001",0,"Error when retriving language file information: Switch exception",4);
+                if (!Language.Equals("en"))
+                {
+                    //salvo inglese come nuova lingua all'interno delle impostazioni
+                    XmlNode title = SettingsFile.SelectSingleNode("Settings/Base/Language");
+                    if (title != null)
+                    {
+                        title.InnerText = "en";
+                        SettingsFile.Save(@"Settings.xml");
+                    }
+
+                    Language = "en";
+                }
                 return;
         }
     }
 
-    public string Retrive_InnerText(int file,string path) //file: 0 = language 1= setting
+    public string Retrive_InnerText(int file,string path) //file: 0 = language 1= settings Utilizzato per trovare l'innerText di un tag XML <tag>InnerText</tag>
 	{
+        //eseguo un controllo su quale file voglia far riferimento (presenta la struttura con lo switch e un int per futuri upgrade)
 		XmlNode child;
 		switch (file)
 		{	
 			case 0:
+                //risultato essere richiesto il file di lingua attualemnte in uso
 				child = LanguageFile.SelectSingleNode(path);
 				break;
 			case 1:
+                //risultato essere richiesto il file di impostazioni
 				child = SettingsFile.SelectSingleNode(path);
 				break;
 			default:
-				Debug.LogError("Error loading path or file: " + path);
+                //nel caso venga passato un numero non consono perciò fa riferimento a un file non esistente, verrà notificato l'errore solo nella console (giallo)
+                Error_Profiler("I002", 0, "From: Retrive_Innertext", 1);
 				return "NoDir";
 		}
         if (child != null)
             return child.InnerText;
+        // nel caso il codice arrivi qui sinifica che non è stato trovato alcun testo ma il file è esistente, errore molto comunque durante il developing, errore bianco
+        Error_Profiler("M003", 0, "The path: " + path + " didn't exist",0);
         return "NoText";
 	}
 
@@ -281,13 +306,18 @@ public class Settings : MonoBehaviour
 
     public void Error_Profiler(string ErrorCode,float ErrorFileVersion, string MoreDeatils,int Level)  //Errorcode contiene il codice di errore, errorfileversion indica la versione del file di errore a cui fa riferimento il codice quando è stato scritto (prevenzione futuri errori), Level indica il livello di errore, 0 = ignorabile
     {
+        //controllo se la versione presente nel file XML sia un float
         float SettingsVersion;
         if (float.TryParse(Retrive_InnerText(0, "language/General/ErrorVersion"), out SettingsVersion))
         {
+            //suddivido l'errore in base alla categoria
             switch (ErrorCode.Substring(0,1))
             {
                 case "D":
                     ErrorCode = "Debug/" + ErrorCode;           //utilizzato nelle fasi di debug per errori generici su controlli che andranno eliminati in fasi stabili
+                    break;
+                case "G":
+                    ErrorCode = "General/" + ErrorCode;
                     break;
                 case "M":
                     ErrorCode = "Menu/" + ErrorCode;
@@ -296,31 +326,39 @@ public class Settings : MonoBehaviour
                     ErrorCode = "IO/" + ErrorCode;
                     break;
             }
+            //In base alla gravità colorerò la scrittoa
             string ErrorColored;
             switch (Level)
             {
+                // 0 & 3 == white
+                // 1 & 4 == yellow
+                // 2 & 5 == red
                 case 1:
-                case 3:
+                case 4:
                     ErrorColored = "<color=\"yellow\"> " + ErrorCode;
                     break;
                 case 2:
-                case 4:
+                case 5:
                     ErrorColored = "<color=\"red\"> " + ErrorCode;
                     break;
 
                 default:
+                    //nel caso non venga trovato il colore si imposta bianco
                 ErrorColored = "<color=\"white\"> " + ErrorCode;
                     break;
 
             }
+            // controllo che le versioni dei file siano identiche altrimenti genero un errore
             if (ErrorFileVersion == SettingsVersion)
             {
+                //Le versioni coincidono, scrivo l'errore della debug console e console in game
                 Debug.LogError(ErrorCode + " >> " + ErrorFileVersion + " >> " + Retrive_InnerText(0,"language/Error/"+ErrorCode) + " Details: " + MoreDeatils);
                 ConsoleText.text = ConsoleText.text + "\n " +  ErrorColored + " >> " + ErrorFileVersion + " >> " + Retrive_InnerText(0,"language / Error / "+ErrorCode) + " Details: " + MoreDeatils;
-                //aggiunta a ErrorLog.txt
+                //aggiungo l'errore a ErrorLog.txt
                 List<string> TempError = new List<string>();
                 TempError.Add(string.Format("{0:HH:mm:ss tt}", DateTime.Now) + " >> " +ErrorColored + " >> " + ErrorFileVersion + " >> " + Retrive_InnerText(0, "language/Error/" + ErrorCode) + " Details: " + MoreDeatils);
 
+                //nel caso l'errore sia di gravità superiore a 2 viene generato un PopUp che sarà visualizzato dall'utente obbligatoriamente.
                 if (Level > 2)
                 {
                     GameObject.Find("Canvas").GetComponent<MenuHandler>().MenuElements.Where(obj => obj.name.Equals("ErrorPopup")).SingleOrDefault().SetActive(true);
@@ -330,6 +368,7 @@ public class Settings : MonoBehaviour
             }
             else
             {
+                //I le versioni non coincidono, si invia l'errore senza la descrizione presente nel documento.
                 Debug.LogError("Different ErrorVersion, Error called: " + ErrorCode + " Version: " + ErrorFileVersion + " Detail: " + MoreDeatils);
                 ConsoleText.text = "Different ErrorVersion, Error called: " + ErrorColored + " Version: " + ErrorFileVersion + " Detail: " + MoreDeatils;
                 // aggiunta a ErrorLog.txt
@@ -340,6 +379,7 @@ public class Settings : MonoBehaviour
         }
         else
         {
+            //NOn è stato possibile leggere o il valore non è possibile convertirlo in FLoat, scrivo le informazioni sull'errore senza aggiungere i dettagli presenti nel file di lingua
             Debug.LogError("ErrorVersion can not be loaded, Error called: " + ErrorCode + " Version: " + ErrorFileVersion + " Detail: "  + MoreDeatils);
             ConsoleText.text = "ErrorVersion can not be loaded, Error called: " + ErrorCode + " Version: " + ErrorFileVersion + " Detail: " + MoreDeatils;
             // aggiunta a ErrorLog.txt

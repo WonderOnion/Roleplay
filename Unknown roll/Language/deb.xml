@@ -1,60 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <language>
   <General>
+    <Name>Debug</Name>
     <ErrorVersion>0.00</ErrorVersion>
   </General>
+  
+    
   <Menu>
     <!--Main menu-->
-    <Main>
-      <Exit>Exit Game</Exit>
-      <Settings>Settings</Settings>
-      <Credits>Credits</Credits>
-      <Play>Play</Play>
-      <Editor>Editor</Editor>
+    <General>
       <Username>Username</Username>
       <Password>Password</Password>
-      <Back id="006">Back</Back>
+      <Back>Indietro</Back>
+    </General>
+    <Main>
+      <Exit>Esci dal gioco</Exit>
+      <Settings>Impostazioni</Settings>
+      <Credits>Crediti</Credits>
+      <Play>Gioca</Play>
+      <Editor>Editor</Editor>
     </Main>
-    <Settings id="S">
-      <Graphic>
-        <Resolution id="100">Resolution</Resolution>
-        <WindowMode id="101">Windowed mode</WindowMode>
-      </Graphic>
-    </Settings>
-
-    <!--Play-->
-    <Play id="P">
-      <Editor id="001">Editor</Editor>
-      <Online id="002">Online</Online>
-      <New_Map id="003">New map</New_Map>
-      <Load_Map id="004">Load map</Load_Map>
-      <Create id="005">Create</Create>
 
 
-      <!--Online-->
-      <ServerIP id="051">Server IP</ServerIP>
-      <ServerPort id="052">Port</ServerPort>
-      <Join id ="053">Join</Join>
-      <Create_Lobby id="054">Create lobby</Create_Lobby>
-
-      <!--Generali-->
-      <Select_Campaign id="101">Select campaign</Select_Campaign>
-      <Select_Map id="102">Select map</Select_Map>
-      <Map_Name id="103">Map name</Map_Name>
+    <Play>
+      <Join>Unisciti</Join>
+      <Host>Ospita</Host>
+      <Create>Crea</Create>
+      <SavedServers>Server salvati</SavedServers>
     </Play>
-
   </Menu>
-  <Editor id="E">
-
-  </Editor>
-  <Game id="G">
-
-  </Game>
+  
+  
+     <!--Error--> 
   <Error>
     <Debug>
       <D001>Error</D001>                              <!--Errore generico utilizzato nelle fasi di debug per controlli eliminati in build stabili-->
       <D002>Arguments exception</D002>
     </Debug>
+    <General>
+      <G001>La lingua salvata nelle impostazioi non è presente su questo terminale, Scaricalo e aggiungilo nell'apposita cartella. Ritorno della lingua in Inglese</G001>
+    </General>
     <Menu>
       <M001>Button destination not found</M001>       <!-- durante un collegamento tra due parti di menu non si trova la successiva pagina.-->
       <M002>Arguments exception</M002>
@@ -63,6 +48,8 @@
     </Menu>
     <IO>  <!-- InputOutput Errors-->
       <I001>the file you are trying to write already exists and you do not want to overwrite it </I001> <!--il file che si sta tentando di scrivere esiste già e non lo si vuole sovrascrivere -->
+      <I002>Il file o la directory di riferimento non esistono</I002>
+      
     </IO>
   </Error>
 </language>

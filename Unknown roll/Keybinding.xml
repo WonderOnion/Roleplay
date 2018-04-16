@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Keybinding>
+    <Keyboard>
+
+        <!--Comandi generali utilizzati sia ingame che nei menu-->
+        <General>
+            <Console>BackSlash</Console>    <!--Comando per aprire la console-->
+            <Interact>MouseSX</Interact>    <!--Comando per interagire in gioco e con i tasti-->
+            <Back>Esc</Back>                <!--Comando per tornare indietro ed aprire il menu in gioco-->
+        </General>
+
+
+        <!--Comandi di movimento della camera del giocatore-->
+        <Movement>
+            <Forward>W</Forward>            <!--Movimento avanti-->
+            <Backward>S</Backward>          <!--Movimento Indietro-->
+            <Right>D</Right>                <!--Movimento a destra-->
+            <Left>L</Left>                  <!--Movimento a sinistra-->
+        </Movement>
+
+
+        <!--Comandi di rotazione della camera-->
+        <Camera>
+            <Rotate>MouseDX-HOLD</Rotate>
+            <Zoom>MouseRL</Zoom>
+            <Pan>MouseCX</Pan>
+            <Up>Q</Up>
+            <Down>E</Down>
+            <Free>Shift+F</Free>
+        </Camera>
+    </Keyboard>
+</Keybinding>
