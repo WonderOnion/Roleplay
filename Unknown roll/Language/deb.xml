@@ -20,7 +20,11 @@
       <Play>Gioca</Play>
       <Editor>Editor</Editor>
     </Main>
-
+    <Settings>
+      <SelectedLanguage>Lingua</SelectedLanguage>
+    </Settings>
+    
+    
 
     <Play>
       <Join>Unisciti</Join>
@@ -39,6 +43,7 @@
     </Debug>
     <General>
       <G001>La lingua salvata nelle impostazioi non è presente su questo terminale, Scaricalo e aggiungilo nell'apposita cartella. Ritorno della lingua in Inglese</G001>
+      <G002>La lingua che si vuole salvare non è esistente all'interno della cartella di lingua, verranno lasciate immutate le impostazioni.</G002>
     </General>
     <Menu>
       <M001>Button destination not found</M001>       <!-- durante un collegamento tra due parti di menu non si trova la successiva pagina.-->
@@ -46,6 +51,9 @@
       <M003>Button Name Error</M003>                  <!-- Errore nel nome del bottone (ci può essere uno spazio)-->
       <M004>Closing Popup problem</M004>              <!-- Errore durante l'eliminazione del popup di errore-->
     </Menu>
+    <Settings>
+      <S001>La lingua selezionata non è più esistente o non è stata trovata</S001>
+    </Settings>
     <IO>  <!-- InputOutput Errors-->
       <I001>the file you are trying to write already exists and you do not want to overwrite it </I001> <!--il file che si sta tentando di scrivere esiste già e non lo si vuole sovrascrivere -->
       <I002>Il file o la directory di riferimento non esistono</I002>

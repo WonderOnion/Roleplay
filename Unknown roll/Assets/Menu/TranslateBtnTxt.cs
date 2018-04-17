@@ -23,7 +23,7 @@ public class TranslateBtnTxt : MonoBehaviour
     {
         try
         {
-            if (Language != GameObject.Find("Main Camera").GetComponent<Settings>().Language)
+            if (Language != GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Settings>().Language)
             {
                 Language = GameObject.Find("Main Camera").GetComponent<Settings>().Language;
                 if (GameObject.Find("Main Camera").GetComponent<Settings>().Language.Equals("en"))

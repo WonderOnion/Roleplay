@@ -47,6 +47,7 @@ public class Settings : MonoBehaviour
     void Start()
     {
         ConsoleText = GameObject.FindWithTag("ConsoleText").GetComponent<TextMeshProUGUI>();       //Assegno la textArea della console alla variabile
+        GameObject.Find("Canvas").GetComponent<MenuHandler>().AddMenuItem(GameObject.Find("Canvas/Console"));
         GameObject.Find("Canvas/Console").SetActive(false);
         //controllo esistenza file di impostazioni
         switch (InOut.Check_Path_Exist("Settings.xml"))
@@ -85,7 +86,6 @@ public class Settings : MonoBehaviour
             InOut.Create_Directory("Language", "Language Folder didn't exist, creating", "Error: Can not create Language Folder");
 
         RefreshLanguage();
-        
     }                           //caricamento, nel caso creazione del file impostazioni e lingua
 
 
@@ -220,8 +220,7 @@ public class Settings : MonoBehaviour
         switch (InOut.Check_Path_Exist("Language/" + Language + ".xml"))
         {
             case 0:
-                //la lingua non esiste o è stata scritta in modo errato, viene notificato con un errore giallo popup 
-                Error_Profiler("G001",0,"From: RefreshLanguage, old Language: " +  Language,4);
+                Console_Write("G001 From: RefreshLanguage, old Language: " + Language);
                 if (!Language.Equals("en"))
                 {
                     //salvo inglese come nuova lingua all'interno delle impostazioni
@@ -231,7 +230,7 @@ public class Settings : MonoBehaviour
                         title.InnerText = "en";
                         SettingsFile.Save(@"Settings.xml");
                     }
-                    
+
                     Language = "en";
                 }
                 return;
@@ -245,7 +244,7 @@ public class Settings : MonoBehaviour
                 break;
             default:
                 //errore causato dallla modifica della funzione di Check_Path_Exist
-                Error_Profiler("G001",0,"Error when retriving language file information: Switch exception",4);
+                Error_Profiler("G001", 0, "Error when retriving language file information: Switch exception", 4);
                 if (!Language.Equals("en"))
                 {
                     //salvo inglese come nuova lingua all'interno delle impostazioni
@@ -262,12 +261,44 @@ public class Settings : MonoBehaviour
         }
     }
 
+    public void ChangeLanguage(string NextLanguage)
+    {
+        if (InOut.Check_Path_Exist("Language/" + NextLanguage + ".xml") != 2)
+        {
+            Error_Profiler("G001", 0, "ChangeLanguage => " + NextLanguage, 4);
+            return;
+        }
+        XmlNode title = SettingsFile.SelectSingleNode("Settings/Base/Language");
+        if (title != null)
+        {
+            title.InnerText = NextLanguage;
+            SettingsFile.Save(@"Settings.xml");
+        }
+        lock(LanguageFile)
+        {
+            LanguageFile.Load("Language/" + NextLanguage + ".xml");
+        }
+        Language = NextLanguage;
+    }
     public string Retrive_InnerText(int file,string path) //file: 0 = language 1= settings Utilizzato per trovare l'innerText di un tag XML <tag>InnerText</tag>
 	{
         //eseguo un controllo su quale file voglia far riferimento (presenta la struttura con lo switch e un int per futuri upgrade)
 		XmlNode child;
 		switch (file)
-		{	
+		{
+
+            case -1:
+                //Richiesta la lettura di un XML di path data in input + location divise da una virgola (Languages/en.xml,langauge/General/Name)
+                string[] TempPaths = path.Split(',');
+                if (InOut.Check_Path_Exist(TempPaths[0]) == 2)
+                {
+                    XmlDocument TempFile = new XmlDocument();
+                    TempFile.Load(TempPaths[0]);
+                    child = TempFile.SelectSingleNode(TempPaths[1]);
+                    break;
+                }
+                 Error_Profiler("D001", 0, "RetriveInnerText => wrong path: " + path,2);
+                return "NoFile";
 			case 0:
                 //risultato essere richiesto il file di lingua attualemnte in uso
 				child = LanguageFile.SelectSingleNode(path);
@@ -278,13 +309,13 @@ public class Settings : MonoBehaviour
 				break;
 			default:
                 //nel caso venga passato un numero non consono perciò fa riferimento a un file non esistente, verrà notificato l'errore solo nella console (giallo)
-                Error_Profiler("I002", 0, "From: Retrive_Innertext", 1);
-				return "NoDir";
+                //Error_Profiler("I002", 0, "From: Retrive_Innertext", 1); Se non esiste il file di testo generano un ciclo infinito, ignoro il problema altrimenti ci sarebbe troppo codice per un problema che si può presentare solo una votla a esecuzione
+                return "NoDir";
 		}
         if (child != null)
-            return child.InnerText;
-        // nel caso il codice arrivi qui sinifica che non è stato trovato alcun testo ma il file è esistente, errore molto comunque durante il developing, errore bianco
-        Error_Profiler("M003", 0, "The path: " + path + " didn't exist",0);
+        return child.InnerText;
+        // nel caso il codice arrivi qui sinifica che non è stato trovato alcun testo ma il file è esistente, errore molto comune durante il developing, errore bianco
+        //Error_Profiler("M003", 0, "The path: " + path + " didn't exist",0); Se non esiste il file di testo generano un ciclo infinito, ignoro il problema altrimenti ci sarebbe troppo codice per un problema che si può presentare solo una votla a esecuzione
         return "NoText";
 	}
 
@@ -321,6 +352,9 @@ public class Settings : MonoBehaviour
                     break;
                 case "M":
                     ErrorCode = "Menu/" + ErrorCode;
+                    break;
+                case "S":
+                    ErrorCode = "Settings/" + ErrorCode;
                     break;
                 case "I":
                     ErrorCode = "IO/" + ErrorCode;
