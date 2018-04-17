@@ -17,12 +17,7 @@ public class MenuHandler : MonoBehaviour
         settings = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Settings>();
     }
 
-    public void AddMenuItem (GameObject Item)
-    {
-        lock (MenuElements)
-            if (MenuElements.Find(X => X == Item) == null)
-                MenuElements.Add(Item);
-    }
+
     private void Update()
     {
         //Controllo per aprire o meno la console
@@ -35,10 +30,17 @@ public class MenuHandler : MonoBehaviour
                 return;
             }
             if (!temp.activeSelf)
-                    temp.SetActive(true);
-                else
-                    temp.SetActive(false);
+                temp.SetActive(true);
+            else
+                temp.SetActive(false);
         }
+    }
+
+    public void AddMenuItem (GameObject Item)
+    {
+        lock (MenuElements)
+            if (MenuElements.Find(X => X == Item) == null)
+                MenuElements.Add(Item);
     }
 
     public void SwitchMenu (string Temp)
@@ -78,6 +80,39 @@ public class MenuHandler : MonoBehaviour
         }
     }               //Gestisce i movimenti all'interno di un menu annidiato
     
+    public void CallPopUPByName(string Name)
+    {
+        //Instazio un vettore di 5 elementi che potrei utilizzare in seguito (è necessario inizializzarla al fine i integrità del codice)
+        string[] SubStrings = new string[5];
+
+        //Controllo se all'interno della stringa sono presenti delle virgole, se si li splitto e li assegno al vettore, mettendo il primo in Name, essendo il nome del popUP
+        if (Name.IndexOf(',') >= 0)
+        {
+            SubStrings = Name.Split(',');
+            Name = SubStrings[0];
+        }
+
+        // Guardo se esiste il popUP richiesto, se esiste lo attivo
+        GameObject PopUP = MenuElements.Find(T => T.name.Equals(Name));
+        if (PopUP == null)
+        {
+            settings.Error_Profiler("G003", 0, "CallPopUpByName => Name: " + Name,4);
+            return;
+        }
+        PopUP.SetActive(true);
+
+        //Eseguo uno switch sul PopUp appena avviato per capire se ha delle funzioni da eseguire durante l'avvio
+        switch (PopUP.GetComponent<GenericPopUp>().PopUpID)     //see also in GenericPopUP
+        {
+            case "PlayDirectHost":
+                if (SubStrings[1].Equals("1"))
+                    PopUP.GetComponent<GenericPopUp>().DirectConnectOrHostGame = true;  
+                else
+                    PopUP.GetComponent<GenericPopUp>().DirectConnectOrHostGame = false;
+                break;
+        }
+    }
+
     public void KillPopUp (string Name)
     {
         try

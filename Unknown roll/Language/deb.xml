@@ -9,10 +9,13 @@
   <Menu>
     <!--Main menu-->
     <General>
+      <IP>IP</IP>
+      <Port>Port</Port>
       <Username>Username</Username>
       <Password>Password</Password>
       <Back>Indietro</Back>
     </General>
+    
     <Main>
       <Exit>Esci dal gioco</Exit>
       <Settings>Impostazioni</Settings>
@@ -20,6 +23,8 @@
       <Play>Gioca</Play>
       <Editor>Editor</Editor>
     </Main>
+    
+    
     <Settings>
       <SelectedLanguage>Lingua</SelectedLanguage>
     </Settings>
@@ -27,9 +32,8 @@
     
 
     <Play>
-      <Join>Unisciti</Join>
+      <DirectConnect>Connessione diretta</DirectConnect>
       <Host>Ospita</Host>
-      <Create>Crea</Create>
       <SavedServers>Server salvati</SavedServers>
     </Play>
   </Menu>
@@ -41,16 +45,23 @@
       <D001>Error</D001>                              <!--Errore generico utilizzato nelle fasi di debug per controlli eliminati in build stabili-->
       <D002>Arguments exception</D002>
     </Debug>
+    
+    
     <General>
       <G001>La lingua salvata nelle impostazioi non è presente su questo terminale, Scaricalo e aggiungilo nell'apposita cartella. Ritorno della lingua in Inglese</G001>
       <G002>La lingua che si vuole salvare non è esistente all'interno della cartella di lingua, verranno lasciate immutate le impostazioni.</G002>
+      <G003>ID PopUp non definito o non trovato</G003>
     </General>
+    
+    
     <Menu>
       <M001>Button destination not found</M001>       <!-- durante un collegamento tra due parti di menu non si trova la successiva pagina.-->
       <M002>Arguments exception</M002>
       <M003>Button Name Error</M003>                  <!-- Errore nel nome del bottone (ci può essere uno spazio)-->
       <M004>Closing Popup problem</M004>              <!-- Errore durante l'eliminazione del popup di errore-->
     </Menu>
+    
+    
     <Settings>
       <S001>La lingua selezionata non è più esistente o non è stata trovata</S001>
     </Settings>

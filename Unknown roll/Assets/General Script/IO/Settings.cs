@@ -263,23 +263,27 @@ public class Settings : MonoBehaviour
 
     public void ChangeLanguage(string NextLanguage)
     {
+        //Controllo che il file esista
         if (InOut.Check_Path_Exist("Language/" + NextLanguage + ".xml") != 2)
         {
             Error_Profiler("G001", 0, "ChangeLanguage => " + NextLanguage, 4);
             return;
         }
+        //Se il file esiste cambio in impostazioni il valore della lingua
         XmlNode title = SettingsFile.SelectSingleNode("Settings/Base/Language");
         if (title != null)
         {
             title.InnerText = NextLanguage;
             SettingsFile.Save(@"Settings.xml");
         }
+        //blocco l'accesso alla variabile XML di languageFile e li faccio caricare il nuovo file
         lock(LanguageFile)
         {
             LanguageFile.Load("Language/" + NextLanguage + ".xml");
         }
         Language = NextLanguage;
-    }
+    }   //mi permette di cambiare lingua da una stringa data in input (Es: "en")
+
     public string Retrive_InnerText(int file,string path) //file: 0 = language 1= settings Utilizzato per trovare l'innerText di un tag XML <tag>InnerText</tag>
 	{
         //eseguo un controllo su quale file voglia far riferimento (presenta la struttura con lo switch e un int per futuri upgrade)

@@ -256,6 +256,7 @@
     <Compile Include="Assets\General Script\Network\Server.cs" />
     <Compile Include="Assets\General Script\Network\TestOggetto.cs" />
     <Compile Include="Assets\General Script\test\PickToken.cs" />
+    <Compile Include="Assets\Menu\GenericPopUp.cs" />
     <Compile Include="Assets\Menu\Material\MenuBar\MenuBar_Animation.cs" />
     <Compile Include="Assets\Menu\MenuElement.cs" />
     <Compile Include="Assets\Menu\MenuGUI.cs" />
