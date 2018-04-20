@@ -4,35 +4,60 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MenuHandler : MonoBehaviour
 {
     private Settings settings;              
     public List<GameObject> MenuElements;          //lista che comprende tutte le schede del menu
+    private Commands DoCommand = new Commands();
+    public GameObject ConsoleOBJ;
 
 
 
     private void Start()
     {
         settings = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Settings>();
+        if (settings == null)
+        {
+            settings.Error_Profiler("D003", 0, "MenuHandler => Start => Settings", 2);
+            return;
+        }
+        else
+            if (ConsoleOBJ == null)
+            {
+                settings.Error_Profiler("D003", 0, "MenuHandler => Start => Console", 2);
+                return;
+            }
     }
 
 
     private void Update()
     {
         //Controllo per aprire o meno la console
+
         if (Input.GetKeyDown(KeyCode.Backslash))
         {
-            GameObject temp = MenuElements.Where(obj => obj.name.Equals("Console")).SingleOrDefault();
-            if (temp == null)
+            if (ConsoleOBJ == null)
             {
                 settings.Error_Profiler("D001", 0, "Cannot find console", 4);
                 return;
             }
-            if (!temp.activeSelf)
-                temp.SetActive(true);
+            if (!ConsoleOBJ.activeSelf)
+            {
+                ConsoleOBJ.SetActive(true);
+                ConsoleOBJ.transform.Find("ConsoleInput").GetComponent<InputField>().Select();
+            }
             else
-                temp.SetActive(false);
+                ConsoleOBJ.SetActive(false);
+        }
+
+        if (ConsoleOBJ.transform.Find("ConsoleInput").GetComponent<InputField>().isFocused && ConsoleOBJ.transform.Find("ConsoleInput/Text").GetComponent<Text>().text != "" && Input.GetKeyDown(KeyCode.Tab))
+        {
+            settings.Console_Write(ConsoleOBJ.transform.Find("ConsoleInput/Text").GetComponent<Text>().text);
+
+            //TODO: fare nuovi comandi per la console (cheat) :3   PS: Usa la variabile DoCommand
+            ConsoleOBJ.transform.Find("ConsoleInput").GetComponent<InputField>().text = "";
         }
     }
 
@@ -64,14 +89,12 @@ public class MenuHandler : MonoBehaviour
             //Se il menu attuale è il MainMenu allora va a cambiare il valore di OnScreen Nell'animator, altrimenti disattiva la scheda corrente
             if (Actual.name.Equals("MainMenu"))
                 gameObject.GetComponent<Animator>().SetBool("OnScreen", false);
-            else
-                Actual.SetActive(false);
+            Actual.SetActive(false);
             
             //Se il menu in cui si vuole andare è il MainMenu allora va a cambiare il valore di Onscreen nell'animator a true, per permmetterne la visione, altrimenti imposta attivo il menu richiesto
             if (NewOne.name.Equals("MainMenu"))
                 gameObject.GetComponent<Animator>().SetBool("OnScreen", true);
-            else
-                NewOne.SetActive(true);
+            NewOne.SetActive(true);
 
         }
         catch (Exception e)

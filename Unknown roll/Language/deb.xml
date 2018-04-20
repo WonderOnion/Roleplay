@@ -34,8 +34,20 @@
     <Play>
       <DirectConnect>Connessione diretta</DirectConnect>
       <Host>Ospita</Host>
+      <CreateServer>Crea il server</CreateServer>
       <SavedServers>Server salvati</SavedServers>
+      <MaxPlayers>Max Player</MaxPlayers>
     </Play>
+  
+    <Lobby>
+      <Info>Informazioni sulla campagna</Info>
+      <Players>Giocatori</Players>
+      <InfoCast>
+        <Creator>Nickname del creatore</Creator>
+        <CampaignVersion>Versione della campagna</CampaignVersion>
+      </InfoCast>
+      
+    </Lobby>
   </Menu>
   
   
@@ -44,6 +56,7 @@
     <Debug>
       <D001>Error</D001>                              <!--Errore generico utilizzato nelle fasi di debug per controlli eliminati in build stabili-->
       <D002>Arguments exception</D002>
+      <D003>Elemento richiesto non istanziato</D003>
     </Debug>
     
     
@@ -51,13 +64,14 @@
       <G001>La lingua salvata nelle impostazioi non è presente su questo terminale, Scaricalo e aggiungilo nell'apposita cartella. Ritorno della lingua in Inglese</G001>
       <G002>La lingua che si vuole salvare non è esistente all'interno della cartella di lingua, verranno lasciate immutate le impostazioni.</G002>
       <G003>ID PopUp non definito o non trovato</G003>
+      <G004>Il testo richeisto non è presente nel file di lingua</G004>
     </General>
     
     
     <Menu>
       <M001>Button destination not found</M001>       <!-- durante un collegamento tra due parti di menu non si trova la successiva pagina.-->
       <M002>Arguments exception</M002>
-      <M003>Button Name Error</M003>                  <!-- Errore nel nome del bottone (ci può essere uno spazio)-->
+      <M003>Button or Text Name Error</M003>                  <!-- Errore nel nome del bottone (ci può essere uno spazio)-->
       <M004>Closing Popup problem</M004>              <!-- Errore durante l'eliminazione del popup di errore-->
     </Menu>
     

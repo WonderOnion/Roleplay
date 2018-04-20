@@ -257,12 +257,13 @@
     <Compile Include="Assets\General Script\Network\TestOggetto.cs" />
     <Compile Include="Assets\General Script\test\PickToken.cs" />
     <Compile Include="Assets\Menu\GenericPopUp.cs" />
+    <Compile Include="Assets\Menu\GenericSettingsRetriver.cs" />
+    <Compile Include="Assets\Menu\GenericTxtBtn.cs" />
+    <Compile Include="Assets\Menu\ListOfChildrens.cs" />
     <Compile Include="Assets\Menu\Material\MenuBar\MenuBar_Animation.cs" />
     <Compile Include="Assets\Menu\MenuElement.cs" />
     <Compile Include="Assets\Menu\MenuGUI.cs" />
     <Compile Include="Assets\Menu\MenuHandler.cs" />
-    <Compile Include="Assets\Menu\SettingsElement.cs" />
-    <Compile Include="Assets\Menu\TranslateBtnTxt.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />

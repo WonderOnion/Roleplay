@@ -44,6 +44,7 @@ public class Settings : MonoBehaviour
 
 
 
+
     void Start()
     {
         ConsoleText = GameObject.FindWithTag("ConsoleText").GetComponent<TextMeshProUGUI>();       //Assegno la textArea della console alla variabile

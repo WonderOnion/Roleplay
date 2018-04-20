@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class TranslateBtnTxt : MonoBehaviour
+public class GenericTxtBtn : MonoBehaviour
 {
     public bool IsButton;           //variabile di controllo per capire se si tratta di un bottone o di un testo
     public string BeforeText;       //testo da aggiungere prima del testo tradotto
@@ -16,26 +16,32 @@ public class TranslateBtnTxt : MonoBehaviour
 
     private void Start()
     {
-        settings = GameObject.Find("Main Camera").GetComponent<Settings>();
+        settings = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Settings>();
     }
     // Update is called once per frame
     void Update()
     {
         try
         {
-            if (Language != GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Settings>().Language)
+            if (Language != settings.Language)
             {
-                Language = GameObject.Find("Main Camera").GetComponent<Settings>().Language;
-                if (GameObject.Find("Main Camera").GetComponent<Settings>().Language.Equals("en"))
+                Language = settings.Language;
+                if (settings.Language.Equals("en"))
                     if (IsButton)
                         gameObject.GetComponentInChildren<UnityEngine.UI.Text>().text = BeforeText + InEnglish + AfterText;
                     else
                         gameObject.GetComponent<TextMeshProUGUI>().text = BeforeText + InEnglish + AfterText;
                 else
+                {
                     if (IsButton)
                         gameObject.GetComponentInChildren<UnityEngine.UI.Text>().text = BeforeText + settings.Retrive_InnerText(0, "language/" + Location + gameObject.name) + AfterText;
                     else
                         gameObject.GetComponent<TextMeshProUGUI>().text = BeforeText + settings.Retrive_InnerText(0, "language/" + Location + gameObject.name) + AfterText;
+
+                    if (settings.Retrive_InnerText(0, "language/" + Location + gameObject.name).Equals("NoText"))
+                        settings.Error_Profiler("G004", 0, "Language: " + Language + "             path: " + "language/" + Location + gameObject.name,0);
+                }
+                
             }
         } catch (Exception e)
         {
