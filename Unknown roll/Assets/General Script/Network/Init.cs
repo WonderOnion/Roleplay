@@ -146,7 +146,7 @@ public class Create_Socket : MonoBehaviour
             }
             catch (Exception e) { Debug.LogError("Errore nella conversione della porta in INT\n" + e); Host.Creato = false; return; }
             if (D) Debug.Log("Controllo Porta eseguito");
-            Thread Hos = new Thread(() => Host.Run());
+            Thread Hos = new Thread(() => Host.Run("Nothing"));
 			ThreadList.Add(Hos);
             Hos.Start();
             Debug.Log("Thread Host creato");

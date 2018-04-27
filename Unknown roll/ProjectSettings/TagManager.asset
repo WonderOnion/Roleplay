@@ -7,6 +7,7 @@ TagManager:
   - Cella
   - ConsoleText
   - ErrorText
+  - NetworkManager
   layers:
   - Default
   - TransparentFX

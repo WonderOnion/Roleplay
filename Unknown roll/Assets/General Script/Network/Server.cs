@@ -18,6 +18,7 @@ inoltre i singoli socket, sganciati su differenti thread, controllano il corrett
 public class Server : MonoBehaviour
 {
     public bool D = false;
+    public Settings settings;
     public bool Creato;
     public int Port;
     public Socket socket;
@@ -28,8 +29,11 @@ public class Server : MonoBehaviour
     public List<Socket> SocketList = new List<Socket>();
 
 
-    public void Run()
+
+
+    public void Run(object Usefull)
     {
+        settings.Console_Write("Server startato");
 
         action.lobby = lobby;
         action.AsServer = true;
@@ -38,9 +42,16 @@ public class Server : MonoBehaviour
         Send.AsServer = true;
         Send.BufferSize = action.BufferSize;
 
-        Inizialize_Server();
-        Accepting_Client();
-
+        try
+        {
+            Inizialize_Server();
+            Accepting_Client();
+        }
+        catch(Exception e)
+        {
+            settings.Error_Profiler("N002", 0, "Error during the server execution.", 5);
+        }
+        if (D) settings.Console_Write("Il thread del server è morto.");
     }
 
     private void Inizialize_Server()
@@ -206,8 +217,9 @@ public class Server : MonoBehaviour
     }
     public void TransferChannel()
     {
-
+        //TODO Canale di trasfermento file
     }
+
 }
 
 

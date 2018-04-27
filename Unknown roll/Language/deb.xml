@@ -34,6 +34,7 @@
     <Play>
       <DirectConnect>Connessione diretta</DirectConnect>
       <Host>Ospita</Host>
+      <Join>Unisciti</Join>
       <CreateServer>Crea il server</CreateServer>
       <SavedServers>Server salvati</SavedServers>
       <MaxPlayers>Max Player</MaxPlayers>
@@ -49,7 +50,8 @@
       
     </Lobby>
   </Menu>
-  
+
+
   
      <!--Error--> 
   <Error>
@@ -73,12 +75,16 @@
       <M002>Arguments exception</M002>
       <M003>Button or Text Name Error</M003>                  <!-- Errore nel nome del bottone (ci può essere uno spazio)-->
       <M004>Closing Popup problem</M004>              <!-- Errore durante l'eliminazione del popup di errore-->
+      <Settings>
+        <S001>La lingua selezionata non è più esistente o non è stata trovata</S001>
+      </Settings>
     </Menu>
+
+    <Network>
+      <N001>La porta richiesta non è utilizzabile</N001>
+      <N002>Errore durante la creazione del Server</N002>
+    </Network>
     
-    
-    <Settings>
-      <S001>La lingua selezionata non è più esistente o non è stata trovata</S001>
-    </Settings>
     <IO>  <!-- InputOutput Errors-->
       <I001>the file you are trying to write already exists and you do not want to overwrite it </I001> <!--il file che si sta tentando di scrivere esiste già e non lo si vuole sovrascrivere -->
       <I002>Il file o la directory di riferimento non esistono</I002>

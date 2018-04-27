@@ -18,6 +18,8 @@ public class MenuHandler : MonoBehaviour
     private void Start()
     {
         settings = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Settings>();
+        DoCommand.settings = settings;
+
         if (settings == null)
         {
             settings.Error_Profiler("D003", 0, "MenuHandler => Start => Settings", 2);
@@ -56,8 +58,9 @@ public class MenuHandler : MonoBehaviour
         {
             settings.Console_Write(ConsoleOBJ.transform.Find("ConsoleInput/Text").GetComponent<Text>().text);
 
-            //TODO: fare nuovi comandi per la console (cheat) :3   PS: Usa la variabile DoCommand
-            ConsoleOBJ.transform.Find("ConsoleInput").GetComponent<InputField>().text = "";
+            DoCommand.Esegui_Comando(ConsoleOBJ.transform.Find("ConsoleInput/Text").GetComponent<Text>().text);
+
+            ConsoleOBJ.transform.Find("ConsoleInput/Text").GetComponent<Text>().text = "";
         }
     }
 
@@ -148,5 +151,10 @@ public class MenuHandler : MonoBehaviour
             settings.Error_Profiler("M004", 0, "Pop up " + Name +" non found: " + e, 2);
         }
 
+    }
+
+    public void KillApllication()
+    {
+        Application.Quit();
     }
 }

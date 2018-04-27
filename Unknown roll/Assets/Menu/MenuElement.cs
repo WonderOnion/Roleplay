@@ -7,6 +7,11 @@ public class MenuElement : MonoBehaviour {
 
     public bool activeOnStart = false;
     private bool Doit = false;
+
+
+    //TODO Eliminare questo file (menuElements), verrà gestitio tutto in automatico dal menu handler utilizzando la lista precedentemente creata
+
+
 	// Aggiunge questo elemento alla lista degli elementi del menu
 	void Update ()
     {

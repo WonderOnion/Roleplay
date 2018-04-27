@@ -359,7 +359,10 @@ public class Settings : MonoBehaviour
                     ErrorCode = "Menu/" + ErrorCode;
                     break;
                 case "S":
-                    ErrorCode = "Settings/" + ErrorCode;
+                    ErrorCode = "Menu/Settings" + ErrorCode;
+                    break;
+                case "N":
+                    ErrorCode = "Network/" + ErrorCode;
                     break;
                 case "I":
                     ErrorCode = "IO/" + ErrorCode;
@@ -392,7 +395,7 @@ public class Settings : MonoBehaviour
             {
                 //Le versioni coincidono, scrivo l'errore della debug console e console in game
                 Debug.LogError(ErrorCode + " >> " + ErrorFileVersion + " >> " + Retrive_InnerText(0,"language/Error/"+ErrorCode) + " Details: " + MoreDeatils);
-                ConsoleText.text = ConsoleText.text + "\n " +  ErrorColored + " >> " + ErrorFileVersion + " >> " + Retrive_InnerText(0,"language / Error / "+ErrorCode) + " Details: " + MoreDeatils;
+                Console_Write(ErrorColored + " >> " + ErrorFileVersion + " >> " + Retrive_InnerText(0,"language / Error / "+ErrorCode) + " Details: " + MoreDeatils);
                 //aggiungo l'errore a ErrorLog.txt
                 List<string> TempError = new List<string>();
                 TempError.Add(string.Format("{0:HH:mm:ss tt}", DateTime.Now) + " >> " +ErrorColored + " >> " + ErrorFileVersion + " >> " + Retrive_InnerText(0, "language/Error/" + ErrorCode) + " Details: " + MoreDeatils);
@@ -409,7 +412,7 @@ public class Settings : MonoBehaviour
             {
                 //I le versioni non coincidono, si invia l'errore senza la descrizione presente nel documento.
                 Debug.LogError("Different ErrorVersion, Error called: " + ErrorCode + " Version: " + ErrorFileVersion + " Detail: " + MoreDeatils);
-                ConsoleText.text = "Different ErrorVersion, Error called: " + ErrorColored + " Version: " + ErrorFileVersion + " Detail: " + MoreDeatils;
+                Console_Write("Different ErrorVersion, Error called: " + ErrorColored + " Version: " + ErrorFileVersion + " Detail: " + MoreDeatils);
                 // aggiunta a ErrorLog.txt
                 List<string> TempError = new List<string>();
                 TempError.Add(string.Format("{0:HH:mm:ss tt}", DateTime.Now) + " >> " + "Different ErrorVersion, Error called: " + ErrorCode + " Version: " + ErrorFileVersion + " Detail: " + MoreDeatils);
@@ -420,7 +423,7 @@ public class Settings : MonoBehaviour
         {
             //NOn è stato possibile leggere o il valore non è possibile convertirlo in FLoat, scrivo le informazioni sull'errore senza aggiungere i dettagli presenti nel file di lingua
             Debug.LogError("ErrorVersion can not be loaded, Error called: " + ErrorCode + " Version: " + ErrorFileVersion + " Detail: "  + MoreDeatils);
-            ConsoleText.text = "ErrorVersion can not be loaded, Error called: " + ErrorCode + " Version: " + ErrorFileVersion + " Detail: " + MoreDeatils;
+            Console_Write("ErrorVersion can not be loaded, Error called: " + ErrorCode + " Version: " + ErrorFileVersion + " Detail: " + MoreDeatils);
             // aggiunta a ErrorLog.txt
             List<string> TempError = new List<string>();
             TempError.Add(string.Format("{0:HH:mm:ss tt}", DateTime.Now) + " >> " + "ErrorVersion can not be loaded, Error called: " + ErrorCode + " Version: " + ErrorFileVersion + " Detail: " + MoreDeatils);
@@ -431,6 +434,7 @@ public class Settings : MonoBehaviour
     
     public void Console_Write(string Text)
     {
+        //TODO Crop del testo nella console (15000 caratteri dovrebbero bastare)
         ConsoleText.text = ConsoleText.text + "\n<color=\"white\">" + Text;
     }
 }

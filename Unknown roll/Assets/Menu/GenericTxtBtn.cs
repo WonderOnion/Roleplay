@@ -6,6 +6,19 @@ using TMPro;
 
 public class GenericTxtBtn : MonoBehaviour
 {
+
+
+    /*
+     * 
+                           ___                     _     _____       _     ___ _                   
+                          / _ \___ _ __   ___ _ __(_) __/__   \__  _| |_  / __\ |_ _ __    ___ ___ 
+                         / /_\/ _ \ '_ \ / _ \ '__| |/ __|/ /\/\ \/ / __|/__\// __| '_ \  / __/ __|
+                        / /_\\  __/ | | |  __/ |  | | (__/ /    >  <| |_/ \/  \ |_| | | || (__\__ \
+                        \____/\___|_| |_|\___|_|  |_|\___\/    /_/\_\\__\_____/\__|_| |_(_)___|___/
+                                                                           
+        Questo file ha ha funzione di traduzione degli elementi GUI quali Bottoni e testi.
+
+     */
     public bool IsButton;           //variabile di controllo per capire se si tratta di un bottone o di un testo
     public string BeforeText;       //testo da aggiungere prima del testo tradotto
     public string InEnglish;

@@ -4,8 +4,23 @@ using UnityEngine;
 using TMPro;
 using System;
 
-public class GenericSettingsRetriver : MonoBehaviour {
+public class GenericSettingsRetriver : MonoBehaviour
+{
+    /*
+     * 
+                           ___                     _      __      _   _   _                    __      _        _                        
+                          / _ \___ _ __   ___ _ __(_) ___/ _\ ___| |_| |_(_)_ __   __ _ ___   /__\ ___| |_ _ __(_)_   _____ _ __ ___ ___ 
+                         / /_\/ _ \ '_ \ / _ \ '__| |/ __\ \ / _ \ __| __| | '_ \ / _` / __| / \/// _ \ __| '__| \ \ / / _ \ '__/ __/ __|
+                        / /_\\  __/ | | |  __/ |  | | (___\ \  __/ |_| |_| | | | | (_| \__ \/ _  \  __/ |_| |  | |\ V /  __/ |_| (__\__ \
+                        \____/\___|_| |_|\___|_|  |_|\___\__/\___|\__|\__|_|_| |_|\__, |___/\/ \_/\___|\__|_|  |_| \_/ \___|_(_)\___|___/
+                                                                                  |___/                                                  
 
+
+        File che si occupa del recupero delle informazioni all'interno delle impostazioni e le relative funzionalità richieste specificatamente per quell'oggetto /insiemi di oggetti.
+
+        Es: Gestisce il cambio di lingua in impostazioni e l'aggiornamento in tempo reale delle lingue disponibili nell'apposita cartella.
+
+     */
     private Settings settings;
     private int LanguageNumber = 0;                               //Variabile per identificar se vi sono stati dei cambi delle lingue
 
@@ -14,10 +29,14 @@ public class GenericSettingsRetriver : MonoBehaviour {
 	void Start ()
     {
         settings = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Settings>();
-        LanguageNumber = settings.LanguageList.Count;
+
+        // Selected Language Element ha la funzione di tenere sempre aggiornata la lingua nelle impostazioni
         if (SelectedLanguageElement)
+        {
+            LanguageNumber = settings.LanguageList.Count;
             gameObject.GetComponent<TMP_Dropdown>().ClearOptions();
-        //IpRetriver to do (Play => Direct => IP input)
+        }
+        //TODO:Recupero dell'ultimo IP e porta dalle impostazioni per (Play => Direct/Host => IP input/Port)
     }
 	
 	

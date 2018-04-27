@@ -1,1 +1,25 @@
 13:56:49 PM >> <color="white"> General/G004 >> 0 >> Il testo richeisto non è presente nel file di lingua Details: Language: deb        path: language/Menu/Lobby/InfoCast/Creator
+
+13:23:14 PM >> <color="red"> Network/N001 >> 0 >> La porta richiesta non è utilizzabile Details: Port Range error (NetworkHandler => CreateServer)
+13:23:31 PM >> <color="red"> Network/N001 >> 0 >> La porta richiesta non è utilizzabile Details: Port Range error (NetworkHandler => CreateServer)
+13:23:47 PM >> <color="red"> Network/N001 >> 0 >> La porta richiesta non è utilizzabile Details: Port Range error (NetworkHandler => CreateServer) Port: 2
+13:24:06 PM >> <color="red"> Network/N001 >> 0 >> La porta richiesta non è utilizzabile Details: Port Range error (NetworkHandler => CreateServer) Port: 2
+13:24:27 PM >> <color="red"> Network/N001 >> 0 >> La porta richiesta non è utilizzabile Details: Port Range error (NetworkHandler => CreateServer) Port: 2
+13:34:01 PM >> <color="red"> Network/N001 >> 0 >> La porta richiesta non è utilizzabile Details: Port Range error (NetworkHandler => CreateServerByCommand) Port: 2
+13:34:09 PM >> <color="red"> Network/N001 >> 0 >> La porta richiesta non è utilizzabile Details: Port Range error (NetworkHandler => CreateServerByCommand) Port: 0
+14:21:07 PM >> <color="red"> Network/N001 >> 0 >> La porta richiesta non è utilizzabile Details: Port Range error (NetworkHandler => CreateServer) Port: 2
+17:50:33 PM >> <color="red"> Network/N001 >> 0 >> La porta richiesta non è utilizzabile Details: Port Range error (NetworkHandler => CreateServer) Port: 0
+18:01:08 PM >> <color="red"> Network/N001 >> 0 >> La porta richiesta non è utilizzabile Details: Port Range error (NetworkHandler => CreateServer) Port: 0
+16:13:12 PM >> <color="red"> Network/N002 >> 0 >> Errore durante la creazione del Server Details: NetworkHandler
+16:13:55 PM >> <color="red"> Network/N002 >> 0 >> Errore durante la creazione del Server Details: NetworkHandler: System.NullReferenceException: Object reference not set to an instance of an object
+  at NetworkHandler.CreateServer (System.String Temp) [0x000ee] in F:\work\lavori\UnKn\Sito\Unknown Roll\Git\Roleplay\Unknown roll\Assets\General Script\Network\NetworkHandler.cs:63 
+16:14:23 PM >> <color="red"> Network/N002 >> 0 >> Errore durante la creazione del Server Details: NetworkHandler: System.NullReferenceException: Object reference not set to an instance of an object
+  at NetworkHandler.CreateServer (System.String Temp) [0x000ee] in F:\work\lavori\UnKn\Sito\Unknown Roll\Git\Roleplay\Unknown roll\Assets\General Script\Network\NetworkHandler.cs:63 
+16:16:04 PM >> <color="red"> Network/N002 >> 0 >> Errore durante la creazione del Server Details: NetworkHandler: System.NullReferenceException: Object reference not set to an instance of an object
+  at NetworkHandler.CreateServer (System.String Temp) [0x000ee] in F:\work\lavori\UnKn\Sito\Unknown Roll\Git\Roleplay\Unknown roll\Assets\General Script\Network\NetworkHandler.cs:63 
+16:16:04 PM >> <color="red"> Network/N002 >> 0 >> Errore durante la creazione del Server Details: NetworkHandler: System.NullReferenceException: Object reference not set to an instance of an object
+  at NetworkHandler.CreateServer (System.String Temp) [0x000ee] in F:\work\lavori\UnKn\Sito\Unknown Roll\Git\Roleplay\Unknown roll\Assets\General Script\Network\NetworkHandler.cs:63 
+20:14:26 PM >> <color="red"> Network/N002 >> 0 >> Errore durante la creazione del Server Details: NetworkHandler: System.ArgumentOutOfRangeException: Argument is out of range.
+Parameter name: index
+  at System.Collections.Generic.List`1[System.Threading.Thread].get_Item (Int32 index) [0x0000c] in /Users/builduser/buildslave/mono/build/mcs/class/corlib/System.Collections.Generic/List.cs:633 
+  at NetworkHandler.CreateServer (System.String Temp) [0x00184] in F:\work\lavori\UnKn\Sito\Unknown Roll\Git\Roleplay\Unknown roll\Assets\General Script\Network\NetworkHandler.cs:75 
