@@ -83,6 +83,7 @@
     <Network>
       <N001>La porta richiesta non è utilizzabile</N001>
       <N002>Errore durante la creazione del Server</N002>
+      <N003>Il server è già in esecuzione</N003>
     </Network>
     
     <IO>  <!-- InputOutput Errors-->

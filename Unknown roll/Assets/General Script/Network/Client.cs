@@ -15,15 +15,22 @@ Quando uno di questi messaggi arriva lo sgancia in un thread per essere subito p
 
 public class Client : MonoBehaviour
 {
-    public bool D = false;
     public int ConnectionTimeOut = 5;
     public bool Creato = false;
     public string ServerIP;
-    public int Port = 25565;
+    public int Port;
+
+    [HideInInspector]
+    public bool D = false;
+    [HideInInspector]
     public string Name;
+    [HideInInspector]
     public Lobby lobby = null;
+    [HideInInspector]
     public Actions action;
+    [HideInInspector]
     public SendActions Send;
+    [HideInInspector]
     public Socket Servente;
 
     public void Run()
@@ -41,8 +48,11 @@ public class Client : MonoBehaviour
             IPAddress ipAddress = ipHostInfo.AddressList[0]; //prendo l'indirizzo del server dalle varie informazioni
             IPEndPoint remoteEP = new IPEndPoint(ipAddress, Port);
 
+
             //creo il socket
             Servente = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+
 
             //mi collego all'endpoint
             if (D) Debug.Log( "tentativo di connessione al server: " + ServerIP + ":" + Port);

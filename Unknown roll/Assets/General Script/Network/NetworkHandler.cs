@@ -1,26 +1,29 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
-
 public class NetworkHandler : MonoBehaviour
 {
     private Settings settings;
     public bool NetworkHandlerDebug = false;
 
-    public string IP = "";
-    public int Port = 0;
-    public int BufferSize;
-    public Lobby lobby;
 
-    public bool ServerDebug = false;
+    [HideInInspector]
+    public string IP = "";      //Ip a cui si collega
+    [HideInInspector]       
+    public int Port = 0;        //Porta in cui hosta oppure Porta della persona a cui si collega
+    public int BufferSize;      //dimensione del buffer d'invio
+    [HideInInspector]
+    public Lobby lobby; 
+
+    public bool ServerDebug = false;    //alla creazione del server la variabile prenderà questo valore
+    [HideInInspector]
     public Server server;
     public GameObject ServerPortOBJ;
 
     public bool ClientDebug = false;
+    [HideInInspector]
     public Client client;
     public GameObject ClientIPOBJ;
     public GameObject ClientPortOBJ;
@@ -47,6 +50,7 @@ public class NetworkHandler : MonoBehaviour
         else
             settings.Error_Profiler("D001", 0, "stai cercando di avviare il server senza che l'input box sia raggiungibile (NetworkHandler => CreateServer())", 2);
 
+        
 
 
         //controllo la genuinità della porta
@@ -60,7 +64,16 @@ public class NetworkHandler : MonoBehaviour
             settings.Error_Profiler("N001", 0, "Port Range error (NetworkHandler => CreateServer) Port: " + Port, 2);
             return;
         }
-
+        lock (server)
+        {
+            if (server.Creato)
+            {
+                settings.Error_Profiler("N003", 0, "(NetworkHandler => CreateServer)", 2);
+                return;
+            }
+            else
+                server.Creato = true;
+        }
         try
         {
             server.Port = Port;
@@ -68,7 +81,10 @@ public class NetworkHandler : MonoBehaviour
             server.action = new Actions();
             server.action.BufferSize = BufferSize;
             server.Host = server;
+            server.settings = settings;
+            server.D = ServerDebug;
             Thread TempThr = new Thread(() => server.Run("nothing"));
+            TempThr.Name = "Server";
             lock (ThreadList)
             {
                 ThreadList.Add(TempThr);
@@ -96,7 +112,8 @@ public class NetworkHandler : MonoBehaviour
                 if (T.IsAlive)
                 {
                     settings.Console_Write(T.Name + ": I'm alive");
-                    T.Abort();
+                    if (T.Name.Equals("Server"))
+                        server.Shutdown_Server("NetworkHandler");
                 }
                 else
                 {
@@ -107,3 +124,4 @@ public class NetworkHandler : MonoBehaviour
     }
 
 }
+

@@ -17,92 +17,51 @@ inoltre i singoli socket, sganciati su differenti thread, controllano il corrett
 
 public class Server : MonoBehaviour
 {
-    public bool D = false;
-    public Settings settings;
     public bool Creato;
     public int Port;
+
+    [HideInInspector]
+    public bool D = false;
+    public Settings settings;
     public Socket socket;
     public Lobby lobby;
     public Server Host;
     public SendActions Send;
     public Actions action = new Actions();
     public List<Socket> SocketList = new List<Socket>();
+    public bool Shutdown = false;
 
 
 
 
     public void Run(object Usefull)
     {
-        settings.Console_Write("Server startato");
-
-        action.lobby = lobby;
-        action.AsServer = true;
-        SendActions Send = new SendActions();
-        Send.lobby = lobby;
-        Send.AsServer = true;
-        Send.BufferSize = action.BufferSize;
-
         try
         {
+            if (D) settings.Console_Write("Server Inizializated");
+
+            action.lobby = lobby;
+            action.AsServer = true;
+            SendActions Send = new SendActions();
+            Send.lobby = lobby;
+            Send.AsServer = true;
+            Send.BufferSize = action.BufferSize;
+
+
+
             Inizialize_Server();
             Accepting_Client();
         }
-        catch(Exception e)
+        catch (ThreadAbortException e)
         {
-            settings.Error_Profiler("N002", 0, "Error during the server execution.", 5);
+            settings.Error_Profiler("N002", 0, "Error during the server execution by SocketException." + e, 5);
         }
-        if (D) settings.Console_Write("Il thread del server è morto.");
-    }
 
-    private void Inizialize_Server()
-    {
+
+
+        if (D) settings.Console_Write("Server chiuso, Inizializzazione chiusura " + SocketList.Count + " Client");
         try
         {
-            Debug.Log("Inizializzazione Server");
-            // Converto l'IP
-            IPEndPoint ip = new IPEndPoint(IPAddress.Any, Port);
-            socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
-            socket.Bind(ip);
-            socket.Listen(10);
-
-            if (D == true) Debug.Log("Creazione server avvenuta con successo");
-        }
-        catch (Exception e) { Debug.Log("Errore durante la creazione del Server\n" + e); return; }
-    }
-
-    private void Accepting_Client()
-    {
-        int I = 0;
-        while (Creato)
-        {
-            if (D == true) Debug.Log("In attesa di Client, attualmente processate " + I + " connessioni ");
-            I++;
-            Socket client = socket.Accept();
-            Thread newThread = new Thread(SubThr);
-
-            newThread.Start(client);
-        }
-    }
-
-    public void Close_Single(Socket client)
-    {
-        if (D) Debug.Log("Chiusura connessione con " + (IPEndPoint)client.RemoteEndPoint);
-        client.Shutdown(SocketShutdown.Both);
-        lock (SocketList)
-        {
-            SocketList.Remove(client);
-        }
-        client.Close();
-
-    }
-
-    public void Close_Server()
-    {
-        Creato = false;
-        try
-        {
-            socket.Shutdown(SocketShutdown.Both);
             lock (SocketList)
             {
                 foreach (Socket T in SocketList)
@@ -113,17 +72,85 @@ public class Server : MonoBehaviour
                 SocketList.Clear();
             }
             lobby.Clear_lobby();
-            socket.Close();
-        }
-        catch (SocketException Se)
-        {
-            Debug.LogError("Socket exception: " + Se.ErrorCode);
         }
         catch (Exception e)
         {
-            Debug.LogError("errore durante chiusura connessioni server: " + e);
+            settings.Error_Profiler("D001", 0, "errore nella chiusura client;    Server => Run (Shutdown client): " + e, 2);
+        }
+
+        Creato = false;
+        Shutdown = false;
+    }
+
+
+    public void Shutdown_Server(string Caller)
+    {
+        if (D) settings.Console_Write(Caller + " call to close server (" + Caller + " => Server => Shutdown_Server");
+        Shutdown = true;
+        try
+        {
+            socket.Shutdown(SocketShutdown.Both);
+        }
+        catch (SocketException e)
+        {
+            if (D && !Shutdown) settings.Error_Profiler("D001",0,"Errore nella chiusura del server (" + Caller + " => Server => Server_Shutdown):" + e,2);
+        }
+        socket.Close();
+        if (D) settings.Console_Write("Socket Server chiuso");
+    }
+
+    private void Inizialize_Server()
+    {
+        try
+        {
+            if (D) settings.Console_Write("Inizializzazione Server");
+            // Converto l'IP
+            IPEndPoint ip = new IPEndPoint(IPAddress.Any, Port);
+            socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+            socket.Bind(ip);
+            socket.Listen(10);
+
+            if (D) settings.Console_Write("Creazione server avvenuta con successo");
+        }
+        catch (Exception e) { settings.Error_Profiler("D001",0,"Errore durante la creazione del Server\n" + e,2); return; }
+    }
+
+    private void Accepting_Client()
+    {
+        try
+        {
+            int I = 0;
+            while (Creato || !Shutdown)
+            {
+                if (D == true) settings.Console_Write("In attesa di Client, attualmente processate " + I + " connessioni ");
+                I++;
+                Socket client = socket.Accept();
+
+
+                Thread newThread = new Thread(SubThr);
+
+                newThread.Start(client);
+            }
+        }
+        catch(Exception e)
+        {
+                if (D) settings.Console_Write("Socket Server non più in accettazione");
         }
     }
+
+    public void Close_Single(Socket client)
+    {
+        if (D) settings.Console_Write("Chiusura connessione con " + (IPEndPoint)client.RemoteEndPoint);
+        client.Shutdown(SocketShutdown.Both);
+        lock (SocketList)
+        {
+            SocketList.Remove(client);
+        }
+        client.Close();
+
+    }
+    
 
 
 

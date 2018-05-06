@@ -40,7 +40,7 @@ public class GenericPopUp : MonoBehaviour {
                 }
                 break;
             default:
-                settings.Error_Profiler("G003", 0, "GenericPopUP => " + PopUpID, 4);
+                settings.Error_Profiler("G003", 0, "GenericPopUP => " + PopUpID + "         Called By: " + gameObject.name, 4);
                 break;
         }
 	}

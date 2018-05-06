@@ -17,7 +17,7 @@ public class SendActions : MonoBehaviour
     public bool AsServer = false;
     public Lobby lobby;
     public int BufferSize;
-
+    
    public bool Send_to_One(string Richiedente,string Action, Socket Receiver, string Errore)                              //comando base di invio utilizzato durante tutte le sequenze di invio, restituisce false se vi sono stati dei problemi durante l'invio, se non si vuole avere il messaggio di errore lo si lascia vuoto ""
     {
         if (AsServer)
@@ -78,7 +78,6 @@ public class SendActions : MonoBehaviour
 
     }
 
-
     public void Server_Broadcast(string Action)
     {
         if (D) Debug.Log("Server: Invio in broadcast ''" + Action + "''");
@@ -102,6 +101,8 @@ public class SendActions : MonoBehaviour
 
             }
     }                                                   //comando specifico del server che invia a tutti i socket un messaggio specifico.
+
+
 
     public string Refresh_Lobby(List<int> ID, List<int> Online)
     {
