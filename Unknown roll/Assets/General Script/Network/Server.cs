@@ -29,6 +29,7 @@ public class Server : MonoBehaviour
     public SendActions Send;
     public Actions action = new Actions();
     public List<Socket> SocketList = new List<Socket>();
+
     public bool Shutdown = false;
 
 
@@ -36,8 +37,10 @@ public class Server : MonoBehaviour
 
     public void Run(object Usefull)
     {
+
         try
         {
+            //Avverto che il server si sta inizializzando e imposto tutte le varibili essenziali alle nuove classi che ha generato
             if (D) settings.Console_Write("Server Inizializated");
 
             action.lobby = lobby;
@@ -47,14 +50,14 @@ public class Server : MonoBehaviour
             Send.AsServer = true;
             Send.BufferSize = action.BufferSize;
 
-
+            
 
             Inizialize_Server();
             Accepting_Client();
         }
         catch (ThreadAbortException e)
         {
-            settings.Error_Profiler("N002", 0, "Error during the server execution by SocketException." + e, 5);
+            settings.Error_Profiler("N009", 0, "Error during the server execution by SocketException." + e, 5);
         }
 
 
@@ -78,23 +81,29 @@ public class Server : MonoBehaviour
             settings.Error_Profiler("D001", 0, "errore nella chiusura client;    Server => Run (Shutdown client): " + e, 2);
         }
 
-        Creato = false;
         Shutdown = false;
+        Creato = false;
     }
 
 
     public void Shutdown_Server(string Caller)
     {
+        //notifico dell'avvio di chiusura del server e imposto la variabile di controllo su true 
         if (D) settings.Console_Write(Caller + " call to close server (" + Caller + " => Server => Shutdown_Server");
         Shutdown = true;
+
+        //ora che tutte le istanze della classe sanno che l'applicazione si deve chiudere forzo la chiusura del socket
         try
         {
             socket.Shutdown(SocketShutdown.Both);
         }
+        //Tale eccezzione verrà generata sicuramente poichèho bloccato i canali di comunicazione
         catch (SocketException e)
         {
             if (D && !Shutdown) settings.Error_Profiler("D001",0,"Errore nella chiusura del server (" + Caller + " => Server => Server_Shutdown):" + e,2);
         }
+
+        //ora che il socket è stato bloccato e ho chiuso tutte le comunicazioni in modo forzato provvedo a chiudere del tutto il socket
         socket.Close();
         if (D) settings.Console_Write("Socket Server chiuso");
     }
@@ -113,7 +122,7 @@ public class Server : MonoBehaviour
 
             if (D) settings.Console_Write("Creazione server avvenuta con successo");
         }
-        catch (Exception e) { settings.Error_Profiler("D001",0,"Errore durante la creazione del Server\n" + e,2); return; }
+        catch (Exception e) { settings.Error_Profiler("D001",0,"Errore durante la creazione del Server\n" + e,5); return; }
     }
 
     private void Accepting_Client()
@@ -135,7 +144,15 @@ public class Server : MonoBehaviour
         }
         catch(Exception e)
         {
+            if (Shutdown)
+            {
                 if (D) settings.Console_Write("Socket Server non più in accettazione");
+            }
+            else
+            {
+                settings.Error_Profiler("N011", 0, "Chiusura in corso (Server => Accepting_Client)", 5);
+                Shutdown_Server("Server => Accepting_Client");
+            }
         }
     }
 

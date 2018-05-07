@@ -84,6 +84,14 @@
       <N001>La porta richiesta non è utilizzabile</N001>
       <N002>Errore durante la creazione del Server</N002>
       <N003>Il server è già in esecuzione</N003>
+      <N004>Errore durante la creazione del client</N004>
+      <N005>Errore durante la chiusura del client</N005>
+      <N006>Il client è già in esecuzione</N006>
+      <N007>IP richiesto non valido</N007>
+      <N008>Errore durante l'esecuzione del client</N008>
+      <N009>Errore durante l'esecuzione del server</N009>
+      <N010>Username non valido o non è possibile accedere</N010>
+      <N011>Errore di comunicazione</N011>
     </Network>
     
     <IO>  <!-- InputOutput Errors-->

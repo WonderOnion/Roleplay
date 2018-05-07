@@ -23,7 +23,22 @@ public class Commands : MonoBehaviour
                     ActualDebug();
                     break;
                 case "startserver":       //Crea un nuovo server da comando
-                    GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<NetworkHandler>().CreateServer(Comando[1]);
+                    GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<NetworkHandler>().Create_Server(Comando[1]);
+                    break;
+                case "serverdebug":
+                    if (GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<Server>().D)
+                        GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<Server>().D = false;
+                    else
+                        GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<Server>().D = true;
+                    break;
+                case "clientdebug":
+                    if (GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<Client>().D)
+                        GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<Client>().D = false;
+                    else
+                        GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<Client>().D = true;
+                    break;
+                case "connect":       //Si collega ad un server
+                    GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<NetworkHandler>().Create_Client(Comando[1]);
                     break;
                 case "killnetwork":
                     GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<NetworkHandler>().KillThreads();

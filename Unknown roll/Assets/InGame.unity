@@ -2548,8 +2548,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 742281852}
   m_HandleRect: {fileID: 742281851}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.22619998
+  m_Value: 0.99999994
+  m_Size: 0.22619997
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -9071,15 +9071,15 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1951550244}
-        m_MethodName: SwitchMenu
+      - m_Target: {fileID: 1555257326}
+        m_MethodName: Create_Client
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Play,MainMenu
+          m_StringArgument: asdadd
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
@@ -9168,8 +9168,9 @@ MonoBehaviour:
   ServerDebug: 1
   server: {fileID: 0}
   ServerPortOBJ: {fileID: 1750899153}
-  ClientDebug: 0
+  ClientDebug: 1
   client: {fileID: 0}
+  ClientName: NotDefined
   ClientIPOBJ: {fileID: 223970221}
   ClientPortOBJ: {fileID: 1244160992}
 --- !u!4 &1555257327
@@ -9214,12 +9215,14 @@ MonoBehaviour:
   ConnectionTimeOut: 5
   Creato: 0
   ServerIP: 
-  Port: 25565
+  Port: 0
   D: 0
   Name: 
   lobby: {fileID: 0}
   action: {fileID: 0}
   Send: {fileID: 0}
+  settings: {fileID: 0}
+  BufferSize: 0
 --- !u!114 &1555257330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13500,6 +13503,8 @@ MonoBehaviour:
   lobby: {fileID: 0}
   action: {fileID: 0}
   Send: {fileID: 0}
+  settings: {fileID: 0}
+  BufferSize: 0
 --- !u!114 &2088005565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13555,6 +13560,7 @@ MonoBehaviour:
   ServerPortOBJ: {fileID: 0}
   ClientDebug: 0
   client: {fileID: 0}
+  ClientName: 
   ClientIPOBJ: {fileID: 0}
   ClientPortOBJ: {fileID: 0}
 --- !u!4 &2088005568
@@ -13722,7 +13728,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: -547.6}
+  m_AnchoredPosition: {x: 0, y: -547.5999}
   m_SizeDelta: {x: -9, y: 2000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2113658822
