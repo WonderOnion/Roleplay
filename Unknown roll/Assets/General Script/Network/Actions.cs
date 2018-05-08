@@ -21,10 +21,14 @@ public class Actions : MonoBehaviour
     public string Ricevuto = null;
     public int contesto; // 0 = lobby 1 = inGame
     public Lobby lobby;
-    public SendActions Send = new SendActions();
+    public SendActions Send;
     public int BufferSize;
 
 
+    private void Start()
+    {
+        Send = new SendActions();
+    }
 
 
     public void Run(object Temp)

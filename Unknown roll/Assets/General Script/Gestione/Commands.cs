@@ -38,7 +38,7 @@ public class Commands : MonoBehaviour
                         GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<Client>().D = true;
                     break;
                 case "connect":       //Si collega ad un server
-                    GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<NetworkHandler>().Create_Client(Comando[1]);
+                    GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<NetworkHandler>().Create_Client(Comando[1] + ":" + Comando[2]);
                     break;
                 case "killnetwork":
                     GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<NetworkHandler>().KillThreads();
@@ -50,16 +50,16 @@ public class Commands : MonoBehaviour
                     break;
                 case "networklist":
                     foreach (Thread T in GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<NetworkHandler>().ThreadList)
-                        settings.Console_Write(T.Name + ": nella lista");
+                        settings.Console_Write(T.Name + ": nella lista",true);
                     break;
                 default:
-                    settings.Console_Write("<color=\"yellow\">Comando non trovato: <color=\"red\">" +TMPComando);
+                    settings.Console_Write("<color=\"yellow\">Comando non trovato: <color=\"red\">" +TMPComando, true);
                     break;
             }
         }
         catch (Exception e)
         {
-            settings.Console_Write("<color=\"red\">Errore nell'esecuzione del comando: <color=\"yellow\">" + TMPComando + " <color=\"red\"> Codice errore: " + e);
+            settings.Console_Write("<color=\"red\">Errore nell'esecuzione del comando: <color=\"yellow\">" + TMPComando + " <color=\"red\"> Codice errore: " + e, true);
         }
     }
 

@@ -101,6 +101,20 @@ public class Settings : MonoBehaviour
                 OldLanguage = Language;
             }
         }
+
+        //Controllo se dei Subthread richiedono di aggiungere un messaggio alla console (Console_Write)
+        if (Console_TextToAdd.Count > 0)
+            lock(Console_TextToAdd)
+            {
+                while (Console_TextToAdd.Count > 0)
+                {
+                    Console_Write(Console_TextToAdd[0], true);
+                    Console_TextToAdd.RemoveAt(0);
+                }
+
+            }
+
+
     }                   //controllo cambi di lingua
 
 
@@ -221,7 +235,7 @@ public class Settings : MonoBehaviour
         switch (InOut.Check_Path_Exist("Language/" + Language + ".xml"))
         {
             case 0:
-                Console_Write("G001 From: RefreshLanguage, old Language: " + Language);
+                Console_Write("G001 From: RefreshLanguage, old Language: " + Language, true);
                 if (!Language.Equals("en"))
                 {
                     //salvo inglese come nuova lingua all'interno delle impostazioni
@@ -245,7 +259,7 @@ public class Settings : MonoBehaviour
                 break;
             default:
                 //errore causato dallla modifica della funzione di Check_Path_Exist
-                Error_Profiler("G001", 0, "Error when retriving language file information: Switch exception", 4);
+                Error_Profiler("G001", 0, "Error when retriving language file information: Switch exception", 4, true);
                 if (!Language.Equals("en"))
                 {
                     //salvo inglese come nuova lingua all'interno delle impostazioni
@@ -267,7 +281,7 @@ public class Settings : MonoBehaviour
         //Controllo che il file esista
         if (InOut.Check_Path_Exist("Language/" + NextLanguage + ".xml") != 2)
         {
-            Error_Profiler("G001", 0, "ChangeLanguage => " + NextLanguage, 4);
+            Error_Profiler("G001", 0, "ChangeLanguage => " + NextLanguage, 4, true);
             return;
         }
         //Se il file esiste cambio in impostazioni il valore della lingua
@@ -302,7 +316,7 @@ public class Settings : MonoBehaviour
                     child = TempFile.SelectSingleNode(TempPaths[1]);
                     break;
                 }
-                 Error_Profiler("D001", 0, "RetriveInnerText => wrong path: " + path,2);
+                 Error_Profiler("D001", 0, "RetriveInnerText => wrong path: " + path,2, true);
                 return "NoFile";
 			case 0:
                 //risultato essere richiesto il file di lingua attualemnte in uso
@@ -339,8 +353,11 @@ public class Settings : MonoBehaviour
 
         */
     public TextMeshProUGUI ConsoleText;                          //Variabile per riferirsi alla TextArea presente nella console
+    private List<string> Console_TextToAdd = new List<string>();
+    public GameObject ErrorPopup;
+    public TextMeshProUGUI ErrorPopupText;
 
-    public void Error_Profiler(string ErrorCode,float ErrorFileVersion, string MoreDeatils,int Level)  //Errorcode contiene il codice di errore, errorfileversion indica la versione del file di errore a cui fa riferimento il codice quando è stato scritto (prevenzione futuri errori), Level indica il livello di errore, 0 = ignorabile
+    public void Error_Profiler(string ErrorCode,float ErrorFileVersion, string MoreDeatils,int Level,bool MainThread)  //Errorcode contiene il codice di errore, errorfileversion indica la versione del file di errore a cui fa riferimento il codice quando è stato scritto (prevenzione futuri errori), Level indica il livello di errore, 0 = ignorabile
     {
         //controllo se la versione presente nel file XML sia un float
         float SettingsVersion;
@@ -395,7 +412,7 @@ public class Settings : MonoBehaviour
             {
                 //Le versioni coincidono, scrivo l'errore della debug console e console in game
                 Debug.LogError(ErrorCode + " >> " + ErrorFileVersion + " >> " + Retrive_InnerText(0,"language/Error/"+ErrorCode) + " Details: " + MoreDeatils);
-                Console_Write(ErrorColored + " >> " + ErrorFileVersion + " >> " + Retrive_InnerText(0,"language / Error / "+ErrorCode) + " Details: " + MoreDeatils);
+                Console_Write(ErrorColored + " >> " + ErrorFileVersion + " >> " + Retrive_InnerText(0,"language / Error / "+ErrorCode) + " Details: " + MoreDeatils, MainThread);
                 //aggiungo l'errore a ErrorLog.txt
                 List<string> TempError = new List<string>();
                 TempError.Add(string.Format("{0:HH:mm:ss tt}", DateTime.Now) + " >> " +ErrorColored + " >> " + ErrorFileVersion + " >> " + Retrive_InnerText(0, "language/Error/" + ErrorCode) + " Details: " + MoreDeatils);
@@ -403,8 +420,8 @@ public class Settings : MonoBehaviour
                 //nel caso l'errore sia di gravità superiore a 2 viene generato un PopUp che sarà visualizzato dall'utente obbligatoriamente.
                 if (Level > 2)
                 {
-                    GameObject.Find("Canvas").GetComponent<MenuHandler>().MenuElements.Where(obj => obj.name.Equals("ErrorPopup")).SingleOrDefault().SetActive(true);
-                    GameObject.FindWithTag("ErrorText").GetComponent<TextMeshProUGUI>().text += "\n" + string.Format("{0:HH:mm:ss tt}", DateTime.Now) + " >> " + ErrorColored + " >> " + ErrorFileVersion + " >> " + Retrive_InnerText(0, "language/Error/" + ErrorCode) + " Details: " + MoreDeatils;
+                    ErrorPopup.SetActive(true);
+                    ErrorPopupText.text += "\n" + string.Format("{0:HH:mm:ss tt}", DateTime.Now) + " >> " + ErrorColored + " >> " + ErrorFileVersion + " >> " + Retrive_InnerText(0, "language/Error/" + ErrorCode) + " Details: " + MoreDeatils;
                 }
                 InOut.Write_Into_File("ErrorLog.txt", TempError, false);
             }
@@ -412,7 +429,7 @@ public class Settings : MonoBehaviour
             {
                 //I le versioni non coincidono, si invia l'errore senza la descrizione presente nel documento.
                 Debug.LogError("Different ErrorVersion, Error called: " + ErrorCode + " Version: " + ErrorFileVersion + " Detail: " + MoreDeatils);
-                Console_Write("Different ErrorVersion, Error called: " + ErrorColored + " Version: " + ErrorFileVersion + " Detail: " + MoreDeatils);
+                Console_Write("Different ErrorVersion, Error called: " + ErrorColored + " Version: " + ErrorFileVersion + " Detail: " + MoreDeatils, MainThread);
                 // aggiunta a ErrorLog.txt
                 List<string> TempError = new List<string>();
                 TempError.Add(string.Format("{0:HH:mm:ss tt}", DateTime.Now) + " >> " + "Different ErrorVersion, Error called: " + ErrorCode + " Version: " + ErrorFileVersion + " Detail: " + MoreDeatils);
@@ -423,7 +440,7 @@ public class Settings : MonoBehaviour
         {
             //NOn è stato possibile leggere o il valore non è possibile convertirlo in FLoat, scrivo le informazioni sull'errore senza aggiungere i dettagli presenti nel file di lingua
             Debug.LogError("ErrorVersion can not be loaded, Error called: " + ErrorCode + " Version: " + ErrorFileVersion + " Detail: "  + MoreDeatils);
-            Console_Write("ErrorVersion can not be loaded, Error called: " + ErrorCode + " Version: " + ErrorFileVersion + " Detail: " + MoreDeatils);
+            Console_Write("ErrorVersion can not be loaded, Error called: " + ErrorCode + " Version: " + ErrorFileVersion + " Detail: " + MoreDeatils, MainThread);
             // aggiunta a ErrorLog.txt
             List<string> TempError = new List<string>();
             TempError.Add(string.Format("{0:HH:mm:ss tt}", DateTime.Now) + " >> " + "ErrorVersion can not be loaded, Error called: " + ErrorCode + " Version: " + ErrorFileVersion + " Detail: " + MoreDeatils);
@@ -432,9 +449,21 @@ public class Settings : MonoBehaviour
         
     }
     
-    public void Console_Write(string Text)
+    /// <summary>
+    /// Permette di scrivere direttamente nella console
+    /// </summary>
+    /// <param name="Text"></param> il testo da inserire all'interno della console
+    /// <param name="MainThread"></param> se richiamato da un main tread impostare true, altrimenti false e ci penserà la console ad aggiungerlo
+
+    public void Console_Write(string Text,bool MainThread)
     {
         //TODO Crop del testo nella console (15000 caratteri dovrebbero bastare)
-        ConsoleText.text = ConsoleText.text + "\n<color=\"white\">" + Text;
+        if (MainThread)
+            ConsoleText.text = ConsoleText.text + "\n<color=\"white\">" + Text;
+        else
+            lock (Console_TextToAdd)
+            {
+                Console_TextToAdd.Add(Text);
+            }
     }
 }

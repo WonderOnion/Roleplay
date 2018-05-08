@@ -52,13 +52,13 @@ public class GenericTxtBtn : MonoBehaviour
                         gameObject.GetComponent<TextMeshProUGUI>().text = BeforeText + settings.Retrive_InnerText(0, "language/" + Location + gameObject.name) + AfterText;
 
                     if (settings.Retrive_InnerText(0, "language/" + Location + gameObject.name).Equals("NoText"))
-                        settings.Error_Profiler("G004", 0, "Language: " + Language + "             path: " + "language/" + Location + gameObject.name,0);
+                        settings.Error_Profiler("G004", 0, "Language: " + Language + "             path: " + "language/" + Location + gameObject.name,0, true);
                 }
                 
             }
         } catch (Exception e)
         {
-            settings.Error_Profiler("M003", 0, gameObject.name + ": " + e.ToString(),2);
+            settings.Error_Profiler("M003", 0, gameObject.name + ": " + e.ToString(),2, true);
         }
     }
 }

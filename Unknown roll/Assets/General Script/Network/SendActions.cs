@@ -6,18 +6,21 @@ using UnityEngine;
 using System.Net.Sockets;
 using System.Net;
 using System.Threading;
+
 /*
 Essendo che il gioco è in fase prototipale nasce la necessità di dover cambiare spesso e volentieri i parametri di funzioni e di comandi.
 Queste funzioni sono per la maggior parte inutili e restituiscono un return ma centralizzano tutto il lavoro di invio a client e server in un solo file andando quindi a evitare la ricerca degli utilizzi di ogni singolo comando
 all'interno degli altri file.
 */
+
+
 public class SendActions : MonoBehaviour
 {
     public bool D = true;
     public bool AsServer = false;
     public Lobby lobby;
     public int BufferSize;
-    
+
    public bool Send_to_One(string Richiedente,string Action, Socket Receiver, string Errore)                              //comando base di invio utilizzato durante tutte le sequenze di invio, restituisce false se vi sono stati dei problemi durante l'invio, se non si vuole avere il messaggio di errore lo si lascia vuoto ""
     {
         if (AsServer)

@@ -62,7 +62,7 @@ public class GenericSettingsRetriver : MonoBehaviour
                     }
                     catch (Exception e)
                     {
-                        settings.Error_Profiler("D001", 0, "SettingsElement => Language not found (Refresh): " + e,1);
+                        settings.Error_Profiler("D001", 0, "SettingsElement => Language not found (Refresh): " + e,1, true);
                     }
                 }
                 gameObject.GetComponent<TMP_Dropdown>().ClearOptions();
@@ -89,13 +89,13 @@ public class GenericSettingsRetriver : MonoBehaviour
             }
             catch (Exception e)
             {
-                settings.Error_Profiler("D001", 0, "SettingsElement => Language not found (Selecting)\n"+e, 1);
+                settings.Error_Profiler("D001", 0, "SettingsElement => Language not found (Selecting)\n"+e, 1, true);
             }
         }
         if (NextLang != null)
             settings.ChangeLanguage(NextLang);
         else
-            settings.Error_Profiler("S001", 0, "Language requested not found", 5);
+            settings.Error_Profiler("S001", 0, "Language requested not found", 5, true);
 
     }
 }

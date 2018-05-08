@@ -92,7 +92,7 @@ public class IO : MonoBehaviour
 
         if (Check_Path_Exist(path) == 2 && Sovrascrivere == false)  //controllo se il file esiste e se c'è l'ordine di non sovrascrivere
         {
-            settings.Error_Profiler("I001", 0,"Create_File: ",2);
+            settings.Error_Profiler("I001", 0,"Create_File: ",2,false);
             return;
         }
         if (!File.Exists(path))

@@ -316,9 +316,9 @@
     <Compile Include="Assets\General Script\Network\Actions.cs" />
     <Compile Include="Assets\General Script\Network\Client.cs" />
     <Compile Include="Assets\General Script\Network\InGame.cs" />
-    <Compile Include="Assets\General Script\Network\Init.cs" />
     <Compile Include="Assets\General Script\Network\Lobby.cs" />
     <Compile Include="Assets\General Script\Network\NetworkHandler.cs" />
+    <Compile Include="Assets\General Script\Network\NetworkPacket.cs" />
     <Compile Include="Assets\General Script\Network\SendActions.cs" />
     <Compile Include="Assets\General Script\Network\Server.cs" />
     <Compile Include="Assets\General Script\Network\TestOggetto.cs" />

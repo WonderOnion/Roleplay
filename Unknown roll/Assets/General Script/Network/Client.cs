@@ -20,74 +20,50 @@ public class Client : MonoBehaviour
     public string ServerIP;
     public int Port;
 
-    [HideInInspector]
     public bool D = false;
-    [HideInInspector]
     public string Name;
-    [HideInInspector]
-    public Lobby lobby = null;
-    [HideInInspector]
     public Actions action;
-    [HideInInspector]
-    public SendActions Send = new SendActions();
-    [HideInInspector]
+    public SendActions Send;
+    public Lobby lobby;
     public Socket Servente;
-    [HideInInspector]
     public Settings settings;
-    [HideInInspector]
     private bool Shutdown = false;
-    [HideInInspector]
     public int BufferSize;
+    public Packets Pacchetto;
 
 
+    private void Start()
+    {
+        action = new Actions();
+        Send = new SendActions();
+        Send.lobby = lobby;
+        Pacchetto = new Packets();
+        Pacchetto.Inizialize_Packet(D, false, settings, lobby);
+    }
 
-    public void Run()
+
+    public void Run(object Usefull)
     {
         try
         { 
-        if (D) settings.Console_Write("Inizializzazione client");
-        action.lobby = lobby;
-        Send.lobby = lobby;
-        Send.BufferSize = action.BufferSize;
+            if (D) settings.Console_Write("client Creato", false);
 
-        if (!Shutdown)
-            Inizialize_Client();
-        if (!Shutdown)
-            FirstContact();
-        if (!Shutdown)
-            Comunicazione();
+            if (!Shutdown)
+                Inizialize_Client();
+            if (!Shutdown)
+                FirstContact();
+            if (!Shutdown)
+                Comunicazione();
         }
-        catch (ThreadAbortException e)
+        catch (Exception e)
         {
-            settings.Error_Profiler("N008", 0, "Error during the Client execution by SocketException." + e, 5);
+            settings.Error_Profiler("N008", 0, "Error during the Client execution by SocketException." + e, 2, false);
         }
 
 
-        if (D) settings.Console_Write("Client chiuso");
+        if (D) settings.Console_Write("Client chiuso", false);
         Shutdown = false;
         Creato = false;
-    }
-
-    public void Shutdown_Client(string Caller)
-    {
-        //notifico dell'avvio di chiusura del client e imposto la variabile di controllo su true 
-        if (D) settings.Console_Write(Caller + " call to close Client (" + Caller + " => Client => Shutdown_Client");
-        Shutdown = true;
-
-        //ora che tutte le istanze della classe sanno che l'applicazione si deve chiudere forzo la chiusura del socket
-        try
-        {
-            Servente.Shutdown(SocketShutdown.Both);
-        }
-        //Tale eccezzione verrà generata sicuramente poichèho bloccato i canali di comunicazione
-        catch (SocketException e)
-        {
-            if (D && !Shutdown) settings.Error_Profiler("N005", 0, "Errore nella chiusura del Client (" + Caller + " => Client => Shudown_Client):" + e, 2);
-        }
-
-        //ora che il socket è stato bloccato e ho chiuso tutte le comunicazioni in modo forzato provvedo a chiudere del tutto il socket
-        Servente.Close();
-        if (D) settings.Console_Write("Socket Client chiuso");
     }
 
     public void Inizialize_Client()
@@ -99,13 +75,13 @@ public class Client : MonoBehaviour
             IPEndPoint remoteEP = new IPEndPoint(ipAddress, Port);
 
 
+            if (D) settings.Console_Write("Client inizializzato", false);
             //creo il socket
             Servente = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
 
-
             //mi collego all'endpoint
-            if (D) settings.Console_Write("tentativo di connessione al server: " + ServerIP + ":" + Port);
+            if (D) settings.Console_Write("tentativo di connessione al server: " + ServerIP + ":" + Port, false);
             var result = Servente.BeginConnect(remoteEP, null, null);
 
             var success = result.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(ConnectionTimeOut));
@@ -114,18 +90,43 @@ public class Client : MonoBehaviour
 
             if (!success)
             {
-                settings.Console_Write("<color=\"red\">TimeOut Connessione verso il Server");
+                settings.Console_Write("<color=\"red\">TimeOut Connessione verso il Server", false);
                 Creato = false;
                 return;
             }
         }
         catch (Exception e)
         {
-            settings.Console_Write("<color=\"red\">Errore durante la connessione al server\n" + e);
+            settings.Console_Write("<color=\"red\">Errore durante la connessione al server\n" + e, false);
             Creato = false;
             return;
         }
-        if (D) settings.Console_Write("Connessione con il server eseguita: " + Servente.RemoteEndPoint.ToString());
+        if (D) settings.Console_Write("Connessione con il server eseguita: " + ServerIP, false);
+
+
+        Pacchetto.Destinatario = Servente;
+
+        try
+        {
+            Pacchetto.Send_Packet("Client (" + Name + ")", "Errore nel invio del pacchetto di debug");
+            while (Shutdown)
+            {
+                errore errrorino, eravamo rimasti qui
+                Pacchetto.Receive_Packet("Client (" + Name + ")");
+            }
+        }
+        catch (Exception e)
+        {
+            if (Shutdown)
+            {
+                if (D) settings.Console_Write("Client non più in comunicazione (Inizialize_Client)", false);
+            }
+            else
+            {
+                settings.Error_Profiler("N010", 0, "Errore nell'inizializzazione\n" + e, 2, false);
+                Shutdown_Client("Client => Inizialize_Client");
+            }
+        }
     }
 
     void FirstContact()
@@ -148,11 +149,11 @@ public class Client : MonoBehaviour
         {
             if (Shutdown)
             {
-                if (D) settings.Console_Write("Client non più in comunicazione (Username)");
+                if (D) settings.Console_Write("Client non più in comunicazione (Username)", false);
             }
             else
             {
-                settings.Error_Profiler("N010",0,"Errore nel passaggio dell'username\n" + e,2);
+                settings.Error_Profiler("N010",0,"Errore nel passaggio dell'username\n" + e,2, false);
                 Shutdown_Client("Client => FirstContact");
             }
         }
@@ -162,21 +163,21 @@ public class Client : MonoBehaviour
             //richiesta di aggiornamento lobby
             try
             {
-                List<int> IDlist = lobby.List_of_ID();
+                List<int> IDlist = gameObject.GetComponent<Lobby>().List_of_ID();
                 List<int> OnlineList = new List<int>();
                 for (int I = 0; I < IDlist.Count; I++)
-                    OnlineList.Add(lobby.Check_Online_by_ID(IDlist[I]));
+                    OnlineList.Add(gameObject.GetComponent<Lobby>().Check_Online_by_ID(IDlist[I]));
                 Send.Send_to_One(Name, Send.Refresh_Lobby(IDlist, OnlineList), Servente, "Errore durante la richiesta di refresh della lobby");
             }
             catch (Exception e)
             {
                 if (Shutdown)
                 {
-                    if (D) settings.Console_Write("Client non più in comunicazione (Aggiornamento Lobby)");
+                    if (D) settings.Console_Write("Client non più in comunicazione (Aggiornamento Lobby)", false);
                 }
                 else
                 {
-                    settings.Error_Profiler("D001",0,"Errore nella richiesta di aggiornamento della lobby \n" + e,2);
+                    settings.Error_Profiler("D001",0,"Errore nella richiesta di aggiornamento della lobby \n" + e,2, false);
                     Shutdown_Client("Client => FirstContact");
                 }
             }
@@ -199,7 +200,7 @@ public class Client : MonoBehaviour
                         User = Servente,
                         Ricevuto = Mex,
                         contesto = 0,
-                        lobby = lobby,
+                        lobby = gameObject.GetComponent<Lobby>(),
                     };
                     Thread newThread = new Thread(new ParameterizedThreadStart(TempActions.Run));
                     newThread.Start(Servente);
@@ -221,16 +222,42 @@ public class Client : MonoBehaviour
         {
             if (Shutdown)
             {
-                if (D) settings.Console_Write("Socket Client non più in accettazione");
+                if (D) settings.Console_Write("Socket Client non più in accettazione", false);
             }
             else
             {
-                settings.Error_Profiler("N011", 0, "Chiusura in corso (Client => Comunicazione)", 5);
+                settings.Error_Profiler("N011", 0, "Chiusura in corso (Client => Comunicazione)", 5, false);
                 Shutdown_Client("Client => Comunicazione");
             }
         }
     }
 
+    public void Shutdown_Client(string Caller)
+    {
+        //notifico dell'avvio di chiusura del client e imposto la variabile di controllo su true 
+        if (D) settings.Console_Write(Caller + " call to close Client (" + Caller + " => Client => Shutdown_Client", false);
+        Shutdown = true;
+
+        //ora che tutte le istanze della classe sanno che l'applicazione si deve chiudere forzo la chiusura del socket
+        try
+        {
+            //TODO Client: avvertire il server della disconnessione
+            Servente.Shutdown(SocketShutdown.Both);
+        }
+        //Tale eccezzione verrà generata sicuramente poichèho bloccato i canali di comunicazione
+        catch (SocketException e)
+        {
+            if (D && !Shutdown) settings.Error_Profiler("N005", 0, "Errore nella chiusura del Client (" + Caller + " => Client => Shudown_Client):" + e, 2, false);
+        }
+
+        //ora che il socket è stato bloccato e ho chiuso tutte le comunicazioni in modo forzato provvedo a chiudere del tutto il socket
+        Servente.Close();
+        if (D) settings.Console_Write("Socket Client chiuso", false);
+    }
+
+
+
+    //old
     public bool ChiudiContatti()
     {
 

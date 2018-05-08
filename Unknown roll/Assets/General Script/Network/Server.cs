@@ -20,15 +20,13 @@ public class Server : MonoBehaviour
     public bool Creato;
     public int Port;
 
-    [HideInInspector]
-    public bool D = false;
+    [HideInInspector] public bool D = false;
     public Settings settings;
     public Socket socket;
     public Lobby lobby;
     public Server Host;
-    public SendActions Send;
-    public Actions action = new Actions();
     public List<Socket> SocketList = new List<Socket>();
+    public int Buffersize;
 
     public bool Shutdown = false;
 
@@ -41,14 +39,12 @@ public class Server : MonoBehaviour
         try
         {
             //Avverto che il server si sta inizializzando e imposto tutte le varibili essenziali alle nuove classi che ha generato
-            if (D) settings.Console_Write("Server Inizializated");
-
-            action.lobby = lobby;
-            action.AsServer = true;
+            if (D) settings.Console_Write("Server Inizializated", false);
+            
             SendActions Send = new SendActions();
             Send.lobby = lobby;
             Send.AsServer = true;
-            Send.BufferSize = action.BufferSize;
+            Send.BufferSize = Buffersize;
 
             
 
@@ -57,39 +53,33 @@ public class Server : MonoBehaviour
         }
         catch (ThreadAbortException e)
         {
-            settings.Error_Profiler("N009", 0, "Error during the server execution by SocketException." + e, 5);
+            settings.Error_Profiler("N009", 0, "Error during the server execution by SocketException." + e, 5, false);
         }
 
 
 
-        if (D) settings.Console_Write("Server chiuso, Inizializzazione chiusura " + SocketList.Count + " Client");
+        if (D) settings.Console_Write("Server chiuso, Inizializzazione chiusura " + SocketList.Count + " Client", false);
         try
         {
-            lock (SocketList)
-            {
-                foreach (Socket T in SocketList)
-                {
-                    T.Shutdown(SocketShutdown.Both);
-                    T.Close();
-                }
-                SocketList.Clear();
-            }
-            lobby.Clear_lobby();
+            Close_All_ConnectedClient();
+            lobby.Clear_lobby();    //TODO Gestire Pulizia lobby
         }
         catch (Exception e)
         {
-            settings.Error_Profiler("D001", 0, "errore nella chiusura client;    Server => Run (Shutdown client): " + e, 2);
+            settings.Error_Profiler("D001", 0, "errore nella chiusura client;    Server => Run (Shutdown client): " + e, 2, false);
         }
 
+
+        while (SocketList.Count > 0)
+        { }
         Shutdown = false;
         Creato = false;
     }
 
-
     public void Shutdown_Server(string Caller)
     {
         //notifico dell'avvio di chiusura del server e imposto la variabile di controllo su true 
-        if (D) settings.Console_Write(Caller + " call to close server (" + Caller + " => Server => Shutdown_Server");
+        if (D) settings.Console_Write(Caller + " call to close server (" + Caller + " => Server => Shutdown_Server", false);
         Shutdown = true;
 
         //ora che tutte le istanze della classe sanno che l'applicazione si deve chiudere forzo la chiusura del socket
@@ -100,19 +90,19 @@ public class Server : MonoBehaviour
         //Tale eccezzione verrà generata sicuramente poichèho bloccato i canali di comunicazione
         catch (SocketException e)
         {
-            if (D && !Shutdown) settings.Error_Profiler("D001",0,"Errore nella chiusura del server (" + Caller + " => Server => Server_Shutdown):" + e,2);
+            if (D && !Shutdown) settings.Error_Profiler("D001",0,"Errore nella chiusura del server (" + Caller + " => Server => Server_Shutdown):" + e,2, false);
         }
 
         //ora che il socket è stato bloccato e ho chiuso tutte le comunicazioni in modo forzato provvedo a chiudere del tutto il socket
         socket.Close();
-        if (D) settings.Console_Write("Socket Server chiuso");
+        if (D) settings.Console_Write("Socket Server chiuso", false);
     }
 
     private void Inizialize_Server()
     {
         try
         {
-            if (D) settings.Console_Write("Inizializzazione Server");
+            if (D) settings.Console_Write("Inizializzazione Server", false);
             // Converto l'IP
             IPEndPoint ip = new IPEndPoint(IPAddress.Any, Port);
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -120,9 +110,9 @@ public class Server : MonoBehaviour
             socket.Bind(ip);
             socket.Listen(10);
 
-            if (D) settings.Console_Write("Creazione server avvenuta con successo");
+            if (D) settings.Console_Write("Creazione server avvenuta con successo", false);
         }
-        catch (Exception e) { settings.Error_Profiler("D001",0,"Errore durante la creazione del Server\n" + e,5); return; }
+        catch (Exception e) { settings.Error_Profiler("D001",0,"Errore durante la creazione del Server\n" + e,5, false); return; }
     }
 
     private void Accepting_Client()
@@ -132,13 +122,12 @@ public class Server : MonoBehaviour
             int I = 0;
             while (Creato || !Shutdown)
             {
-                if (D == true) settings.Console_Write("In attesa di Client, attualmente processate " + I + " connessioni ");
+                if (D) settings.Console_Write("In attesa di Client, attualmente processate " + I + " connessioni ", false);
                 I++;
                 Socket client = socket.Accept();
 
-
                 Thread newThread = new Thread(SubThr);
-
+                
                 newThread.Start(client);
             }
         }
@@ -146,126 +135,181 @@ public class Server : MonoBehaviour
         {
             if (Shutdown)
             {
-                if (D) settings.Console_Write("Socket Server non più in accettazione");
+                if (D) settings.Console_Write("Socket Server non più in accettazione", false);
             }
             else
             {
-                settings.Error_Profiler("N011", 0, "Chiusura in corso (Server => Accepting_Client)", 5);
+                settings.Error_Profiler("N011", 0, "Chiusura in corso (Server => Accepting_Client)" + e, 2, false);
                 Shutdown_Server("Server => Accepting_Client");
             }
         }
     }
 
-    public void Close_Single(Socket client)
+    public void Close_Single_ConnectedClient(Socket ClosingClient)
     {
-        if (D) settings.Console_Write("Chiusura connessione con " + (IPEndPoint)client.RemoteEndPoint);
-        client.Shutdown(SocketShutdown.Both);
-        lock (SocketList)
-        {
-            SocketList.Remove(client);
-        }
-        client.Close();
-
-    }
-    
-
-
-
-
-    public void SubThr(object Temp)
-    {
-        SendActions Send = new SendActions();
-        Socket client = (Socket)Temp;
-        string Name = null;
-        string Mex = null;
-        IPEndPoint clientep = (IPEndPoint)client.RemoteEndPoint;
-        client.NoDelay = true;                                              //imposto che invia sempre in base alla dimensione che riceve senza dover riempire il pacchetto
-        client.ReceiveBufferSize = action.BufferSize;
-        action.lobby = lobby;
-        Send.BufferSize = action.BufferSize;
-        Send.lobby = lobby;
-
+        if (D) settings.Console_Write("Chiusura connessione con " + (IPEndPoint)ClosingClient.RemoteEndPoint, false);
         try
         {
-            if (D == true) Debug.Log("Connesso con: " + clientep);
-
-            //richiedo il motivo di connessione e nel caso l'username
-            string[] ConnetionMotivation = Send.Receive_by_one(client, "Server").Split('#');
-            switch (Int32.Parse(ConnetionMotivation[0]))          //controllo se si connette per inviare immagini
+            ClosingClient.Shutdown(SocketShutdown.Both);
+            lock (SocketList)
             {
-                case 0:
-                    break;
-                case 1:
-                    TransferChannel();
-                    return;
-                default:
-                    Send.Send_to_One("Server","0", client, "Errore nella della motivazione di connessione");
-                    return;
+                SocketList.Remove(ClosingClient);
             }
-            Name = ConnetionMotivation[1];
-            if (!lobby.Check_Exist_by_Name(Name))
-                lobby.Add_ServerPlayer(client, Name, 0);
-            else
-            {
-                if (lobby.Check_Online_by_ID(lobby.Retrive_ID_by_Name(Name)) != 0)
-                {
-                    Debug.LogError("Esiste già un client connesso con il nome: " + Name + " chiusura connessione");
-
-                    Send.Send_to_One("Server","0", client, "Errore nella comunicazione dell'errato nome");
-                    client.Close();
-                    return;
-                }
-                else
-                {
-                    lobby.Set_Online_by_ID(lobby.Retrive_ID_by_Name(Name), true);
-                    lobby.Set_User_by_ID(lobby.Retrive_ID_by_Name(Name), client);
-                    Send.Server_Broadcast(Send.Player_Come_Online(lobby.Retrive_ID_by_Name(Name), true));
-                }
-            }
-
-
-            //avverto che l'username è stato accettato
-            Send.Send_to_One("Server","1", client, "Errore nella comunicazione della genuinità del nome");
-
-            //aggiorno tutti sul nuovo host connesso
-            Send.Server_Broadcast(Send.Client_Player_Login_Inizialize(lobby.Retrive_ID_by_Name(Name), 0, 1, Name));
-            while (true)
-            {
-
-                Mex = Send.Receive_by_one(client, "Server");
-
-                if (D) Debug.Log("S_Ricevuto: " + Mex);
-                Actions TempActions = new Actions
-                {
-                    User = client,
-                    Ricevuto = Mex,
-                    contesto = 0,
-                    lobby = lobby,
-                    AsServer = true,
-                };
-                Thread newThread = new Thread(new ParameterizedThreadStart(TempActions.Run));
-                newThread.Start(client);
-            }
-            if (D == true) Debug.Log("il Client si è disconnesso");
-            lobby.Set_Online_by_ID(lobby.Retrive_ID_by_Name(Name), false);
-            client.Close();
+            ClosingClient.Close();
         }
         catch (Exception e)
         {
-            Debug.LogError("Il socket " + clientep + " si è disconnesso a causa di un errore\n" + e);
-            Send.Server_Broadcast(Send.Player_Come_Online(lobby.Retrive_ID_by_Name(Name), false));
-            lobby.Set_Online_by_ID(lobby.Retrive_ID_by_Name(Name), false);
-            client.Close();
-            return;
+            settings.Error_Profiler("D001",0,"Impossibile chiudere la connessione con " + (IPEndPoint)ClosingClient.RemoteEndPoint + "  (Server => Close_Single)",2, false);
         }
     }
+    
+    public void Close_All_ConnectedClient ()
+    {
+        while (SocketList.Count != 0)
+        {
+            Close_Single_ConnectedClient(SocketList[0]);
+        }
+    }
+
+
+    
+    public void SubThr(object TempSocket)
+    {
+
+        Actions action = new Actions();
+        SendActions Send = new SendActions();
+        action.AsServer = true;
+        action.Send = Send;
+        action.lobby = lobby;
+        Send.lobby = lobby;
+        Socket client = (Socket)TempSocket;
+        SocketList.Add(client);
+
+        Packets Pacchetto = new Packets();
+        Pacchetto.Inizialize_Packet(D, true, settings, lobby);
+
+
+        string Name = null;                                                 //
+        string Mex = null;                                                  //
+        IPEndPoint clientep = (IPEndPoint)client.RemoteEndPoint;            //IP del client
+        client.NoDelay = true;                                              //imposto che invia sempre in base alla dimensione che riceve senza dover riempire il pacchetto
+        client.ReceiveBufferSize = action.BufferSize;                       //imposto la dimensione massima del buffersize per action
+        action.lobby = lobby;                                               
+        Send.BufferSize = action.BufferSize;                                //Imposto la dimesione massima del buffersize per Send
+        Send.lobby = lobby;
+
+
+        if (D) settings.Console_Write("Connesso con: " + clientep, false);
+        try
+        {
+            Pacchetto.Destinatario = client;
+            while (!Shutdown)
+            {
+                errore errrorino, eravamo rimasti qui
+                Pacchetto.Receive_Packet("Server");
+            }
+        }
+        catch (Exception e)
+        {
+            if (Shutdown)
+            {
+                if (D) settings.Console_Write("connessione con " + Name + "  (" + clientep.ToString() + ") chiusa.", false);
+            }
+            else
+            {
+                settings.Error_Profiler("N012",0,"(" + Name + " || " + clientep.ToString() + ") (Server => SubThr) : " + e,1, false);
+                Send.Server_Broadcast(Send.Player_Come_Online(lobby.Retrive_ID_by_Name(Name), false));
+                lobby.Set_Online_by_ID(lobby.Retrive_ID_by_Name(Name), false);
+                Close_Single_ConnectedClient(client);
+            }
+        }
+        if (!Shutdown)
+        {
+            try
+            {
+                if (D == true) settings.Console_Write("Connesso con: " + clientep, false);
+
+                //richiedo il motivo di connessione e nel caso l'username
+                string[] ConnetionMotivation = Send.Receive_by_one(client, "Server").Split('#');
+                switch (Int32.Parse(ConnetionMotivation[0]))          //controllo se si connette per inviare immagini
+                {
+                    case 0:
+                        break;
+                    case 1:
+                        TransferChannel();
+                        return;
+                    default:
+                        Send.Send_to_One("Server", "0", client, "Errore nella della motivazione di connessione");
+                        return;
+                }
+
+
+
+                Name = ConnetionMotivation[1];
+                if (!lobby.Check_Exist_by_Name(Name))
+                    lobby.Add_ServerPlayer(client, Name, 0);
+                else
+                {
+                    if (lobby.Check_Online_by_ID(lobby.Retrive_ID_by_Name(Name)) != 0)
+                    {
+                        Debug.LogError("Esiste già un client connesso con il nome: " + Name + " chiusura connessione");
+
+                        Send.Send_to_One("Server", "0", client, "Errore nella comunicazione dell'errato nome");
+                        client.Close();
+                        return;
+                    }
+                    else
+                    {
+                        lobby.Set_Online_by_ID(lobby.Retrive_ID_by_Name(Name), true);
+                        lobby.Set_User_by_ID(lobby.Retrive_ID_by_Name(Name), client);
+                        Send.Server_Broadcast(Send.Player_Come_Online(lobby.Retrive_ID_by_Name(Name), true));
+                    }
+                }
+
+
+                //avverto che l'username è stato accettato
+                Send.Send_to_One("Server", "1", client, "Errore nella comunicazione della genuinità del nome");
+
+                //aggiorno tutti sul nuovo host connesso
+                Send.Server_Broadcast(Send.Client_Player_Login_Inizialize(lobby.Retrive_ID_by_Name(Name), 0, 1, Name));
+                while (true)
+                {
+
+                    Mex = Send.Receive_by_one(client, "Server");
+
+                    if (D) Debug.Log("S_Ricevuto: " + Mex);
+                    Actions TempActions = new Actions
+                    {
+                        User = client,
+                        Ricevuto = Mex,
+                        contesto = 0,
+                        lobby = lobby,
+                        AsServer = true,
+                    };
+                    Thread newThread = new Thread(new ParameterizedThreadStart(TempActions.Run));
+                    newThread.Start(client);
+                }
+                if (D == true) Debug.Log("il Client si è disconnesso");
+                lobby.Set_Online_by_ID(lobby.Retrive_ID_by_Name(Name), false);
+                client.Close();
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Il socket " + clientep + " si è disconnesso a causa di un errore\n" + e);
+                Send.Server_Broadcast(Send.Player_Come_Online(lobby.Retrive_ID_by_Name(Name), false));
+                lobby.Set_Online_by_ID(lobby.Retrive_ID_by_Name(Name), false);
+                client.Close();
+                return;
+            }
+        }
+    }
+
     public void TransferChannel()
     {
         //TODO Canale di trasfermento file
     }
 
 }
-
 
 
 /*

@@ -22,13 +22,13 @@ public class MenuHandler : MonoBehaviour
 
         if (settings == null)
         {
-            settings.Error_Profiler("D003", 0, "MenuHandler => Start => Settings", 2);
+            settings.Error_Profiler("D003", 0, "MenuHandler => Start => Settings", 2, true);
             return;
         }
         else
             if (ConsoleOBJ == null)
             {
-                settings.Error_Profiler("D003", 0, "MenuHandler => Start => Console", 2);
+                settings.Error_Profiler("D003", 0, "MenuHandler => Start => Console", 2, true);
                 return;
             }
     }
@@ -42,7 +42,7 @@ public class MenuHandler : MonoBehaviour
         {
             if (ConsoleOBJ == null)
             {
-                settings.Error_Profiler("D001", 0, "Cannot find console", 4);
+                settings.Error_Profiler("D001", 0, "Cannot find console", 4, true);
                 return;
             }
             if (!ConsoleOBJ.activeSelf)
@@ -56,7 +56,7 @@ public class MenuHandler : MonoBehaviour
 
         if (ConsoleOBJ.transform.Find("ConsoleInput").GetComponent<InputField>().isFocused && ConsoleOBJ.transform.Find("ConsoleInput/Text").GetComponent<Text>().text != "" && Input.GetKeyDown(KeyCode.Tab))
         {
-            settings.Console_Write(ConsoleOBJ.transform.Find("ConsoleInput/Text").GetComponent<Text>().text);
+            settings.Console_Write(ConsoleOBJ.transform.Find("ConsoleInput/Text").GetComponent<Text>().text, false);
 
             DoCommand.Esegui_Comando(ConsoleOBJ.transform.Find("ConsoleInput/Text").GetComponent<Text>().text);
 
@@ -78,7 +78,7 @@ public class MenuHandler : MonoBehaviour
             //Controllo che venga passato il giusto numero di argomenti
             if (Temp.Split(',').Length != 2)
             {
-                settings.Error_Profiler("D002", 0, "SwitchMenu: " + Temp,3);
+                settings.Error_Profiler("D002", 0, "SwitchMenu: " + Temp,3, true);
                 return;
             }
             //ricerco e controllo esistano quei due menu
@@ -86,7 +86,7 @@ public class MenuHandler : MonoBehaviour
             GameObject NewOne = MenuElements.Where(obj => obj.name.Equals(Temp.Split(',')[1])).SingleOrDefault();
             if (NewOne == null || Actual == null)
             {
-                settings.Error_Profiler("M001", 0, "Switch_menu not found: " + Temp,3);
+                settings.Error_Profiler("M001", 0, "Switch_menu not found: " + Temp,3, true);
                 return;
             }
             //Se il menu attuale è il MainMenu allora va a cambiare il valore di OnScreen Nell'animator, altrimenti disattiva la scheda corrente
@@ -102,10 +102,15 @@ public class MenuHandler : MonoBehaviour
         }
         catch (Exception e)
         {
-            settings.Error_Profiler("D001", 0, Temp + e,2);
+            settings.Error_Profiler("D001", 0, Temp + e,2, true);
         }
     }               //Gestisce i movimenti all'interno di un menu annidiato
     
+
+    /// <summary>
+    /// Serve per attivare un pop up dato il nome e nel caso delle identifidicazioni specifiche
+    /// </summary>
+    /// <param name="Name">nome del popup e relative informazioni divise da una virgola</param>
     public void CallPopUPByName(string Name)
     {
         //Instazio un vettore di 5 elementi che potrei utilizzare in seguito (è necessario inizializzarla al fine i integrità del codice)
@@ -119,10 +124,18 @@ public class MenuHandler : MonoBehaviour
         }
 
         // Guardo se esiste il popUP richiesto, se esiste lo attivo
+
         GameObject PopUP = MenuElements.Find(T => T.name.Equals(Name));
-        if (PopUP == null)
+        if (PopUP == null && Name.Equals("All"))
+            lock (MenuElements)
+            {
+                foreach (GameObject T in MenuElements)
+                    if (!T.name.Equals("Sfondo"))
+                        T.SetActive(false);
+            }
+        else
         {
-            settings.Error_Profiler("G003", 0, "CallPopUpByName => Name: " + Name,4);
+            settings.Error_Profiler("G003", 0, "CallPopUpByName => Name: " + Name, 4, true);
             return;
         }
         PopUP.SetActive(true);
@@ -131,10 +144,7 @@ public class MenuHandler : MonoBehaviour
         switch (PopUP.GetComponent<GenericPopUp>().PopUpID)     //see also in GenericPopUP
         {
             case "PlayDirectHost":
-                if (SubStrings[1].Equals("1"))
-                    PopUP.GetComponent<GenericPopUp>().DirectConnectOrHostGame = true;  
-                else
-                    PopUP.GetComponent<GenericPopUp>().DirectConnectOrHostGame = false;
+                PopUP.GetComponent<GenericPopUp>().DirectConnectOrHostGame = Int32.Parse(SubStrings[1]);
                 break;
         }
     }
@@ -148,7 +158,7 @@ public class MenuHandler : MonoBehaviour
         }
         catch(Exception e)
         {
-            settings.Error_Profiler("M004", 0, "Pop up " + Name +" non found: " + e, 2);
+            settings.Error_Profiler("M004", 0, "Pop up " + Name +" non found: " + e, 2, true);
         }
 
     }

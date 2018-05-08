@@ -1,1 +1,106 @@
 23:22:26 PM >> <color="red"> Network/N007 >> 0 >> IP richiesto non valido Details: IP error (NetworkHandler => CreateClient) IP: 127.0.0.1
+
+11:51:39 AM >> <color="red"> Network/N003 >> 0 >> Il server è già in esecuzione Details: (NetworkHandler => CreateServer)
+11:51:39 AM >> <color="red"> Network/N003 >> 0 >> Il server è già in esecuzione Details: (NetworkHandler => CreateServer)
+11:51:56 AM >> <color="red"> Network/N003 >> 0 >> Il server è già in esecuzione Details: (NetworkHandler => CreateServer)
+13:48:12 PM >> <color="red"> Network/N007 >> 0 >> IP richiesto non valido Details: IP error (NetworkHandler => CreateClient) IP: 127.0.0.1:25565
+13:48:55 PM >> <color="red"> Network/N007 >> 0 >> IP richiesto non valido Details: IP error (NetworkHandler => CreateClient) IP: 127.0.0.1
+16:27:47 PM >> <color="red"> Network/N006 >> 0 >> Il client è già in esecuzione Details: (NetworkHandler => CreateCLient)
+16:38:25 PM >> <color="red"> Network/N006 >> 0 >> Il client è già in esecuzione Details: (NetworkHandler => CreateCLient)
+18:14:52 PM >> <color="yellow"> General/G003 >> 0 >> ID PopUp non definito o non trovato Details: CallPopUpByName => Name: PlayDirectHost
+18:14:52 PM >> <color="yellow"> General/G003 >> 0 >> ID PopUp non definito o non trovato Details: CallPopUpByName => Name: PlayDirectHost
+18:15:31 PM >> <color="red"> Menu/M004 >> 0 >> Closing Popup problem Details: Pop up asd non found: UnityEngine.UnityException: Tag: ErrorText is not defined.
+  at (wrapper managed-to-native) UnityEngine.GameObject:FindGameObjectWithTag (string)
+  at UnityEngine.GameObject.FindWithTag (System.String tag) [0x00002] in C:\buildslave\unity\build\artifacts\generated\bindings_old\common\Core\GameObjectBindings.gen.cs:299 
+  at MenuHandler.KillPopUp (System.String Name) [0x00007] in F:\work\lavori\UnKn\Sito\Unknown Roll\Git\Roleplay\Unknown roll\Assets\Menu\MenuHandler.cs:148 
+18:15:32 PM >> <color="red"> Menu/M004 >> 0 >> Closing Popup problem Details: Pop up asd non found: UnityEngine.UnityException: Tag: ErrorText is not defined.
+  at (wrapper managed-to-native) UnityEngine.GameObject:FindGameObjectWithTag (string)
+  at UnityEngine.GameObject.FindWithTag (System.String tag) [0x00002] in C:\buildslave\unity\build\artifacts\generated\bindings_old\common\Core\GameObjectBindings.gen.cs:299 
+  at MenuHandler.KillPopUp (System.String Name) [0x00007] in F:\work\lavori\UnKn\Sito\Unknown Roll\Git\Roleplay\Unknown roll\Assets\Menu\MenuHandler.cs:148 
+18:15:32 PM >> <color="red"> Menu/M004 >> 0 >> Closing Popup problem Details: Pop up asd non found: UnityEngine.UnityException: Tag: ErrorText is not defined.
+  at (wrapper managed-to-native) UnityEngine.GameObject:FindGameObjectWithTag (string)
+  at UnityEngine.GameObject.FindWithTag (System.String tag) [0x00002] in C:\buildslave\unity\build\artifacts\generated\bindings_old\common\Core\GameObjectBindings.gen.cs:299 
+  at MenuHandler.KillPopUp (System.String Name) [0x00007] in F:\work\lavori\UnKn\Sito\Unknown Roll\Git\Roleplay\Unknown roll\Assets\Menu\MenuHandler.cs:148 
+18:15:33 PM >> <color="red"> Menu/M004 >> 0 >> Closing Popup problem Details: Pop up asd non found: UnityEngine.UnityException: Tag: ErrorText is not defined.
+  at (wrapper managed-to-native) UnityEngine.GameObject:FindGameObjectWithTag (string)
+  at UnityEngine.GameObject.FindWithTag (System.String tag) [0x00002] in C:\buildslave\unity\build\artifacts\generated\bindings_old\common\Core\GameObjectBindings.gen.cs:299 
+  at MenuHandler.KillPopUp (System.String Name) [0x00007] in F:\work\lavori\UnKn\Sito\Unknown Roll\Git\Roleplay\Unknown roll\Assets\Menu\MenuHandler.cs:148 
+20:59:23 PM >> <color="yellow"> General/G003 >> 0 >> ID PopUp non definito o non trovato Details: CallPopUpByName => Name: PlayDirectHost
+20:59:24 PM >> <color="yellow"> General/G003 >> 0 >> ID PopUp non definito o non trovato Details: CallPopUpByName => Name: PlayDirectHost
+21:00:11 PM >> <color="red"> Menu/M004 >> 0 >> Closing Popup problem Details: Pop up asd non found: UnityEngine.UnityException: Tag: ErrorText is not defined.
+  at (wrapper managed-to-native) UnityEngine.GameObject:FindGameObjectWithTag (string)
+  at UnityEngine.GameObject.FindWithTag (System.String tag) [0x00002] in C:\buildslave\unity\build\artifacts\generated\bindings_old\common\Core\GameObjectBindings.gen.cs:299 
+  at MenuHandler.KillPopUp (System.String Name) [0x00007] in F:\work\lavori\UnKn\Sito\Unknown Roll\Git\Roleplay\Unknown roll\Assets\Menu\MenuHandler.cs:148 
+21:00:12 PM >> <color="red"> Menu/M004 >> 0 >> Closing Popup problem Details: Pop up asd non found: UnityEngine.UnityException: Tag: ErrorText is not defined.
+  at (wrapper managed-to-native) UnityEngine.GameObject:FindGameObjectWithTag (string)
+  at UnityEngine.GameObject.FindWithTag (System.String tag) [0x00002] in C:\buildslave\unity\build\artifacts\generated\bindings_old\common\Core\GameObjectBindings.gen.cs:299 
+  at MenuHandler.KillPopUp (System.String Name) [0x00007] in F:\work\lavori\UnKn\Sito\Unknown Roll\Git\Roleplay\Unknown roll\Assets\Menu\MenuHandler.cs:148 
+21:00:12 PM >> <color="red"> Menu/M004 >> 0 >> Closing Popup problem Details: Pop up asd non found: UnityEngine.UnityException: Tag: ErrorText is not defined.
+  at (wrapper managed-to-native) UnityEngine.GameObject:FindGameObjectWithTag (string)
+  at UnityEngine.GameObject.FindWithTag (System.String tag) [0x00002] in C:\buildslave\unity\build\artifacts\generated\bindings_old\common\Core\GameObjectBindings.gen.cs:299 
+  at MenuHandler.KillPopUp (System.String Name) [0x00007] in F:\work\lavori\UnKn\Sito\Unknown Roll\Git\Roleplay\Unknown roll\Assets\Menu\MenuHandler.cs:148 
+21:54:15 PM >> <color="yellow"> General/G003 >> 0 >> ID PopUp non definito o non trovato Details: CallPopUpByName => Name: PlayDirectHost
+21:54:15 PM >> <color="yellow"> General/G003 >> 0 >> ID PopUp non definito o non trovato Details: CallPopUpByName => Name: PlayDirectHost
+21:54:17 PM >> <color="red"> Menu/M004 >> 0 >> Closing Popup problem Details: Pop up asd non found: UnityEngine.UnityException: Tag: ErrorText is not defined.
+  at (wrapper managed-to-native) UnityEngine.GameObject:FindGameObjectWithTag (string)
+  at UnityEngine.GameObject.FindWithTag (System.String tag) [0x00002] in C:\buildslave\unity\build\artifacts\generated\bindings_old\common\Core\GameObjectBindings.gen.cs:299 
+  at MenuHandler.KillPopUp (System.String Name) [0x00007] in F:\work\lavori\UnKn\Sito\Unknown Roll\Git\Roleplay\Unknown roll\Assets\Menu\MenuHandler.cs:148 
+21:54:18 PM >> <color="red"> Menu/M004 >> 0 >> Closing Popup problem Details: Pop up asd non found: UnityEngine.UnityException: Tag: ErrorText is not defined.
+  at (wrapper managed-to-native) UnityEngine.GameObject:FindGameObjectWithTag (string)
+  at UnityEngine.GameObject.FindWithTag (System.String tag) [0x00002] in C:\buildslave\unity\build\artifacts\generated\bindings_old\common\Core\GameObjectBindings.gen.cs:299 
+  at MenuHandler.KillPopUp (System.String Name) [0x00007] in F:\work\lavori\UnKn\Sito\Unknown Roll\Git\Roleplay\Unknown roll\Assets\Menu\MenuHandler.cs:148 
+21:54:19 PM >> <color="red"> Menu/M004 >> 0 >> Closing Popup problem Details: Pop up asd non found: UnityEngine.UnityException: Tag: ErrorText is not defined.
+  at (wrapper managed-to-native) UnityEngine.GameObject:FindGameObjectWithTag (string)
+  at UnityEngine.GameObject.FindWithTag (System.String tag) [0x00002] in C:\buildslave\unity\build\artifacts\generated\bindings_old\common\Core\GameObjectBindings.gen.cs:299 
+  at MenuHandler.KillPopUp (System.String Name) [0x00007] in F:\work\lavori\UnKn\Sito\Unknown Roll\Git\Roleplay\Unknown roll\Assets\Menu\MenuHandler.cs:148 
+21:54:19 PM >> <color="red"> Menu/M004 >> 0 >> Closing Popup problem Details: Pop up asd non found: UnityEngine.UnityException: Tag: ErrorText is not defined.
+  at (wrapper managed-to-native) UnityEngine.GameObject:FindGameObjectWithTag (string)
+  at UnityEngine.GameObject.FindWithTag (System.String tag) [0x00002] in C:\buildslave\unity\build\artifacts\generated\bindings_old\common\Core\GameObjectBindings.gen.cs:299 
+  at MenuHandler.KillPopUp (System.String Name) [0x00007] in F:\work\lavori\UnKn\Sito\Unknown Roll\Git\Roleplay\Unknown roll\Assets\Menu\MenuHandler.cs:148 
+21:54:19 PM >> <color="red"> Menu/M004 >> 0 >> Closing Popup problem Details: Pop up asd non found: UnityEngine.UnityException: Tag: ErrorText is not defined.
+  at (wrapper managed-to-native) UnityEngine.GameObject:FindGameObjectWithTag (string)
+  at UnityEngine.GameObject.FindWithTag (System.String tag) [0x00002] in C:\buildslave\unity\build\artifacts\generated\bindings_old\common\Core\GameObjectBindings.gen.cs:299 
+  at MenuHandler.KillPopUp (System.String Name) [0x00007] in F:\work\lavori\UnKn\Sito\Unknown Roll\Git\Roleplay\Unknown roll\Assets\Menu\MenuHandler.cs:148 
+21:54:20 PM >> <color="red"> Menu/M004 >> 0 >> Closing Popup problem Details: Pop up asd non found: UnityEngine.UnityException: Tag: ErrorText is not defined.
+  at (wrapper managed-to-native) UnityEngine.GameObject:FindGameObjectWithTag (string)
+  at UnityEngine.GameObject.FindWithTag (System.String tag) [0x00002] in C:\buildslave\unity\build\artifacts\generated\bindings_old\common\Core\GameObjectBindings.gen.cs:299 
+  at MenuHandler.KillPopUp (System.String Name) [0x00007] in F:\work\lavori\UnKn\Sito\Unknown Roll\Git\Roleplay\Unknown roll\Assets\Menu\MenuHandler.cs:148 
+21:54:21 PM >> <color="red"> Menu/M004 >> 0 >> Closing Popup problem Details: Pop up asd non found: UnityEngine.UnityException: Tag: ErrorText is not defined.
+  at (wrapper managed-to-native) UnityEngine.GameObject:FindGameObjectWithTag (string)
+  at UnityEngine.GameObject.FindWithTag (System.String tag) [0x00002] in C:\buildslave\unity\build\artifacts\generated\bindings_old\common\Core\GameObjectBindings.gen.cs:299 
+  at MenuHandler.KillPopUp (System.String Name) [0x00007] in F:\work\lavori\UnKn\Sito\Unknown Roll\Git\Roleplay\Unknown roll\Assets\Menu\MenuHandler.cs:148 
+22:00:59 PM >> <color="yellow"> General/G003 >> 0 >> ID PopUp non definito o non trovato Details: CallPopUpByName => Name: PlayDirectHost
+22:00:59 PM >> <color="yellow"> General/G003 >> 0 >> ID PopUp non definito o non trovato Details: CallPopUpByName => Name: PlayDirectHost
+22:38:16 PM >> <color="yellow"> General/G003 >> 0 >> ID PopUp non definito o non trovato Details: CallPopUpByName => Name: PlayDirectHost
+22:38:16 PM >> <color="yellow"> General/G003 >> 0 >> ID PopUp non definito o non trovato Details: CallPopUpByName => Name: PlayDirectHost
+22:40:56 PM >> <color="yellow"> General/G003 >> 0 >> ID PopUp non definito o non trovato Details: CallPopUpByName => Name: PlayDirectHost
+22:40:56 PM >> <color="yellow"> General/G003 >> 0 >> ID PopUp non definito o non trovato Details: CallPopUpByName => Name: PlayDirectHost
+22:40:56 PM >> <color="red"> Network/N008 >> 0 >> Errore durante l'esecuzione del client Details: Error during the Client execution by SocketException.UnityEngine.UnityException: get_gameObject can only be called from the main thread.
+Constructors and field initializers will be executed from the loading thread when loading a scene.
+Don't use this function in the constructor or field initializers, instead move initialization code to the Awake or Start function.
+  at (wrapper managed-to-native) UnityEngine.Component:get_gameObject ()
+  at Client.Run (System.Object Usefull) [0x00025] in F:\work\lavori\UnKn\Sito\Unknown Roll\Git\Roleplay\Unknown roll\Assets\General Script\Network\Client.cs:47 
+22:42:46 PM >> <color="yellow"> General/G003 >> 0 >> ID PopUp non definito o non trovato Details: CallPopUpByName => Name: PlayDirectHost
+22:42:46 PM >> <color="yellow"> General/G003 >> 0 >> ID PopUp non definito o non trovato Details: CallPopUpByName => Name: PlayDirectHost
+22:42:46 PM >> <color="red"> Network/N008 >> 0 >> Errore durante l'esecuzione del client Details: Error during the Client execution by SocketException.System.Net.Sockets.SocketException: Socket non connesso e indirizzo non fornito durante l'invio su un socket di datagramma che utilizza una chiamata sendto. Richiesta di invio o ricezione di dati annullata.
+
+  at System.Net.Sockets.Socket.get_RemoteEndPoint () [0x00000] in <filename unknown>:0 
+  at Client.Inizialize_Client () [0x00139] in F:\work\lavori\UnKn\Sito\Unknown Roll\Git\Roleplay\Unknown roll\Assets\General Script\Network\Client.cs:101 
+  at Client.Run (System.Object Usefull) [0x0002a] in F:\work\lavori\UnKn\Sito\Unknown Roll\Git\Roleplay\Unknown roll\Assets\General Script\Network\Client.cs:49 
+22:47:33 PM >> <color="yellow"> General/G003 >> 0 >> ID PopUp non definito o non trovato Details: CallPopUpByName => Name: PlayDirectHost
+22:47:33 PM >> <color="red"> Network/N008 >> 0 >> Errore durante l'esecuzione del client Details: Error during the Client execution by SocketException.System.Net.Sockets.SocketException: Socket non connesso e indirizzo non fornito durante l'invio su un socket di datagramma che utilizza una chiamata sendto. Richiesta di invio o ricezione di dati annullata.
+
+  at System.Net.Sockets.Socket.get_RemoteEndPoint () [0x00000] in <filename unknown>:0 
+  at Client.Inizialize_Client () [0x00139] in F:\work\lavori\UnKn\Sito\Unknown Roll\Git\Roleplay\Unknown roll\Assets\General Script\Network\Client.cs:101 
+  at Client.Run (System.Object Usefull) [0x0002a] in F:\work\lavori\UnKn\Sito\Unknown Roll\Git\Roleplay\Unknown roll\Assets\General Script\Network\Client.cs:49 
+22:48:12 PM >> <color="red"> Network/N011 >> 0 >> Errore di comunicazione Details: Chiusura in corso (Server => Accepting_Client)System.Threading.ThreadAbortException: Thread was being aborted
+  at System.Net.Sockets.Socket.Accept () [0x00000] in <filename unknown>:0 
+  at Server.Accepting_Client () [0x00040] in F:\work\lavori\UnKn\Sito\Unknown Roll\Git\Roleplay\Unknown roll\Assets\General Script\Network\Server.cs:127 
+22:48:26 PM >> <color="red"> Network/N008 >> 0 >> Errore durante l'esecuzione del client Details: Error during the Client execution by SocketException.System.Net.Sockets.SocketException: Socket non connesso e indirizzo non fornito durante l'invio su un socket di datagramma che utilizza una chiamata sendto. Richiesta di invio o ricezione di dati annullata.
+
+  at System.Net.Sockets.Socket.get_RemoteEndPoint () [0x00000] in <filename unknown>:0 
+  at Client.Inizialize_Client () [0x00139] in F:\work\lavori\UnKn\Sito\Unknown Roll\Git\Roleplay\Unknown roll\Assets\General Script\Network\Client.cs:101 
+  at Client.Run (System.Object Usefull) [0x0002a] in F:\work\lavori\UnKn\Sito\Unknown Roll\Git\Roleplay\Unknown roll\Assets\General Script\Network\Client.cs:49 
+22:50:38 PM >> <color="red"> Network/N011 >> 0 >> Errore di comunicazione Details: Chiusura in corso (Server => Accepting_Client)System.Threading.ThreadAbortException: Thread was being aborted
+  at System.Net.Sockets.Socket.Accept () [0x00000] in <filename unknown>:0 
+  at Server.Accepting_Client () [0x00040] in F:\work\lavori\UnKn\Sito\Unknown Roll\Git\Roleplay\Unknown roll\Assets\General Script\Network\Server.cs:127 
