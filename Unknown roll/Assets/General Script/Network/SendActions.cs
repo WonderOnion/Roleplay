@@ -49,22 +49,17 @@ public class SendActions : MonoBehaviour
         return true;
     }
 
-    public string Receive_by_one(Socket Sender, string Richiedente)
+    public string Receive_by_one(Socket Sender, int PacketDimension, string Richiedente)
     {
         string data = null;
         Sender.NoDelay = true;
-        Sender.ReceiveBufferSize = BufferSize;
+        Sender.ReceiveBufferSize = PacketDimension;
         try
         {
             if (D) Debug.Log(Richiedente + " > waiting Message from " + (IPEndPoint)Sender.RemoteEndPoint);
-            while (true)
-            {
-                byte[] bytes = new byte[BufferSize];
-                int bytesRec = Sender.Receive(bytes);
-                data += Encoding.ASCII.GetString(bytes, 0, bytesRec);
-                if (data.IndexOf('\n') > -1)
-                    break;
-            }
+            byte[] bytes = new byte[PacketDimension];
+            int bytesRec = Sender.Receive(bytes);
+            data = Encoding.ASCII.GetString(bytes, 0, bytesRec);
         }
         catch (SocketException e)
         {

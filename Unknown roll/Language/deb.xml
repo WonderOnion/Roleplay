@@ -93,7 +93,9 @@
       <N010>Username non valido o non è possibile accedere</N010>
       <N011>Errore di comunicazione</N011>
       <N012>L'utente si è disconnesso a causa di un errore</N012>
-      <N013>Header inconsistente</N013>
+      <N013>Pacchetto inconsistente</N013>
+      <N014>Codice Header Errato</N014>
+      <N015>Body inconsistente</N015>
     </Network>
     
     <IO>  <!-- InputOutput Errors-->

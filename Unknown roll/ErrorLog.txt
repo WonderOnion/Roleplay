@@ -104,3 +104,39 @@ Don't use this function in the constructor or field initializers, instead move i
 22:50:38 PM >> <color="red"> Network/N011 >> 0 >> Errore di comunicazione Details: Chiusura in corso (Server => Accepting_Client)System.Threading.ThreadAbortException: Thread was being aborted
   at System.Net.Sockets.Socket.Accept () [0x00000] in <filename unknown>:0 
   at Server.Accepting_Client () [0x00040] in F:\work\lavori\UnKn\Sito\Unknown Roll\Git\Roleplay\Unknown roll\Assets\General Script\Network\Server.cs:127 
+18:50:51 PM >> <color="yellow"> General/G003 >> 0 >> ID PopUp non definito o non trovato Details: CallPopUpByName => Name: PopUpDirectHost
+18:50:53 PM >> <color="yellow"> General/G003 >> 0 >> ID PopUp non definito o non trovato Details: CallPopUpByName => Name: PopUpDirectHost
+18:50:53 PM >> <color="white"> Menu/M001 >> 0 >> Button destination not found Details: Switch_menu not found: All,Lobby
+18:52:45 PM >> <color="yellow"> General/G003 >> 0 >> ID PopUp non definito o non trovato Details: CallPopUpByName => Name: PopUpDirectHost
+18:52:47 PM >> <color="yellow"> General/G003 >> 0 >> ID PopUp non definito o non trovato Details: CallPopUpByName => Name: PopUpDirectHost
+18:52:47 PM >> <color="white"> Menu/M001 >> 0 >> Button destination not found Details: Switch_menu not found: All,Lobby
+18:53:08 PM >> <color="red"> Network/N011 >> 0 >> Errore di comunicazione Details: Chiusura in corso (Server => Accepting_Client)System.Threading.ThreadAbortException: Thread was being aborted
+  at System.Net.Sockets.Socket.Accept () [0x00000] in <filename unknown>:0 
+  at Server.Accepting_Client () [0x00040] in F:\work\lavori\UnKn\Sito\Unknown Roll\Git\Roleplay\Unknown roll\Assets\General Script\Network\Server.cs:128 
+09:32:17 AM >> <color="yellow"> General/G003 >> 0 >> ID PopUp non definito o non trovato Details: CallPopUpByName => Name: PopUpDirectHost
+09:32:17 AM >> <color="yellow"> General/G003 >> 0 >> ID PopUp non definito o non trovato Details: CallPopUpByName => Name: PopUpDirectHost
+09:32:17 AM >> <color="white"> Menu/M001 >> 0 >> Button destination not found Details: Switch_menu not found: All,Lobby
+09:32:47 AM >> <color="red"> Menu/M004 >> 0 >> Closing Popup problem Details: Pop up asd non found: UnityEngine.UnityException: Tag: ErrorText is not defined.
+  at (wrapper managed-to-native) UnityEngine.GameObject:FindGameObjectWithTag (string)
+  at UnityEngine.GameObject.FindWithTag (System.String tag) [0x00002] in C:\buildslave\unity\build\artifacts\generated\bindings_old\common\Core\GameObjectBindings.gen.cs:299 
+  at MenuHandler.KillPopUp (System.String Name) [0x00007] in F:\work\lavori\UnKn\Sito\Unknown Roll\Git\Roleplay\Unknown roll\Assets\Menu\MenuHandler.cs:156 
+09:32:48 AM >> <color="red"> Menu/M004 >> 0 >> Closing Popup problem Details: Pop up asd non found: UnityEngine.UnityException: Tag: ErrorText is not defined.
+  at (wrapper managed-to-native) UnityEngine.GameObject:FindGameObjectWithTag (string)
+  at UnityEngine.GameObject.FindWithTag (System.String tag) [0x00002] in C:\buildslave\unity\build\artifacts\generated\bindings_old\common\Core\GameObjectBindings.gen.cs:299 
+  at MenuHandler.KillPopUp (System.String Name) [0x00007] in F:\work\lavori\UnKn\Sito\Unknown Roll\Git\Roleplay\Unknown roll\Assets\Menu\MenuHandler.cs:156 
+09:47:05 AM >> <color="yellow"> General/G003 >> 0 >> ID PopUp non definito o non trovato Details: CallPopUpByName => Name: PopUpDirectHost
+09:47:06 AM >> <color="yellow"> General/G003 >> 0 >> ID PopUp non definito o non trovato Details: CallPopUpByName => Name: PopUpDirectHost
+09:57:40 AM >> <color="yellow"> General/G003 >> 0 >> ID PopUp non definito o non trovato Details: CallPopUpByName => Name: PopUpDirectHost
+09:57:40 AM >> <color="yellow"> General/G003 >> 0 >> ID PopUp non definito o non trovato Details: CallPopUpByName => Name: PopUpDirectHost
+10:02:30 AM >> <color="yellow"> General/G003 >> 0 >> ID PopUp non definito o non trovato Details: CallPopUpByName => Name: PopUpDirectHost
+10:02:30 AM >> <color="yellow"> General/G003 >> 0 >> ID PopUp non definito o non trovato Details: CallPopUpByName => Name: PopUpDirectHost
+20:15:00 PM >> <color="red"> Menu/M003 >> 0 >> Button or Text Name Error Details: Settings: System.NullReferenceException: Object reference not set to an instance of an object
+  at GenericTxtBtn.Update () [0x00148] in F:\work\lavori\UnKn\Sito\Unknown Roll\Git\Roleplay\Unknown roll\Assets\Menu\GenericTxtBtn.cs:52 
+20:15:00 PM >> <color="white"> General/G004 >> 0 >> Il testo richeisto non è presente nel file di lingua Details: Language: deb             path: language/CampaignVersion
+20:15:00 PM >> <color="red"> Menu/M003 >> 0 >> Button or Text Name Error Details: Exit: System.NullReferenceException: Object reference not set to an instance of an object
+  at GenericTxtBtn.Update () [0x00148] in F:\work\lavori\UnKn\Sito\Unknown Roll\Git\Roleplay\Unknown roll\Assets\Menu\GenericTxtBtn.cs:52 
+20:15:00 PM >> <color="red"> Menu/M003 >> 0 >> Button or Text Name Error Details: Host: System.NullReferenceException: Object reference not set to an instance of an object
+  at GenericTxtBtn.Update () [0x00148] in F:\work\lavori\UnKn\Sito\Unknown Roll\Git\Roleplay\Unknown roll\Assets\Menu\GenericTxtBtn.cs:52 
+20:15:00 PM >> <color="white"> General/G004 >> 0 >> Il testo richeisto non è presente nel file di lingua Details: Language: deb             path: language/SavedServers
+20:15:00 PM >> <color="white"> General/G004 >> 0 >> Il testo richeisto non è presente nel file di lingua Details: Language: deb             path: language/Players
+20:15:00 PM >> <color="white"> General/G004 >> 0 >> Il testo richeisto non è presente nel file di lingua Details: Language: deb             path: language/Creator

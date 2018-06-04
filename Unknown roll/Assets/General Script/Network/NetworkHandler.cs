@@ -124,6 +124,7 @@ public class NetworkHandler : MonoBehaviour
 
 
         //Creazione Client account Locale
+
         Create_Client("127.0.0.1:" + Port);
         
     }

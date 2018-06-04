@@ -38,7 +38,7 @@ public class Client : MonoBehaviour
         Send = new SendActions();
         Send.lobby = lobby;
         Pacchetto = new Packets();
-        Pacchetto.Inizialize_Packet(D, false, settings, lobby);
+        Pacchetto.Inizialize_Packet(D, false, settings, lobby,Name);
     }
 
 
@@ -47,6 +47,8 @@ public class Client : MonoBehaviour
         try
         { 
             if (D) settings.Console_Write("client Creato", false);
+
+
 
             if (!Shutdown)
                 Inizialize_Client();
@@ -102,17 +104,58 @@ public class Client : MonoBehaviour
             return;
         }
         if (D) settings.Console_Write("Connessione con il server eseguita: " + ServerIP, false);
+       
+    }
+
+    void FirstContact()
+    {
+        string Mex;
 
 
+
+        //Primo Contatto
         Pacchetto.Destinatario = Servente;
+        Pacchetto.Clear();
+
 
         try
         {
-            Pacchetto.Send_Packet("Client (" + Name + ")", "Errore nel invio del pacchetto di debug");
-            while (Shutdown)
+            Mex = Pacchetto.First_Contact(1, false).ToString();
+            Pacchetto.Send_Packet("Client", "Errore durante invio first Contact");
+
+            Pacchetto.Clear();
+            Pacchetto.Receive_Packet("Client", 1);
+            if (Pacchetto.Get_Header())
             {
-                errore errrorino, eravamo rimasti qui
-                Pacchetto.Receive_Packet("Client (" + Name + ")");
+                if (Pacchetto.Header == 0)
+                {
+                    Mex = Pacchetto.First_Contact(0, true).ToString();
+                    switch(Mex)
+                    {
+                        case "3":
+                            settings.Console_Write("Il server ha rifiutato la tua connessione causa codice", false);
+                            Shutdown_Client("Client => FirstContact (ByServerRefuse)");
+                            return;
+                        case "4":
+                            settings.Console_Write("Benvenuto", false);
+                            break;
+                        default:
+                            settings.Error_Profiler("N015", 0, "(Client)Codice First contact errato", 3, false);
+                            Shutdown_Client("Client => FirstContact (ByWrongBodyCode)");
+                            return;
+                    }
+                }
+
+            }
+            else
+            {
+                settings.Error_Profiler("N014", 0, "(Client)Errore nel Header:" + Name + " > Test di invio", 3, false);
+                Shutdown_Client("Client => FirstContact (ByError)");
+            }
+            if (!Pacchetto.Risultato)
+            {
+                settings.Error_Profiler("N011", 0, "(Client)Errore nell'invio del pacchetto:" + Name + " > Test di invio", 3, false);
+                Shutdown_Client("Client => FirstContact (ByError)");
             }
         }
         catch (Exception e)
@@ -124,20 +167,27 @@ public class Client : MonoBehaviour
             else
             {
                 settings.Error_Profiler("N010", 0, "Errore nell'inizializzazione\n" + e, 2, false);
-                Shutdown_Client("Client => Inizialize_Client");
+                Shutdown_Client("Client => FirstContact");
             }
         }
-    }
 
-    void FirstContact()
-    {
-        string Mex;
+
+
+        return;
+
+
+        //OLD
+
         try
         {
-            Send.Send_to_One(Name, "0#" + Name, Servente, "Errore nella comunicazione del nome");
+            Pacchetto.Set_Header(1, "Errore durante il primo contatto");
             Mex = "";
-            while (Mex.Length != 1)
-                Mex = Send.Receive_by_one(Servente, Name);
+
+            Mex = Send.Receive_by_one(Servente,1, Name);
+
+            settings.Console_Write("Messaggio ricevuto dal client: " + Mex,false);
+
+            Shutdown_Client("Fine comunicazione");
 
             if (Int32.Parse(Mex) == 0)
             {
@@ -193,7 +243,7 @@ public class Client : MonoBehaviour
             {
                 try
                 {
-                    Mex = Send.Receive_by_one(Servente, "Client");
+                    Mex = Send.Receive_by_one(Servente,1, "Client");
 
                     Actions TempActions = new Actions
                     {
@@ -254,37 +304,5 @@ public class Client : MonoBehaviour
         Servente.Close();
         if (D) settings.Console_Write("Socket Client chiuso", false);
     }
-
-
-
-    //old
-    public bool ChiudiContatti()
-    {
-
-        try
-        {
-            if (D) Debug.Log("Tentativo di chiusura client : creato" + Creato);
-            if (Creato)
-            {
-                Creato = false;
-                Send.Send_to_One(Name,Send.Client_Player_Logout(), Servente, "Errore durante la comunicazione dell'offline");
-                Servente.Shutdown(SocketShutdown.Both);
-                Servente.Close();
-            }
-        }
-        catch (SocketException Se)
-        {
-            Debug.LogError("SocketException Errore durante la chiusura del client " + Se.ErrorCode);
-            if (!Send.Send_to_One(Name,Send.Lobby_Ping(), Servente, ""))
-                Creato = false;
-            return true;
-        }
-        catch (Exception e)
-        {
-            Debug.LogError("Errore durante chiusura socket Client " + e);
-            return false;
-        }
-        if (D) Debug.Log("Chiusura connessioni client riuscita");
-        return true;
-    }
+    
 }

@@ -84,16 +84,27 @@ public class MenuHandler : MonoBehaviour
             //ricerco e controllo esistano quei due menu
             GameObject Actual = MenuElements.Where(obj => obj.name.Equals(Temp.Split(',')[0])).SingleOrDefault();
             GameObject NewOne = MenuElements.Where(obj => obj.name.Equals(Temp.Split(',')[1])).SingleOrDefault();
-            if (NewOne == null || Actual == null)
+            if (NewOne == null || Actual == null && !Temp.Split(',')[0].ToLower().Equals("all"))
             {
-                settings.Error_Profiler("M001", 0, "Switch_menu not found: " + Temp,3, true);
+                settings.Error_Profiler("M001", 0, "(MenuHandler => Switch_menu) not found: " + Temp,3, true);
                 return;
             }
+
+            if (Temp.Split(',')[0].ToLower().Equals("all"))
+            {
+                foreach (GameObject T in MenuElements)
+                {
+                    if (!T.name.Equals("MainMenu"))
+                        T.SetActive(false);
+                    else
+                        Actual = T;
+                }
+            } 
+
             //Se il menu attuale è il MainMenu allora va a cambiare il valore di OnScreen Nell'animator, altrimenti disattiva la scheda corrente
             if (Actual.name.Equals("MainMenu"))
-                gameObject.GetComponent<Animator>().SetBool("OnScreen", false);
+            gameObject.GetComponent<Animator>().SetBool("OnScreen", false);
             Actual.SetActive(false);
-            
             //Se il menu in cui si vuole andare è il MainMenu allora va a cambiare il valore di Onscreen nell'animator a true, per permmetterne la visione, altrimenti imposta attivo il menu richiesto
             if (NewOne.name.Equals("MainMenu"))
                 gameObject.GetComponent<Animator>().SetBool("OnScreen", true);
@@ -165,6 +176,7 @@ public class MenuHandler : MonoBehaviour
 
     public void KillApllication()
     {
+        GameObject.FindGameObjectWithTag("NewtorkHandler").GetComponent<NetworkHandler>().KillThreads();
         Application.Quit();
     }
 }

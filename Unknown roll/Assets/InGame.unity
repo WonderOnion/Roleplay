@@ -452,11 +452,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e4c58f8fc4a1c847a18442a705814d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsButton: 1
+  IsButton: 0
   BeforeText: 
-  InEnglish: Settings
+  InEnglish: 
   AfterText: 
-  Location: /Menu/Main/
+  Location: 
 --- !u!1 &114626311
 GameObject:
   m_ObjectHideFlags: 0
@@ -539,7 +539,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 12.6
+  m_fontSize: 15.35
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -624,9 +624,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsButton: 0
   BeforeText: 
-  InEnglish: Campagin Version
-  AfterText: ':'
-  Location: Menu/Lobby/InfoCast/
+  InEnglish: 
+  AfterText: 
+  Location: 
 --- !u!1 &122563653
 GameObject:
   m_ObjectHideFlags: 0
@@ -951,11 +951,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e4c58f8fc4a1c847a18442a705814d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsButton: 1
+  IsButton: 0
   BeforeText: 
-  InEnglish: Exit Game
+  InEnglish: 
   AfterText: 
-  Location: /Menu/Main/
+  Location: 
 --- !u!1 &219223888
 GameObject:
   m_ObjectHideFlags: 0
@@ -1037,7 +1037,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 12.6
+  m_fontSize: 15.35
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1343,7 +1343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 267de8e6e041eef40b0d0235271049dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeOnStart: 1
+  activeOnStart: 0
 --- !u!1 &284956631
 GameObject:
   m_ObjectHideFlags: 0
@@ -1395,11 +1395,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e4c58f8fc4a1c847a18442a705814d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsButton: 1
+  IsButton: 0
   BeforeText: 
-  InEnglish: Host
+  InEnglish: 
   AfterText: 
-  Location: /Menu/Play/
+  Location: 
 --- !u!95 &284956634
 Animator:
   serializedVersion: 3
@@ -1707,8 +1707,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ffb9e751b8effb4fb3f3e822bd23184, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PopUpID: Error
-  DirectConnectOrHostGame: 0
+  PopUpID: 
+  DirectConnectOrHostGame: 2
   Childrens: []
 --- !u!114 &343724289
 MonoBehaviour:
@@ -1772,9 +1772,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsButton: 0
   BeforeText: 
-  InEnglish: Port
-  AfterText: ':'
-  Location: Menu/General/
+  InEnglish: 
+  AfterText: 
+  Location: 
 --- !u!114 &351126473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2198,9 +2198,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5ad66b2a28cc7d4f93399fc0bcfd1e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Velocity: 1.92
-  Dimention: 300
-  Elements: 6
+  Velocity: 0
+  Dimention: 0
+  Elements: 0
 --- !u!114 &463037032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2434,9 +2434,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5ad66b2a28cc7d4f93399fc0bcfd1e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Velocity: 1
-  Dimention: 600
-  Elements: 4
+  Velocity: 0
+  Dimention: 0
+  Elements: 0
 --- !u!114 &467866571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2549,7 +2549,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 742281851}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.19616182
+  m_Size: 0.23945177
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2672,7 +2672,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 37.85
+  m_fontSize: 47.8
   m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2791,9 +2791,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5ad66b2a28cc7d4f93399fc0bcfd1e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Velocity: 1
-  Dimention: 600
-  Elements: 4
+  Velocity: 0
+  Dimention: 0
+  Elements: 0
 --- !u!114 &544194322
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2961,9 +2961,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5ad66b2a28cc7d4f93399fc0bcfd1e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Velocity: 1.92
-  Dimention: 300
-  Elements: 6
+  Velocity: 0
+  Dimention: 0
+  Elements: 0
 --- !u!114 &561388576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3168,7 +3168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 267de8e6e041eef40b0d0235271049dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeOnStart: 1
+  activeOnStart: 0
 --- !u!1 &621015852
 GameObject:
   m_ObjectHideFlags: 0
@@ -3481,11 +3481,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e4c58f8fc4a1c847a18442a705814d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsButton: 1
+  IsButton: 0
   BeforeText: 
-  InEnglish: Play
+  InEnglish: 
   AfterText: 
-  Location: /Menu/Main/
+  Location: 
 --- !u!95 &633686640
 Animator:
   serializedVersion: 3
@@ -3636,7 +3636,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 775c189d4988a814c828639a3db70355, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ChildOffset: 80
+  ChildOffset: 0
 --- !u!114 &698617184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4201,9 +4201,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5ad66b2a28cc7d4f93399fc0bcfd1e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Velocity: 1.92
-  Dimention: 300
-  Elements: 6
+  Velocity: 0
+  Dimention: 0
+  Elements: 0
 --- !u!114 &846254061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4288,11 +4288,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e4c58f8fc4a1c847a18442a705814d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsButton: 1
+  IsButton: 0
   BeforeText: 
-  InEnglish: Back
+  InEnglish: 
   AfterText: 
-  Location: /Menu/General/
+  Location: 
 --- !u!95 &847229471
 Animator:
   serializedVersion: 3
@@ -4453,7 +4453,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 20.8
+  m_fontSize: 28.75
   m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4573,11 +4573,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ffb9e751b8effb4fb3f3e822bd23184, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PopUpID: PlayDirectHost
-  DirectConnectOrHostGame: 0
-  Childrens:
-  - {fileID: 1141043248}
-  - {fileID: 1151979721}
+  PopUpID: 
+  DirectConnectOrHostGame: 2
+  Childrens: []
 --- !u!114 &867835326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4637,9 +4635,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5ad66b2a28cc7d4f93399fc0bcfd1e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Velocity: 1.92
-  Dimention: 300
-  Elements: 6
+  Velocity: 0
+  Dimention: 0
+  Elements: 0
 --- !u!114 &872897773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4826,7 +4824,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1311993275}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.14890106
+  m_Size: 0.18175994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4917,9 +4915,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsButton: 0
   BeforeText: 
-  InEnglish: Host
-  AfterText: ':'
-  Location: Menu/Play/
+  InEnglish: 
+  AfterText: 
+  Location: 
 --- !u!114 &998860844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5119,7 +5117,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 20.8
+  m_fontSize: 28.75
   m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5618,7 +5616,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 20.8
+  m_fontSize: 28.75
   m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5916,9 +5914,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsButton: 0
   BeforeText: 
-  InEnglish: Language
-  AfterText: ':'
-  Location: Menu/Settings/
+  InEnglish: 
+  AfterText: 
+  Location: 
 --- !u!114 &1186591739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5965,7 +5963,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 45
+  m_fontSize: 52.35
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6695,7 +6693,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 775c189d4988a814c828639a3db70355, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ChildOffset: 80
+  ChildOffset: 0
 --- !u!1001 &1295141353
 Prefab:
   m_ObjectHideFlags: 0
@@ -6860,9 +6858,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsButton: 0
   BeforeText: 
-  InEnglish: IP
-  AfterText: ':'
-  Location: Menu/General/
+  InEnglish: 
+  AfterText: 
+  Location: 
 --- !u!114 &1299631755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6909,7 +6907,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 32.4
+  m_fontSize: 40.35
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -7030,9 +7028,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsButton: 0
   BeforeText: 
-  InEnglish: Direct Connection
-  AfterText: ':'
-  Location: Menu/Play/
+  InEnglish: 
+  AfterText: 
+  Location: 
 --- !u!114 &1300861124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7097,7 +7095,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: 0
+  m_firstOverflowCharacterIndex: -1
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_enableKerning: 1
@@ -7421,11 +7419,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e4c58f8fc4a1c847a18442a705814d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsButton: 1
+  IsButton: 0
   BeforeText: 
-  InEnglish: Editor
+  InEnglish: 
   AfterText: 
-  Location: /Menu/Main/
+  Location: 
 --- !u!1 &1355724283
 GameObject:
   m_ObjectHideFlags: 0
@@ -8459,9 +8457,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsButton: 0
   BeforeText: 
-  InEnglish: Saved servers
+  InEnglish: 
   AfterText: 
-  Location: Menu/Play/
+  Location: 
 --- !u!114 &1447279162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8526,7 +8524,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: 0
+  m_firstOverflowCharacterIndex: -1
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_enableKerning: 1
@@ -9007,11 +9005,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e4c58f8fc4a1c847a18442a705814d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsButton: 1
+  IsButton: 0
   BeforeText: 
-  InEnglish: Join
+  InEnglish: 
   AfterText: 
-  Location: /Menu/Play/
+  Location: 
 --- !u!95 &1534099185
 Animator:
   serializedVersion: 3
@@ -9166,13 +9164,13 @@ MonoBehaviour:
   lobby: {fileID: 0}
   server: {fileID: 0}
   client: {fileID: 0}
-  BufferSize: 256
-  ServerDebug: 1
-  ServerPortOBJ: {fileID: 1750899153}
-  ClientDebug: 1
-  ClientName: NotDefined
-  ClientIPOBJ: {fileID: 223970221}
-  ClientPortOBJ: {fileID: 1244160992}
+  BufferSize: 0
+  ServerDebug: 0
+  ServerPortOBJ: {fileID: 0}
+  ClientDebug: 0
+  ClientName: 
+  ClientIPOBJ: {fileID: 0}
+  ClientPortOBJ: {fileID: 0}
 --- !u!4 &1555257327
 Transform:
   m_ObjectHideFlags: 0
@@ -9220,9 +9218,10 @@ MonoBehaviour:
   Name: 
   action: {fileID: 0}
   Send: {fileID: 0}
-  lobby: {fileID: 1555257328}
-  settings: {fileID: 1782332599}
+  lobby: {fileID: 0}
+  settings: {fileID: 0}
   BufferSize: 0
+  Pacchetto: {fileID: 0}
 --- !u!114 &1555257330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9289,9 +9288,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5ad66b2a28cc7d4f93399fc0bcfd1e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Velocity: 1.92
-  Dimention: 300
-  Elements: 6
+  Velocity: 0
+  Dimention: 0
+  Elements: 0
 --- !u!114 &1571665810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9374,7 +9373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 267de8e6e041eef40b0d0235271049dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeOnStart: 1
+  activeOnStart: 0
 --- !u!1 &1610802303
 GameObject:
   m_ObjectHideFlags: 0
@@ -10174,9 +10173,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5ad66b2a28cc7d4f93399fc0bcfd1e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Velocity: 1.92
-  Dimention: 300
-  Elements: 6
+  Velocity: 0
+  Dimention: 0
+  Elements: 0
 --- !u!114 &1775070094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10461,12 +10460,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ActualVersion: 0.02
-  D: 0
+  D: 1
   LanguageList: []
   Language: 
-  ConsoleText: {fileID: 1776712946}
-  ErrorPopup: {fileID: 343724286}
-  ErrorPopupText: {fileID: 2113658822}
+  ConsoleText: {fileID: 0}
+  ErrorPopup: {fileID: 0}
+  ErrorPopupText: {fileID: 0}
 --- !u!1 &1785991818
 GameObject:
   m_ObjectHideFlags: 0
@@ -10514,9 +10513,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5ad66b2a28cc7d4f93399fc0bcfd1e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Velocity: 1
-  Dimention: 600
-  Elements: 4
+  Velocity: 0
+  Dimention: 0
+  Elements: 0
 --- !u!114 &1785991821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10654,11 +10653,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e4c58f8fc4a1c847a18442a705814d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsButton: 1
+  IsButton: 0
   BeforeText: 
-  InEnglish: Back
+  InEnglish: 
   AfterText: 
-  Location: /Menu/General/
+  Location: 
 --- !u!222 &1817275840
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10947,7 +10946,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5b8167a84772464c8637762ccebfded, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SelectedLanguageElement: 1
+  SelectedLanguageElement: 0
 --- !u!1 &1848667684
 GameObject:
   m_ObjectHideFlags: 0
@@ -11258,11 +11257,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e4c58f8fc4a1c847a18442a705814d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsButton: 1
+  IsButton: 0
   BeforeText: 
-  InEnglish: Create server
+  InEnglish: 
   AfterText: 
-  Location: /Menu/Play/
+  Location: 
 --- !u!95 &1883627661
 Animator:
   serializedVersion: 3
@@ -11595,9 +11594,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsButton: 0
   BeforeText: 
-  InEnglish: Port
-  AfterText: ':'
-  Location: Menu/General/
+  InEnglish: 
+  AfterText: 
+  Location: 
 --- !u!114 &1940459568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11644,7 +11643,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 32.4
+  m_fontSize: 40.35
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -11832,7 +11831,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MenuElements: []
-  ConsoleOBJ: {fileID: 1592994921}
+  ConsoleOBJ: {fileID: 0}
 --- !u!111 &1951550245
 Animation:
   m_ObjectHideFlags: 0
@@ -12225,7 +12224,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 12.6
+  m_fontSize: 15.35
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -12379,7 +12378,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 45
+  m_fontSize: 54.95
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -12458,9 +12457,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsButton: 0
   BeforeText: 
-  InEnglish: Players
+  InEnglish: 
   AfterText: 
-  Location: Menu/Lobby/
+  Location: 
 --- !u!222 &1983915787
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12628,7 +12627,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 20.8
+  m_fontSize: 28.75
   m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -12847,7 +12846,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 12.6
+  m_fontSize: 15.35
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -12932,9 +12931,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsButton: 0
   BeforeText: 
-  InEnglish: Creator Name
-  AfterText: ':'
-  Location: Menu/Lobby/InfoCast/
+  InEnglish: 
+  AfterText: 
+  Location: 
 --- !u!1 &2060329214
 GameObject:
   m_ObjectHideFlags: 0
@@ -12982,9 +12981,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5ad66b2a28cc7d4f93399fc0bcfd1e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Velocity: 1
-  Dimention: 600
-  Elements: 4
+  Velocity: 0
+  Dimention: 0
+  Elements: 0
 --- !u!114 &2060329217
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13097,7 +13096,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 122563654}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.06706665
+  m_Size: 0.08186666
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -13190,11 +13189,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e4c58f8fc4a1c847a18442a705814d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsButton: 1
+  IsButton: 0
   BeforeText: 
-  InEnglish: Back
+  InEnglish: 
   AfterText: 
-  Location: /Menu/General/
+  Location: 
 --- !u!95 &2066177845
 Animator:
   serializedVersion: 3
@@ -13325,11 +13324,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e4c58f8fc4a1c847a18442a705814d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsButton: 1
+  IsButton: 0
   BeforeText: 
-  InEnglish: Direct connection
+  InEnglish: 
   AfterText: 
-  Location: /Menu/Play/
+  Location: 
 --- !u!95 &2067176470
 Animator:
   serializedVersion: 3
@@ -13560,7 +13559,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: -607.66003}
+  m_AnchoredPosition: {x: 0, y: -521.07996}
   m_SizeDelta: {x: -9, y: 2000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2113658822
@@ -13765,7 +13764,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 25.2
+  m_fontSize: 30
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -13850,9 +13849,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsButton: 0
   BeforeText: 
-  InEnglish: Campagin information
+  InEnglish: 
   AfterText: 
-  Location: Menu/Lobby/
+  Location: 
 --- !u!1 &2145496294
 GameObject:
   m_ObjectHideFlags: 0

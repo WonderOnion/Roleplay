@@ -20,6 +20,7 @@ public class Server : MonoBehaviour
     public bool Creato;
     public int Port;
 
+
     [HideInInspector] public bool D = false;
     public Settings settings;
     public Socket socket;
@@ -27,6 +28,7 @@ public class Server : MonoBehaviour
     public Server Host;
     public List<Socket> SocketList = new List<Socket>();
     public int Buffersize;
+    
 
     public bool Shutdown = false;
 
@@ -171,7 +173,7 @@ public class Server : MonoBehaviour
         }
     }
 
-
+    
     
     public void SubThr(object TempSocket)
     {
@@ -185,10 +187,6 @@ public class Server : MonoBehaviour
         Socket client = (Socket)TempSocket;
         SocketList.Add(client);
 
-        Packets Pacchetto = new Packets();
-        Pacchetto.Inizialize_Packet(D, true, settings, lobby);
-
-
         string Name = null;                                                 //
         string Mex = null;                                                  //
         IPEndPoint clientep = (IPEndPoint)client.RemoteEndPoint;            //IP del client
@@ -198,16 +196,55 @@ public class Server : MonoBehaviour
         Send.BufferSize = action.BufferSize;                                //Imposto la dimesione massima del buffersize per Send
         Send.lobby = lobby;
 
+        Packets Pacchetto = new Packets();
+        Pacchetto.Inizialize_Packet(D, true, settings, lobby, "Server(" + clientep.ToString() + ")");
+
 
         if (D) settings.Console_Write("Connesso con: " + clientep, false);
+
+
+
+
+        // Primo contatto
         try
         {
             Pacchetto.Destinatario = client;
-            while (!Shutdown)
+            Pacchetto.AsServer = true;
+            Pacchetto.Clear();
+
+
+
+            Pacchetto.Receive_Packet("Server", 1);
+            Pacchetto.Get_Header();
+            if (Pacchetto.Header == 0 && Pacchetto.Risultato)
             {
-                errore errrorino, eravamo rimasti qui
-                Pacchetto.Receive_Packet("Server");
+                int T = Pacchetto.Fetch_Header(Pacchetto.Header);
+                Pacchetto.Receive_Packet("Server", T);
+                if (!Pacchetto.Risultato)
+                    settings.Console_Write("Server > Errore di comunicazione (FIrstCOntact).", false);
+                T = Pacchetto.First_Contact(255, true);
+                Mex = T.ToString();
             }
+            else
+            {
+                settings.Console_Write("Server > Errore di comunicazione (FIrstCOntact). pt2", false);
+            }
+            Pacchetto.Clear();
+            //Mex =  Send.Receive_by_one(client, 1, "Server");
+            if (Mex.Equals("1"))
+            {
+                settings.Console_Write("Server > Client connesso per invio dati. " + Mex, false);
+                Pacchetto.First_Contact(4, false);
+                Pacchetto.Send_Packet("Server", "Errore durante la risposta al FirstCOntact per falso");
+            }
+            else
+            {
+                settings.Console_Write("Server > Client connesso come giocatore. " + Mex, false);
+                Pacchetto.First_Contact(3, false);
+                Pacchetto.Send_Packet("Server", "Errore durante la risposta al FirstCOntact per vero");
+            }
+            Close_Single_ConnectedClient(client);
+            return;
         }
         catch (Exception e)
         {
@@ -223,6 +260,13 @@ public class Server : MonoBehaviour
                 Close_Single_ConnectedClient(client);
             }
         }
+
+
+
+
+        // fine primo contatto
+
+
         if (!Shutdown)
         {
             try
@@ -230,7 +274,7 @@ public class Server : MonoBehaviour
                 if (D == true) settings.Console_Write("Connesso con: " + clientep, false);
 
                 //richiedo il motivo di connessione e nel caso l'username
-                string[] ConnetionMotivation = Send.Receive_by_one(client, "Server").Split('#');
+                string[] ConnetionMotivation = Send.Receive_by_one(client,1, "Server").Split('#');
                 switch (Int32.Parse(ConnetionMotivation[0]))          //controllo se si connette per inviare immagini
                 {
                     case 0:
@@ -275,7 +319,7 @@ public class Server : MonoBehaviour
                 while (true)
                 {
 
-                    Mex = Send.Receive_by_one(client, "Server");
+                    Mex = Send.Receive_by_one(client,1, "Server");
 
                     if (D) Debug.Log("S_Ricevuto: " + Mex);
                     Actions TempActions = new Actions

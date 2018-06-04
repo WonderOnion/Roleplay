@@ -15,6 +15,8 @@ all'interno vi sono tutte le funzioni per poter accedere alla lista e modificarl
 public class Lobby : MonoBehaviour
 {
 
+    
+
     public bool D = false;
     private int ID = 1;
     public List<Player> lobby = new List<Player>();
